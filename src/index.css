@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+:root {
+    --bg-primary: #b2e2fe;
+    --bg-secondary: #d9e1d2;
+
+    --primary-main: #082aa8;
+    --primary-light: #3954b9;
+    --primary-dark: #051d75;
+
+    --secondary-main: #03b9ff;
+    --secondary-dark: #0281b2;
+    --secondary-light: #69d5ff;
+
+    --text-primary: #121212;
+    --text-secondary: #222;
+    --text-contrastText: #fff;
+    --text-contrastTextLight: #d0e9f3;
+
+    font-family: Poppins, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+}
+a:hover {
+    color: #535bf2;
+}
+
+body {
+    font-family: Poppins, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    min-height: 100% !important;
+    height: 100%;
+}
+
+#dashboard-search,
+#dashboard-date-range {
+    padding: 7px !important;
+}
+
+#dashboard-search + fieldset,
+#dashboard-date-range + fieldset {
+    border: 1px solid #eee !important;
+}
+#dashboard-search + fieldset:focus,
+#dashboard-date-range + .MuiInputAdornment-root + fieldset:focus {
+    border: 1px solid #eee !important;
+}
+
+button {
+    text-transform: none !important;
+}
+
+.bg-secondary {
+    background: var(--secondary-light);
+}
+
+.fade-in {
+    animation: fadeIn 3s infinite;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
