@@ -1,6 +1,5 @@
-# CFAR-UI
-
-An application designed to collect, analyze and respond to customer feedbacks of hotel/resort reservations made on various third party websites.
+# AGCS-UI
+An application that would collect, analyze and respond to customer feedback from various third party websites and would use Generative AI to achieve this
 
 ## Tech Stack
 
