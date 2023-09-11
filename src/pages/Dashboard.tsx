@@ -168,31 +168,31 @@ function Dashboard() {
             <Typography variant="h5" fontWeight={500}>
                 Dashboard
             </Typography>
-            <Grid container spacing={5} sx={{ mt: 0 }}>
-                <Grid item md={7.5}>
+            <Grid container spacing={1} sx={{ mt: 0 }}>
+                <Grid item xs={12} md={7.5}>
                     <Grid container spacing={3}>
-                        <Grid item md={3}>
+                        <Grid item xs={6} md={3}>
                             <CountCard
                                 count={0}
                                 label="New Reviews"
                                 backgroundColor="rgb(178 226 254 / 50%)"
                             />
                         </Grid>
-                        <Grid item md={3}>
+                        <Grid item xs={6} md={3}>
                             <CountCard
                                 count={posReview}
                                 label="Positive Reviews"
                                 backgroundColor="rgb(178 254 206 / 50%)"
                             />
                         </Grid>
-                        <Grid item md={3}>
+                        <Grid item xs={6} md={3}>
                             <CountCard
                                 count={negReview}
                                 label="Negative Reviews"
                                 backgroundColor="rgb(254 178 178 / 46%)"
                             />
                         </Grid>
-                        <Grid item md={3}>
+                        <Grid item xs={6} md={3}>
                             <CountCard
                                 count={reviews.length}
                                 label="Total Reviews"
@@ -235,6 +235,7 @@ function Dashboard() {
                 </Grid>
                 <Grid
                     item
+                    xs={12}
                     md={4.5}
                     sx={{
                         display: "flex",

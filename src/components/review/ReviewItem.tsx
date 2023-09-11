@@ -61,7 +61,7 @@ export default function ReviewItem(props: IReviewItemProps) {
             display="flex"
             justifyContent="space-between"
             alignContent="center"
-            sx={{ p: "1rem" }}
+            sx={{ p: "1rem", flexDirection: { xs: "column", md: "row" } }}
             borderBottom="1px solid #aaa"
             className="review"
             position="relative"
@@ -100,58 +100,74 @@ export default function ReviewItem(props: IReviewItemProps) {
             )}
             <Box
                 display="flex"
-                justifyContent="flex-start"
+                justifyContent="space-between"
                 alignContent="center"
-                sx={{ flex: 0.2 }}
+                sx={{
+                    flex: { xs: 1, md: 0.2 },
+                    flexDirection: { xs: "row", md: "column" },
+                }}
                 className="review__user"
             >
-                <Avatar src="https://api.multiavatar.com/kathrin.svg">
-                    User
-                </Avatar>
-                <Box sx={{ ml: 0.8 }}>
-                    <Typography
-                        variant="caption"
-                        component="p"
-                        fontWeight="600"
+                <Box
+                    display="flex"
+                    justifyContent="flex-start"
+                    alignContent="center"
+                >
+                    <Avatar src="https://api.multiavatar.com/kathrin.svg">
+                        User
+                    </Avatar>
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignContent="center"
+                        sx={{ ml: 0.8 }}
                     >
-                        {props.cusName || "John Doe"}
-                    </Typography>
-                    <Typography
-                        variant="caption"
-                        component="p"
-                        gutterBottom
-                        sx={{ color: "#777", lineHeight: 1, mb: 2 }}
-                    >
-                        {props.cusCity}, {props.cusCountry}
-                    </Typography>
-                    <Chip
-                        size="small"
-                        icon={
-                            <img
-                                src={
-                                    (props?.source &&
-                                        `/${props?.source
-                                            .split(" ")
-                                            .join("")}.png`) ||
-                                    "https://www.google.com/images/hpp/ic_wahlberg_product_core_48.png8.png"
-                                }
-                                height={20}
-                                width={20}
-                                style={{ borderRadius: "50%" }}
-                            />
-                        }
-                        label={
-                            <small>{props?.source.toUpperCase()}</small> ||
-                            "Source"
-                        }
-                        variant="outlined"
-                        sx={{
-                            position: "absolute",
-                            left: "2rem",
-                            bottom: "1rem",
-                        }}
-                    />
+                        <Typography
+                            variant="caption"
+                            component="p"
+                            fontWeight="600"
+                        >
+                            {props.cusName || "John Doe"}
+                        </Typography>
+                        <Typography
+                            variant="caption"
+                            component="p"
+                            gutterBottom
+                            sx={{ color: "#777", lineHeight: 1, mb: 2 }}
+                        >
+                            {props.cusCity}, {props.cusCountry}
+                        </Typography>
+                    </Box>
                 </Box>
+                <Chip
+                    size="small"
+                    icon={
+                        <img
+                            src={
+                                (props?.source &&
+                                    `/${props?.source
+                                        .split(" ")
+                                        .join("")}.png`) ||
+                                "https://www.google.com/images/hpp/ic_wahlberg_product_core_48.png8.png"
+                            }
+                            height={20}
+                            width={20}
+                            style={{ borderRadius: "50%" }}
+                        />
+                    }
+                    label={
+                        <small>{props?.source.toUpperCase()}</small> || "Source"
+                    }
+                    variant="outlined"
+                    sx={{
+                        width: "min-content",
+                        // position: "absolute",
+                        // left: { xs: "none", md: "2rem" },
+                        // bottom: { xs: "none", md: "1rem" },
+                        // right: { xs: "2rem", md: "none" },
+                        // top: { xs: "1rem", md: "none" },
+                    }}
+                />
             </Box>
             <Box
                 sx={{ flex: props.listView ? 0.7 : 0.6 }}

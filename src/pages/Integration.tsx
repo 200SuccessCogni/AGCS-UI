@@ -5,6 +5,7 @@ import {
     Switch,
     Avatar,
     TextField,
+    Link,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -53,17 +54,29 @@ function FeatureCard(props: IFeatureCard) {
                 />
             </Box>
 
-            {!!enabled && (
-                <Box mt={2}>
-                    <TextField
-                        label="Partner Key"
-                        size="small"
-                        InputProps={{
-                            placeholder: "Enter partner key",
-                        }}
-                        fullWidth
-                    />
-                </Box>
+            {!!enabled && props.title != "Demo" && (
+                <>
+                    <Box mt={2}>
+                        <TextField
+                            label="Partner Key"
+                            size="small"
+                            InputProps={{
+                                placeholder: "Enter partner API key",
+                            }}
+                            fullWidth
+                        />
+                    </Box>
+                    <Link
+                        target="_blank"
+                        rel="noopener"
+                        underline="hover"
+                        href="/blogs/how-to-get-tripadvisor-partner-api"
+                    >
+                        <Typography variant="caption">
+                            See how to get it
+                        </Typography>
+                    </Link>
+                </>
             )}
         </Box>
     );

@@ -15,9 +15,12 @@ import {
     OutlinedInput,
     InputAdornment,
     IconButton,
+    Button,
     Badge,
     Avatar,
     LinearProgress,
+    SwipeableDrawer,
+    Link as MuiLink,
 } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
@@ -34,6 +37,7 @@ import useApp from "../../store/app.context";
 import dayjs from "dayjs";
 import GlobalSearch from "../GlobalSearch";
 import NotificationsPopover from "../Popover/Notifications";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
     children?: React.ReactNode;
@@ -62,6 +66,7 @@ function setInitialDateRange() {
 }
 
 export default function SideNav(props: Props) {
+    const [drwaerOpen, setDrawerOpen] = useState(false);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [currentPath, setCurrentPath] = useState("");
@@ -110,8 +115,11 @@ export default function SideNav(props: Props) {
                 <AppBar
                     position="fixed"
                     sx={{
-                        width: `calc(100% - ${drawerWidth}px)`,
-                        ml: `${drawerWidth}px`,
+                        width: {
+                            xs: "100%",
+                            md: `calc(100% - ${drawerWidth}px)`,
+                        },
+                        ml: { xs: 0, md: `${drawerWidth}px` },
                         boxShadow: "none",
                         border: "none",
                     }}
@@ -123,56 +131,97 @@ export default function SideNav(props: Props) {
                             borderLeft: "1px solid #eee",
                         }}
                     >
-                        {/* <OutlinedInput
+                        <IconButton
                             sx={{
-                                fontSize: "0.85rem",
-                                background: "#eef2f5",
-                                border: "none",
-                                mr: "auto",
+                                display: { xs: "block", md: "none" },
+                                transform: "rotate(180deg)",
+                                mr: 3,
                             }}
-                            id="dashboard-search"
-                            placeholder="Search here.."
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{ color: "#aaa" }} />
-                                </InputAdornment>
-                            }
-                            inputComponent="input"
-                        /> */}
+                            onClick={() => setDrawerOpen(true)}
+                        >
+                            <svg
+                                viewBox="0 0 100 100"
+                                xmlns="http://www.w3.org/2000/svg"
+                                strokeWidth="4"
+                                style={{
+                                    display: "block",
+                                    height: "50px",
+                                    transform: "scale(0.9)",
+                                }}
+                            >
+                                <line
+                                    x1="50"
+                                    y1="75"
+                                    x2="100"
+                                    y2="75"
+                                    stroke="#222"
+                                />{" "}
+                                <line
+                                    x1="10"
+                                    y1="50"
+                                    x2="100"
+                                    y2="50"
+                                    stroke="#222"
+                                />{" "}
+                                <line
+                                    x1="50"
+                                    y1="25"
+                                    x2="100"
+                                    y2="25"
+                                    stroke="#222"
+                                />
+                            </svg>
+                            {/* <MenuIcon /> */}
+                        </IconButton>
 
                         <GlobalSearch />
-                        <IconButton
-                            size="large"
-                            aria-label="show new notifications"
-                            color="inherit"
-                            onClick={handleClick}
+                        <Box
+                            sx={{
+                                display: { xs: "none", md: "flex" },
+                            }}
                         >
-                            <Badge badgeContent={7} color="primary">
-                                <NotificationsIcon sx={{ color: "#777" }} />
-                            </Badge>
-                        </IconButton>
-                        <NotificationsPopover
-                            open={open}
-                            handleClose={handleClose}
-                            anchorEl={anchorEl}
-                        />
-                        <Box sx={{ borderLeft: "1px solid #eee", mx: 1 }}>
-                            <Avatar
-                                alt={user?.name || ""}
-                                src="/static/images/avatar/1.jpg"
-                                sx={{ ml: 1 }}
-                            />
-                        </Box>
-                        <Box display="flex" flexDirection="column">
-                            <Typography variant="body2" fontWeight={500}>
-                                {!!user && `${user?.name}`}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                sx={{ lineHeight: 1 }}
+                            <IconButton
+                                size="large"
+                                aria-label="show new notifications"
+                                color="inherit"
+                                onClick={handleClick}
                             >
-                                Personal
-                            </Typography>
+                                <Badge badgeContent={7} color="primary">
+                                    <NotificationsIcon sx={{ color: "#777" }} />
+                                </Badge>
+                            </IconButton>
+                            <NotificationsPopover
+                                open={open}
+                                handleClose={handleClose}
+                                anchorEl={anchorEl}
+                            />
+                            <Box
+                                sx={{
+                                    borderLeft: "1px solid #eee",
+                                    mx: 1,
+                                }}
+                            >
+                                <Avatar
+                                    alt={user?.name || ""}
+                                    src="/static/images/avatar/1.jpg"
+                                    sx={{ ml: 1 }}
+                                />
+                            </Box>
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                sx={{ display: { xs: "none", md: "flex" } }}
+                            >
+                                <Typography variant="body2" fontWeight={500}>
+                                    {!!user && `${user?.name}`}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{ lineHeight: 1 }}
+                                >
+                                    Personal
+                                </Typography>
+                            </Box>
                         </Box>
                     </Toolbar>
                 </AppBar>
@@ -186,6 +235,7 @@ export default function SideNav(props: Props) {
                             border: "none",
                         },
                         position: "relative",
+                        display: { xs: "none", md: "block" },
                     }}
                     variant="permanent"
                     anchor="left"
@@ -225,166 +275,61 @@ export default function SideNav(props: Props) {
                             </Typography>
                         </Box>
                     </Toolbar>
-                    <Box p={2}>
-                        <List>
-                            {menuList.slice(0, 2).map((e, index) => {
-                                return (
-                                    <Link to={e.url} key={e.name}>
-                                        <ListItem disablePadding key={e.name}>
-                                            <ListItemButton sx={{ p: 0.5 }}>
-                                                <ListItemIcon
-                                                    sx={{
-                                                        justifyContent:
-                                                            "center",
-                                                        color: `${
-                                                            currentPath ===
-                                                            e.url
-                                                                ? "#3954b9"
-                                                                : "#3c3c3c"
-                                                        }`,
-                                                    }}
-                                                >
-                                                    {e.icon}
-                                                </ListItemIcon>
-                                                <ListItemText
-                                                    primary={
-                                                        <Typography
-                                                            variant="body2"
-                                                            fontWeight={
-                                                                currentPath ===
-                                                                e.url
-                                                                    ? "600"
-                                                                    : "500"
-                                                            }
-                                                            color={
-                                                                currentPath ===
-                                                                e.url
-                                                                    ? "#3954b9"
-                                                                    : "#3c3c3c"
-                                                            }
-                                                            fontSize="0.85rem"
-                                                        >
-                                                            {e.name}
-                                                        </Typography>
-                                                    }
-                                                />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    </Link>
-                                );
-                            })}
-                        </List>
-                        <Divider />
-                        <List>
-                            {/* <ListSubheader component="div" sx={{my: 2}} id="nested-list-subheader">
-								<Typography variant="body2">A</Typography>
-							</ListSubheader> */}
-                            {menuList.slice(2, 5).map((e, index) => (
-                                <Link to={e.url} key={e.name}>
-                                    <ListItem disablePadding key={e.name}>
-                                        <ListItemButton sx={{ p: 0.5 }}>
-                                            <ListItemIcon
-                                                sx={{
-                                                    justifyContent: "center",
-                                                    color: `${
-                                                        currentPath === e.url
-                                                            ? "#3954b9"
-                                                            : "#3c3c3c"
-                                                    }`,
-                                                }}
-                                            >
-                                                {e.icon}
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={
-                                                    <Typography
-                                                        variant="body2"
-                                                        fontWeight={
-                                                            currentPath ===
-                                                            e.url
-                                                                ? "600"
-                                                                : "500"
-                                                        }
-                                                        color={
-                                                            currentPath ===
-                                                            e.url
-                                                                ? "#3954b9"
-                                                                : "#3c3c3c"
-                                                        }
-                                                        fontSize="0.85rem"
-                                                    >
-                                                        {e.name}
-                                                    </Typography>
-                                                }
-                                            />
-                                        </ListItemButton>
-                                    </ListItem>
-                                </Link>
-                            ))}
-                        </List>
-                    </Box>
-
-                    <Box sx={{ position: "absolute", bottom: 0, p: 2 }}>
-                        <ListItem disablePadding>
-                            <ListItemButton
-                                sx={{ p: 0.5 }}
-                                // onClick={() => logout()}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        color: "#3c3c3c",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <SettingsOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                fontSize: "0.85rem",
-                                                color: "#3c3c3c",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Settings
-                                        </Typography>
-                                    }
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton
-                                sx={{ p: 0.5 }}
-                                onClick={() => logout()}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        color: "#3c3c3c",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <LogoutIcon />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                fontSize: "0.85rem",
-                                                color: "#3c3c3c",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Logout
-                                        </Typography>
-                                    }
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    </Box>
+                    <MenuList currentPath={currentPath} logout={logout} />
                 </Drawer>
+                {/* Resposive mobile menu drawer */}
+                <SwipeableDrawer
+                    anchor="left"
+                    open={drwaerOpen}
+                    onClose={() => setDrawerOpen(false)}
+                    onOpen={() => setDrawerOpen(true)}
+                    sx={{ width: "80vw" }}
+                >
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        p={2}
+                    >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "flex-start",
+                            }}
+                        >
+                            <Typography
+                                variant="button"
+                                color="primary"
+                                sx={{
+                                    px: 1,
+                                    textTransform: "none",
+                                    color: "text.primary",
+                                    fontWeight: "600",
+                                    fontSize: "1.2rem",
+                                }}
+                            >
+                                CFRA
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="primary"
+                                sx={{
+                                    px: 1,
+                                    textTransform: "none",
+                                    fontWeight: "400",
+                                    lineHeight: 1,
+                                }}
+                            >
+                                Customer Feedback and Review Analysis
+                            </Typography>
+                        </Box>
+                        <IconButton onClick={() => setDrawerOpen(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
+                    <MenuList currentPath={currentPath} logout={logout} />
+                </SwipeableDrawer>
                 <Box
                     component="main"
                     sx={{
@@ -403,6 +348,22 @@ export default function SideNav(props: Props) {
                             sx={{ mt: -3, mx: -3, mb: 3, height: "1.7px" }}
                         ></LinearProgress>
                     )}
+                    <Box
+                        sx={{
+                            display: { xs: "block", md: "none" },
+                            background: "#eef2f5",
+                            border: "none",
+                            position: "absolute",
+                            top: "1rem",
+                            right: "1rem",
+                        }}
+                    >
+                        <IconButton
+                            onClick={() => setShowDateRangePicker(true)}
+                        >
+                            <DateRangeRoundedIcon sx={{ color: "#aaa" }} />
+                        </IconButton>
+                    </Box>
                     <OutlinedInput
                         sx={{
                             fontSize: "0.85rem",
@@ -411,6 +372,7 @@ export default function SideNav(props: Props) {
                             position: "absolute",
                             top: "1rem",
                             right: "1rem",
+                            display: { xs: "none", md: "inline-flex" },
                         }}
                         id="dashboard-date-range"
                         placeholder="Chose date range..."
@@ -439,3 +401,157 @@ export default function SideNav(props: Props) {
         </>
     );
 }
+
+const MenuList = ({
+    currentPath,
+    logout,
+}: {
+    currentPath: string;
+    logout: () => void;
+}) => {
+    return (
+        <Box p={2}>
+            <List>
+                {menuList.slice(0, 2).map((e, index) => {
+                    return (
+                        <Link to={e.url} key={e.name}>
+                            <ListItem disablePadding key={e.name}>
+                                <ListItemButton sx={{ p: 0.5 }}>
+                                    <ListItemIcon
+                                        sx={{
+                                            justifyContent: "center",
+                                            color: `${
+                                                currentPath === e.url
+                                                    ? "#3954b9"
+                                                    : "#3c3c3c"
+                                            }`,
+                                        }}
+                                    >
+                                        {e.icon}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={
+                                            <Typography
+                                                variant="body2"
+                                                fontWeight={
+                                                    currentPath === e.url
+                                                        ? "600"
+                                                        : "500"
+                                                }
+                                                color={
+                                                    currentPath === e.url
+                                                        ? "#3954b9"
+                                                        : "#3c3c3c"
+                                                }
+                                                fontSize="0.85rem"
+                                            >
+                                                {e.name}
+                                            </Typography>
+                                        }
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    );
+                })}
+            </List>
+            <Divider />
+            <List>
+                {menuList.slice(2, 5).map((e, index) => (
+                    <Link to={e.url} key={e.name}>
+                        <ListItem disablePadding key={e.name}>
+                            <ListItemButton sx={{ p: 0.5 }}>
+                                <ListItemIcon
+                                    sx={{
+                                        justifyContent: "center",
+                                        color: `${
+                                            currentPath === e.url
+                                                ? "#3954b9"
+                                                : "#3c3c3c"
+                                        }`,
+                                    }}
+                                >
+                                    {e.icon}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <Typography
+                                            variant="body2"
+                                            fontWeight={
+                                                currentPath === e.url
+                                                    ? "600"
+                                                    : "500"
+                                            }
+                                            color={
+                                                currentPath === e.url
+                                                    ? "#3954b9"
+                                                    : "#3c3c3c"
+                                            }
+                                            fontSize="0.85rem"
+                                        >
+                                            {e.name}
+                                        </Typography>
+                                    }
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+                ))}
+            </List>
+            <Box sx={{ position: "absolute", bottom: 0, p: 2 }}>
+                <ListItem disablePadding>
+                    <ListItemButton sx={{ p: 0.5 }}>
+                        <ListItemIcon
+                            sx={{
+                                color: "#3c3c3c",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <SettingsOutlinedIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontSize: "0.85rem",
+                                        color: "#3c3c3c",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    Settings
+                                </Typography>
+                            }
+                        />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton sx={{ p: 0.5 }} onClick={() => logout()}>
+                        <ListItemIcon
+                            sx={{
+                                color: "#3c3c3c",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <LogoutIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontSize: "0.85rem",
+                                        color: "#3c3c3c",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    Logout
+                                </Typography>
+                            }
+                        />
+                    </ListItemButton>
+                </ListItem>
+            </Box>
+        </Box>
+    );
+};
