@@ -131,14 +131,12 @@ function Dashboard() {
                 Analytics
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
-                <Grid item md={6}>
+                <Grid item xs={12} md={6}>
                     <Box
                         sx={{
                             background: "#fff",
                             borderRadius: "10px",
                             width: "100%",
-                            p: 2,
-                            mb: 3,
                         }}
                     >
                         <Box px={10}>
@@ -149,14 +147,12 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} md={6}>
                     <Box
                         sx={{
                             background: "#fff",
                             borderRadius: "10px",
                             width: "100%",
-                            p: 2,
-                            mb: 3,
                         }}
                     >
                         <Box px={10}>
@@ -167,14 +163,12 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} md={6}>
                     <Box
                         sx={{
                             background: "#fff",
                             borderRadius: "10px",
                             width: "100%",
-                            p: 2,
-                            mb: 3,
                         }}
                     >
                         <Box px={10}>
@@ -185,14 +179,12 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} md={6}>
                     <Box
                         sx={{
                             background: "#fff",
                             borderRadius: "10px",
                             width: "100%",
-                            p: 2,
-                            mb: 3,
                         }}
                     >
                         <Box px={10}>
@@ -203,14 +195,12 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} md={6}>
                     <Box
                         sx={{
                             background: "#fff",
                             borderRadius: "10px",
                             width: "100%",
-                            p: 2,
-                            mb: 3,
                         }}
                     >
                         <Box px={10}>
@@ -221,14 +211,12 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} md={6}>
                     <Box
                         sx={{
                             background: "#fff",
                             borderRadius: "10px",
                             width: "100%",
-                            p: 2,
-                            mb: 3,
                         }}
                     >
                         <Box px={10}>
