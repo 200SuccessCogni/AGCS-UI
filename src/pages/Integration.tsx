@@ -89,7 +89,7 @@ function Integrations() {
                 Integrations
             </Typography>
             <Grid container spacing={5}>
-                <Grid item md={7}>
+                <Grid item xs={12} md={7}>
                     <Box my={4}>
                         <FeatureCard
                             src=""
@@ -113,7 +113,7 @@ function Integrations() {
                         />
                     </Box>
                 </Grid>
-                <Grid item md={5}></Grid>
+                <Grid item xs={12} md={5}></Grid>
             </Grid>
         </>
     );

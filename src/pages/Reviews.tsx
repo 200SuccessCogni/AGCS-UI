@@ -115,6 +115,7 @@ function Reviews() {
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
                                     onReply={(data) => setSlectedReview(data)}
+                                    listView="false"
                                     {...r}
                                 />
                             ))}
@@ -126,6 +127,7 @@ function Reviews() {
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
                                     onReply={(data) => setSlectedReview(data)}
+                                    listView="false"
                                     {...r}
                                 />
                             ))}
@@ -141,7 +143,7 @@ function Reviews() {
                     item
                     md={3}
                     sx={{
-                        display: "flex",
+                        display: { xs: "none", md: "flex" },
                         justifyContent: "center",
                         alignItems: "flex-start",
                     }}

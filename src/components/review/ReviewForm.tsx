@@ -176,7 +176,7 @@ function ReviewForm(props: Iprops) {
                     variant="contained"
                     size="small"
                     color="black"
-                    sx={{ mt: 2, ml: 2 }}
+                    sx={{ mt: 2, ml: 1 }}
                     onClick={appyFilterHandler}
                 >
                     Apply
