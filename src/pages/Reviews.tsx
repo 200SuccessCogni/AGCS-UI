@@ -7,6 +7,7 @@ import ReviewForm from "../components/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
 import ReplyModal from "../components/Modals/ReplyModal";
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 
 function Reviews() {
     const { setLoader, loader } = useApp();
@@ -96,7 +97,39 @@ function Reviews() {
                 Reviews
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
-                <Grid item md={9}>
+                <Grid
+                    item
+                    xs={6}
+                    md={3}
+                    sx={{
+                        display: { xs: "flex", md: "none" },
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                            background: "#fff",
+                            borderRadius: "10px",
+                            p: 1,
+                            width: { xs: "100%", md: "50%" },
+                        }}
+                        onClick={() => console.log("clicked")}
+                    >
+                        <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontWeight={500}
+                            marginBottom="0"
+                        >
+                            Filters
+                        </Typography>
+                        <FilterListOutlinedIcon />
+                    </Box>
+                </Grid>
+                <Grid item xs={12} md={9}>
                     <Box
                         sx={{ background: "#fff", borderRadius: "10px", p: 3 }}
                     >
