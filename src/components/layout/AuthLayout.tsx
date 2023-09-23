@@ -178,6 +178,7 @@ export default function SideNav(props: Props) {
                         <Box
                             sx={{
                                 display: { xs: "none", md: "flex" },
+                                ml: "auto",
                             }}
                         >
                             <IconButton
@@ -420,11 +421,10 @@ const MenuList = ({
                                     <ListItemIcon
                                         sx={{
                                             justifyContent: "center",
-                                            color: `${
-                                                currentPath === e.url
+                                            color: `${currentPath === e.url
                                                     ? "#3954b9"
                                                     : "#3c3c3c"
-                                            }`,
+                                                }`,
                                         }}
                                     >
                                         {e.icon}
@@ -464,11 +464,10 @@ const MenuList = ({
                                 <ListItemIcon
                                     sx={{
                                         justifyContent: "center",
-                                        color: `${
-                                            currentPath === e.url
+                                        color: `${currentPath === e.url
                                                 ? "#3954b9"
                                                 : "#3c3c3c"
-                                        }`,
+                                            }`,
                                     }}
                                 >
                                     {e.icon}

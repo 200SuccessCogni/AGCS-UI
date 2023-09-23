@@ -3,10 +3,15 @@ import { useCallback, useEffect, useState } from "react";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
 import { IResort } from "../interfaces/resort.interface";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 
 function GlobalSearch() {
     const [selectedResort, setSelectedResort] = useState("");
     const { resortList, setResort, setSelectedLocation } = useApp();
+    const [singleSelections, setSingleSelections] = useState([]);
 
     useEffect(() => {
         getALlResort();
@@ -51,32 +56,39 @@ function GlobalSearch() {
     }, []);
 
     return (
-        <Autocomplete
-            freeSolo
-            id="dashboard-search"
-            disableClearable
-            size="small"
-            value={selectedResort}
-            onChange={onResortChange}
-            sx={{
-                width: "300px",
-                fontSize: "0.85rem",
-                background: "#eef2f5",
-                mr: "auto",
-                mt: "10px",
-                mb: "10px",
-            }}
+        // <Autocomplete
+        //     freeSolo
+        //     id="dashboard-search"
+        //     disableClearable
+        //     size="small"
+        //     value={selectedResort}
+        //     onChange={onResortChange}
+        //     sx={{
+        //         width: "300px",
+        //         fontSize: "0.85rem",
+        //         background: "#eef2f5",
+        //         mr: "auto",
+        //         mt: "10px",
+        //         mb: "10px",
+        //     }}
+        //     options={resortList.map((option: IResort) => option.resortName)}
+        //     renderInput={(params) => (
+        //         <TextField
+        //             {...params}
+        //             label="Search resort"
+        //             InputProps={{
+        //                 ...params.InputProps,
+        //                 type: "search",
+        //             }}
+        //         />
+        //     )}
+        // />
+        <Typeahead
+            id="basic-typeahead-single"
+            onChange={setSingleSelections}
             options={resortList.map((option: IResort) => option.resortName)}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Search resort"
-                    InputProps={{
-                        ...params.InputProps,
-                        type: "search",
-                    }}
-                />
-            )}
+            placeholder="Choose a resort..."
+            selected={singleSelections}
         />
     );
 }

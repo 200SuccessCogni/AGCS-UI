@@ -8,7 +8,7 @@ interface Iprops {
 export default function LinearProgressWithLabel(props: Iprops) {
     return (
         <>
-            <Grid item xs={6} md={9} sx={{ mt: "10px", ml: 2 }}>
+            <Grid item xs={5} md={8} sx={{ mt: "10px", ml: 2 }}>
                 <LinearProgress
                     variant="determinate"
                     color="primary"
