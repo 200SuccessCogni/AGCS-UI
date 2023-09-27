@@ -32,11 +32,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import DateRangePicker from "../Modals/DateRangePicker";
+import DateRangePicker from "../modals/DateRangePicker";
 import useApp from "../../store/app.context";
 import dayjs from "dayjs";
-import GlobalSearch from "../GlobalSearch";
-import NotificationsPopover from "../Popover/Notifications";
+import GlobalSearch from "../app/GlobalSearch";
+import NotificationsPopover from "../popover/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {

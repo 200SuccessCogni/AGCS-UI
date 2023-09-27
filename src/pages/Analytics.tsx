@@ -1,17 +1,9 @@
-import LineChart from "../components/Charts/LineChart";
+import LineChart from "../components/charts/LineChart";
 import { Box, Grid, Typography } from "@mui/material";
 
 function Dashboard() {
     const userData1 = {
-        labels: [
-            "26/06",
-            "27/06",
-            "28/06",
-            "29/06",
-            "30/06",
-            "01/07",
-            "02/07",
-        ],
+        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
         datasets: [
             {
                 backgroundColor: [
@@ -28,15 +20,7 @@ function Dashboard() {
         ],
     };
     const userData2 = {
-        labels: [
-            "26/06",
-            "27/06",
-            "28/06",
-            "29/06",
-            "30/06",
-            "01/07",
-            "02/07",
-        ],
+        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
         datasets: [
             {
                 backgroundColor: [
@@ -53,15 +37,7 @@ function Dashboard() {
         ],
     };
     const userData3 = {
-        labels: [
-            "26/06",
-            "27/06",
-            "28/06",
-            "29/06",
-            "30/06",
-            "01/07",
-            "02/07",
-        ],
+        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
         datasets: [
             {
                 backgroundColor: [
@@ -78,15 +54,7 @@ function Dashboard() {
         ],
     };
     const userData4 = {
-        labels: [
-            "26/06",
-            "27/06",
-            "28/06",
-            "29/06",
-            "30/06",
-            "01/07",
-            "02/07",
-        ],
+        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
         datasets: [
             {
                 backgroundColor: [
@@ -140,9 +108,15 @@ function Dashboard() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData1} options={options} />
+                            <LineChart
+                                chartData={userData1}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Cleanliness
                         </Typography>
                     </Box>
@@ -156,9 +130,15 @@ function Dashboard() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData2} options={options} />
+                            <LineChart
+                                chartData={userData2}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Activities
                         </Typography>
                     </Box>
@@ -172,9 +152,15 @@ function Dashboard() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData3} options={options} />
+                            <LineChart
+                                chartData={userData3}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Comfort
                         </Typography>
                     </Box>
@@ -188,9 +174,15 @@ function Dashboard() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData4} options={options} />
+                            <LineChart
+                                chartData={userData4}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Destination
                         </Typography>
                     </Box>
@@ -204,9 +196,15 @@ function Dashboard() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData2} options={options} />
+                            <LineChart
+                                chartData={userData2}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Facilities
                         </Typography>
                     </Box>
@@ -220,9 +218,15 @@ function Dashboard() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData1} options={options} />
+                            <LineChart
+                                chartData={userData1}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Food & Drinks
                         </Typography>
                     </Box>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LinearProgressWithLabel from "../components/LinearProgressWithLabel/LinearProgressWithLabel";
+import LinearProgressWithLabel from "../components/core/LinearProgressWithLabel/LinearProgressWithLabel";
 import ReviewForm from "../components/review/ReviewForm";
 import { Box, Grid, Typography } from "@mui/material";
 import useApp from "../store/app.context";
@@ -43,7 +43,7 @@ function Insights() {
                                     background: "#fff",
                                     p: 3,
                                     display: "flex",
-                                    justifyContent: "space-between"
+                                    justifyContent: "space-between",
                                 }}
                             >
                                 <Grid item xs={5} md={2}>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, TextField, Button, Alert, CircularProgress } from "@mui/material";
-import { validateEmail } from "../services/shared.service";
+import { validateEmail } from "../../services/shared.service";
 
 interface IAuthForm {
     isLogin?: boolean;

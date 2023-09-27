@@ -7,7 +7,7 @@ import {
     Chip,
     Tooltip,
 } from "@mui/material";
-import PieChart from "../components/Charts/PieChart";
+import PieChart from "../components/charts/PieChart";
 import ReviewItem from "../components/review/ReviewItem";
 import { ICountCard } from "@/interfaces/dashboard.interface";
 import { useNavigate } from "react-router-dom";

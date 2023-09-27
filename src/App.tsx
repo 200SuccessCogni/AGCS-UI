@@ -6,10 +6,13 @@ import AuthLayout from "./components/layout/AuthLayout";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthGuard } from "./components/AuthGuard";
+import { AuthGuard } from "./components/auth/AuthGuard";
+
+// Blogs
 import TripadvisorIntegrate from "../blogs/how-to-get-tripadvisor-partner-api.mdx";
 import Blog from "./components/blogs";
 
+// Lazy loading
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Reviews = lazy(() => import("./pages/Reviews"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -19,55 +22,55 @@ const Intro = lazy(() => import("./pages/Intro"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 
-function LayoutWrapper(component: ReactElement) {
+function layoutWrapper(component: ReactElement) {
     return <AuthLayout>{component}</AuthLayout>;
 }
 
-function AuthInterceptComp(component: ReactElement, isAuthenticated = true) {
+function withAuthInterceptor(component: ReactElement, isAuthenticated = true) {
     if (!isAuthenticated) return component;
-    return <AuthGuard>{LayoutWrapper(component)}</AuthGuard>;
+    return <AuthGuard>{layoutWrapper(component)}</AuthGuard>;
 }
 
 function App() {
     return (
         <Router>
-            <Suspense fallback={LayoutWrapper(<p>Loading...</p>)}>
+            <Suspense fallback={layoutWrapper(<p>Loading...</p>)}>
                 <Routes>
                     <Route
                         path="/"
-                        element={AuthInterceptComp(<Dashboard />)}
+                        element={withAuthInterceptor(<Dashboard />)}
                     />
                     <Route
                         path="/dashboard"
-                        element={AuthInterceptComp(<Dashboard />)}
+                        element={withAuthInterceptor(<Dashboard />)}
                     />
                     <Route
                         path="/reviews"
-                        element={AuthInterceptComp(<Reviews />)}
+                        element={withAuthInterceptor(<Reviews />)}
                     />
                     <Route
                         path="/analytics"
-                        element={AuthInterceptComp(<Analytics />)}
+                        element={withAuthInterceptor(<Analytics />)}
                     />
                     <Route
                         path="/insights"
-                        element={AuthInterceptComp(<Insights />)}
+                        element={withAuthInterceptor(<Insights />)}
                     />
                     <Route
                         path="/integration"
-                        element={AuthInterceptComp(<Integration />)}
+                        element={withAuthInterceptor(<Integration />)}
                     />
                     <Route
                         path="/intro"
-                        element={AuthInterceptComp(<Intro />, false)}
+                        element={withAuthInterceptor(<Intro />, false)}
                     />
                     <Route
                         path="/signin"
-                        element={AuthInterceptComp(<Login />, false)}
+                        element={withAuthInterceptor(<Login />, false)}
                     />
                     <Route
                         path="/signup"
-                        element={AuthInterceptComp(<Signup />, false)}
+                        element={withAuthInterceptor(<Signup />, false)}
                     />
                     {/* Blogs route */}
                     <Route

@@ -6,7 +6,7 @@ import useApp from "../store/app.context";
 import ReviewForm from "../components/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
-import ReplyModal from "../components/Modals/ReplyModal";
+import ReplyModal from "../components/modals/ReplyModal";
 
 function Reviews() {
     const { setLoader, loader } = useApp();
