@@ -61,7 +61,10 @@ export default function ReviewItem(props: IReviewItemProps) {
             display="flex"
             justifyContent="space-between"
             alignContent="center"
-            sx={{ p: "1rem", flexDirection: { xs: "column", md: "row" } }}
+            sx={{
+                p: "1rem",
+                flexDirection: { xs: "column", md: "row" },
+            }}
             borderBottom="1px solid #aaa"
             className="review"
             position="relative"

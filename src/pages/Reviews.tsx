@@ -98,7 +98,11 @@ function Reviews() {
             <Grid container spacing={3} sx={{ mt: 0 }}>
                 <Grid item md={9}>
                     <Box
-                        sx={{ background: "#fff", borderRadius: "10px", p: 3 }}
+                        sx={{
+                            bgcolor: "secondary.main",
+                            borderRadius: "10px",
+                            p: 3,
+                        }}
                     >
                         <Typography
                             variant="body1"
@@ -150,7 +154,7 @@ function Reviews() {
                 >
                     <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.main",
                             borderRadius: "10px",
                             p: 3,
                             width: "100%",

@@ -168,7 +168,7 @@ function Dashboard() {
             <Typography variant="h5" fontWeight={500}>
                 Dashboard
             </Typography>
-            <Grid container spacing={1} sx={{ mt: 0 }}>
+            <Grid container spacing={3} sx={{ mt: 0 }}>
                 <Grid item xs={12} md={7.5}>
                     <Grid container spacing={3}>
                         <Grid item xs={6} md={3}>
@@ -203,7 +203,7 @@ function Dashboard() {
                         sx={{
                             p: 2,
                             my: 3,
-                            bgcolor: "#fff",
+                            bgcolor: "secondary.main",
                             borderRadius: "1rem",
                         }}
                     >
@@ -246,7 +246,7 @@ function Dashboard() {
                 >
                     <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.main",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
@@ -262,14 +262,19 @@ function Dashboard() {
                     </Box>
                     <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "primary.main",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
                             mb: 2,
                         }}
                     >
-                        <Typography variant="h6" gutterBottom fontWeight={500}>
+                        <Typography
+                            variant="h6"
+                            color="text.contrastText"
+                            gutterBottom
+                            fontWeight={500}
+                        >
                             Insights
                         </Typography>
                         <Box>
@@ -282,21 +287,17 @@ function Dashboard() {
                                         size="small"
                                         icon={
                                             e.unfavourable > 50 ? (
-                                                <ThumbDownOffAltOutlinedIcon />
+                                                <ThumbDownOffAltOutlinedIcon color="secondary" />
                                             ) : (
-                                                <ThumbUpOutlinedIcon />
+                                                <ThumbUpOutlinedIcon color="secondary" />
                                             )
                                         }
                                         label={<small>{e.name}</small>}
                                         variant="outlined"
-                                        color={
-                                            e.unfavourable > 50
-                                                ? "error"
-                                                : "success"
-                                        }
                                         sx={{
                                             m: 0.5,
                                             px: 0.5,
+                                            color: "text.contrastText",
                                         }}
                                     />
                                 </Tooltip>
@@ -305,7 +306,7 @@ function Dashboard() {
                     </Box>
                     <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.dark",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
