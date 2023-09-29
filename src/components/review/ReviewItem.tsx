@@ -58,24 +58,24 @@ export default function ReviewItem(props: IReviewItemProps) {
 
     return (
         <Box
-            display="flex"
-            justifyContent="space-between"
-            alignContent="center"
             sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                borderBottom: "1px solid #aaa",
+                position: "relative",
                 p: "1rem",
                 flexDirection: { xs: "column", md: "row" },
             }}
-            borderBottom="1px solid #aaa"
-            className="review"
-            position="relative"
         >
             {!props.listView && (
                 <Box
-                    display="flex"
-                    justifyContent="flex-start"
-                    alignContent="center"
-                    sx={{ flex: 0.2 }}
-                    className="review__hotel"
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        flex: 0.2,
+                    }}
                 >
                     <Avatar
                         variant="rounded"

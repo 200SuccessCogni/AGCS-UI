@@ -17,6 +17,7 @@ import useApp from "../store/app.context";
 import { useCallback, useEffect, useState } from "react";
 import { GET } from "../services/api.service";
 import dayjs from "dayjs";
+import AIChip from "../components/core/chip/AIChip";
 
 const insights = [
     {
@@ -57,7 +58,7 @@ const insights = [
     },
 ];
 
-function CountCard(props: ICountCard) {
+function StatCard(props: ICountCard) {
     return (
         <Paper
             elevation={0}
@@ -71,6 +72,7 @@ function CountCard(props: ICountCard) {
                 backgroundColor: props.backgroundColor,
                 color: props.color,
             }}
+            className="box-shadow"
         >
             <Typography variant="h3">{props.count}</Typography>
             <Typography
@@ -172,34 +174,35 @@ function Dashboard() {
                 <Grid item xs={12} md={7.5}>
                     <Grid container spacing={3}>
                         <Grid item xs={6} md={3}>
-                            <CountCard
+                            <StatCard
                                 count={0}
                                 label="New Reviews"
                                 backgroundColor="rgb(178 226 254 / 50%)"
                             />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <CountCard
+                            <StatCard
                                 count={posReview}
                                 label="Positive Reviews"
                                 backgroundColor="rgb(178 254 206 / 50%)"
                             />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <CountCard
+                            <StatCard
                                 count={negReview}
                                 label="Negative Reviews"
                                 backgroundColor="rgb(254 178 178 / 46%)"
                             />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <CountCard
+                            <StatCard
                                 count={reviews.length}
                                 label="Total Reviews"
                             />
                         </Grid>
                     </Grid>
                     <Box
+                        className="box-shadow"
                         sx={{
                             p: 2,
                             my: 3,
@@ -245,6 +248,7 @@ function Dashboard() {
                     }}
                 >
                     <Box
+                        className="box-shadow"
                         sx={{
                             bgcolor: "secondary.main",
                             borderRadius: "10px",
@@ -268,6 +272,7 @@ function Dashboard() {
                             p: 2,
                             mb: 2,
                         }}
+                        className="box-shadow"
                     >
                         <Typography
                             variant="h6"
@@ -311,6 +316,7 @@ function Dashboard() {
                             width: "100%",
                             p: 2,
                         }}
+                        className="box-shadow"
                     >
                         <Typography variant="h6" gutterBottom fontWeight={500}>
                             Recommended actions

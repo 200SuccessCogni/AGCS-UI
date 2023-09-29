@@ -217,7 +217,7 @@ export default function SideNav(props: Props) {
                         flexGrow: 1,
                         p: 3,
                         height: "calc(100vh - 69px)",
-                        marginTop: "69px",
+                        marginTop: loader ? "65px" : "65px",
                         overflowY: "auto",
                         overflowX: "hidden",
                         backgroundColor: "secondary.light",
@@ -230,7 +230,7 @@ export default function SideNav(props: Props) {
                                 mt: -3,
                                 mx: -3,
                                 mb: 3,
-                                height: "1.7px",
+                                height: "3px",
                                 color: "primary.dark",
                             }}
                         ></LinearProgress>

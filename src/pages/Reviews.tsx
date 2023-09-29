@@ -7,6 +7,7 @@ import ReviewForm from "../components/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
 import ReplyModal from "../components/modals/ReplyModal";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Reviews() {
     const { setLoader, loader } = useApp();
@@ -18,6 +19,7 @@ function Reviews() {
     const [selectedReview, setSlectedReview] = useState<IReviewItem | null>(
         null
     );
+    // const isSmallDevice = useMediaQuery("(max-width: 0px)");
 
     const onFilterApply = (filterData: any) => {
         console.log({ filterData });
@@ -96,7 +98,7 @@ function Reviews() {
                 Reviews
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
-                <Grid item md={9}>
+                <Grid item xs={12} md={9}>
                     <Box
                         sx={{
                             bgcolor: "secondary.main",
@@ -119,7 +121,7 @@ function Reviews() {
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
                                     onReply={(data) => setSlectedReview(data)}
-                                    listView="false"
+                                    listView={false}
                                     {...r}
                                 />
                             ))}
@@ -131,7 +133,7 @@ function Reviews() {
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
                                     onReply={(data) => setSlectedReview(data)}
-                                    listView="false"
+                                    listView={false}
                                     {...r}
                                 />
                             ))}
@@ -145,6 +147,7 @@ function Reviews() {
                 </Grid>
                 <Grid
                     item
+                    xs={12}
                     md={3}
                     sx={{
                         display: { xs: "none", md: "flex" },

@@ -13,6 +13,7 @@ import NotificationsPopover from "../popover/Notifications";
 
 import GlobalSearch from "../app/GlobalSearch";
 import useApp from "../../store/app.context";
+import GlobalSearchV2 from "../app/GlobalSearch-v2";
 
 const drawerWidth = 260;
 
@@ -71,9 +72,11 @@ function Header(props: any) {
                     {/* <MenuIcon /> */}
                 </IconButton>
 
-                <GlobalSearch />
+                <GlobalSearchV2 />
+                {/* <GlobalSearch /> */}
                 <Box
                     sx={{
+                        ml: "auto",
                         display: { xs: "none", md: "flex" },
                     }}
                 >
