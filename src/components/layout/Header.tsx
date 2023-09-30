@@ -81,6 +81,7 @@ function Header(props: any) {
                     }}
                 >
                     <IconButton
+                        sx={{ mx: 1 }}
                         size="large"
                         aria-label="show new notifications"
                         color="inherit"
@@ -96,18 +97,6 @@ function Header(props: any) {
                         anchorEl={anchorEl}
                     />
                     <Box
-                        sx={{
-                            borderLeft: "1px solid #eee",
-                            mx: 1,
-                        }}
-                    >
-                        <Avatar
-                            alt={user?.name || ""}
-                            src="/static/images/avatar/1.jpg"
-                            sx={{ ml: 1 }}
-                        />
-                    </Box>
-                    <Box
                         display="flex"
                         flexDirection="column"
                         sx={{
@@ -115,6 +104,8 @@ function Header(props: any) {
                                 xs: "none",
                                 md: "flex",
                             },
+                            borderLeft: "1px solid #eee",
+                            pl: 1,
                         }}
                     >
                         <Typography
@@ -131,6 +122,12 @@ function Header(props: any) {
                         >
                             Personal
                         </Typography>
+                    </Box>
+                    <Box mx={1}>
+                        <Avatar
+                            alt={user?.name || ""}
+                            src="/static/images/avatar/1.jpg"
+                        />
                     </Box>
                 </Box>
             </Toolbar>

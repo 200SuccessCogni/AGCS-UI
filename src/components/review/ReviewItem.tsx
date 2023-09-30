@@ -6,14 +6,28 @@ import {
     IconButton,
     Chip,
 } from "@mui/material";
+import { styled } from "@mui/system";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ShareIcon from "@mui/icons-material/Share";
 import { IReviewItem } from "../../interfaces/review.interface";
+import { format } from "date-fns";
 
 interface IReviewItemProps extends IReviewItem {
     listView: boolean;
     onReply: (data: any) => void;
 }
+
+const ReviewWrapper: any = styled(Box)(({ theme }) =>
+    theme.unstable_sx({
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        borderBottom: "1px solid #aaa",
+        position: "relative",
+        p: 1,
+    })
+);
 
 export default function ReviewItem(props: IReviewItemProps) {
     const getSentementColor = (
@@ -57,17 +71,7 @@ export default function ReviewItem(props: IReviewItemProps) {
     }
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                borderBottom: "1px solid #aaa",
-                position: "relative",
-                p: "1rem",
-                flexDirection: { xs: "column", md: "row" },
-            }}
-        >
+        <ReviewWrapper>
             {!props.listView && (
                 <Box
                     sx={{
@@ -102,14 +106,15 @@ export default function ReviewItem(props: IReviewItemProps) {
                 </Box>
             )}
             <Box
-                display="flex"
-                justifyContent="space-between"
-                alignContent="center"
                 sx={{
-                    flex: { xs: 1, md: 0.2 },
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    flexBasis: { xs: "100%", md: "20%" },
                     flexDirection: { xs: "row", md: "column" },
+                    width: "100%",
+                    height: "100%",
                 }}
-                className="review__user"
             >
                 <Box
                     display="flex"
@@ -162,18 +167,11 @@ export default function ReviewItem(props: IReviewItemProps) {
                         <small>{props?.source.toUpperCase()}</small> || "Source"
                     }
                     variant="outlined"
-                    sx={{
-                        width: "min-content",
-                        // position: "absolute",
-                        // left: { xs: "none", md: "2rem" },
-                        // bottom: { xs: "none", md: "1rem" },
-                        // right: { xs: "2rem", md: "none" },
-                        // top: { xs: "1rem", md: "none" },
-                    }}
+                    sx={{ width: "min-content" }}
                 />
             </Box>
             <Box
-                sx={{ flex: props.listView ? 0.7 : 0.6 }}
+                sx={{ flexBasis: props.listView ? "70%" : "60%" }}
                 className="review__review"
             >
                 <Box
@@ -189,6 +187,7 @@ export default function ReviewItem(props: IReviewItemProps) {
                         sx={{ color: "#777", px: 1, lineHeight: 2 }}
                     >
                         {props.date}
+                        {/* {format(new Date(props.date), "MMM-dd-yyyy")} */}
                     </Typography>
                     <Chip
                         label={
@@ -238,6 +237,6 @@ export default function ReviewItem(props: IReviewItemProps) {
                     {props.desc}
                 </Typography>
             </Box>
-        </Box>
+        </ReviewWrapper>
     );
 }

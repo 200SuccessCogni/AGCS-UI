@@ -48,6 +48,7 @@ const SearchLabel = styled("label")({
 });
 
 function GlobalSearchV2() {
+    const searchInpRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
     const [searchText, setSearchText] = React.useState("");
 
@@ -62,6 +63,16 @@ function GlobalSearchV2() {
         document.addEventListener("keydown", down);
         return () => document.removeEventListener("keydown", down);
     }, []);
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            console.log(searchInpRef.current, open);
+            if (open && searchInpRef.current) {
+                console.log("before focus....");
+                searchInpRef.current?.focus();
+            }
+        }, 500);
+    }, [open]);
 
     const SearchItem = ({
         imgUrl = "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg",
@@ -118,6 +129,7 @@ function GlobalSearchV2() {
                             placeholder="Search your resorts..."
                             value={searchText}
                             onChange={(e: any) => setSearchText(e.target.value)}
+                            ref={searchInpRef}
                         />
 
                         <IconButton

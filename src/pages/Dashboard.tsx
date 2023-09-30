@@ -66,19 +66,21 @@ function StatCard(props: ICountCard) {
                 display: "flex",
                 justifyContent: "space-between",
                 flexDirection: "column",
-                alignItems: "center",
-                padding: "0.5rem",
-                minHeight: "110px",
+                alignItems: "flex-start",
+                padding: "0.5rem 1rem",
+                minHeight: "130px",
                 backgroundColor: props.backgroundColor,
                 color: props.color,
+                textALign: "left",
             }}
-            className="box-shadow"
+            // className="box-shadow"
         >
-            <Typography variant="h3">{props.count}</Typography>
+            <Typography variant="h2" align="left" color="primary">
+                {props.count}
+            </Typography>
             <Typography
                 variant="body2"
-                align="center"
-                sx={{ lineHeight: 1, color: "text.secondary" }}
+                sx={{ lineHeight: 1, color: "text.secondary", pr: "30%" }}
             >
                 {props.label}
             </Typography>
@@ -202,11 +204,11 @@ function Dashboard() {
                         </Grid>
                     </Grid>
                     <Box
-                        className="box-shadow"
+                        // className="box-shadow"
                         sx={{
                             p: 2,
                             my: 3,
-                            bgcolor: "secondary.main",
+                            bgcolor: "secondary.light",
                             borderRadius: "1rem",
                         }}
                     >
@@ -248,9 +250,9 @@ function Dashboard() {
                     }}
                 >
                     <Box
-                        className="box-shadow"
+                        // className="box-shadow"
                         sx={{
-                            bgcolor: "secondary.main",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
@@ -266,17 +268,17 @@ function Dashboard() {
                     </Box>
                     <Box
                         sx={{
-                            bgcolor: "primary.main",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
                             mb: 2,
                         }}
-                        className="box-shadow"
+                        // className="box-shadow"
                     >
                         <Typography
                             variant="h6"
-                            color="text.contrastText"
+                            color="black"
                             gutterBottom
                             fontWeight={500}
                         >
@@ -292,9 +294,9 @@ function Dashboard() {
                                         size="small"
                                         icon={
                                             e.unfavourable > 50 ? (
-                                                <ThumbDownOffAltOutlinedIcon color="secondary" />
+                                                <ThumbDownOffAltOutlinedIcon />
                                             ) : (
-                                                <ThumbUpOutlinedIcon color="secondary" />
+                                                <ThumbUpOutlinedIcon />
                                             )
                                         }
                                         label={<small>{e.name}</small>}
@@ -302,7 +304,7 @@ function Dashboard() {
                                         sx={{
                                             m: 0.5,
                                             px: 0.5,
-                                            color: "text.contrastText",
+                                            color: "primary.dark",
                                         }}
                                     />
                                 </Tooltip>
@@ -311,12 +313,12 @@ function Dashboard() {
                     </Box>
                     <Box
                         sx={{
-                            bgcolor: "secondary.dark",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
                         }}
-                        className="box-shadow"
+                        // className="box-shadow"
                     >
                         <Typography variant="h6" gutterBottom fontWeight={500}>
                             Recommended actions

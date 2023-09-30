@@ -12,12 +12,7 @@ import {
     Divider,
     ListItemText,
     ListItemIcon,
-    OutlinedInput,
-    InputAdornment,
     IconButton,
-    Button,
-    Badge,
-    Avatar,
     LinearProgress,
     SwipeableDrawer,
     Link as MuiLink,
@@ -26,18 +21,15 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import DateRangeRoundedIcon from "@mui/icons-material/DateRangeRounded";
 import PolylineRoundedIcon from "@mui/icons-material/PolylineRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import DateRangePicker from "../modals/DateRangePicker";
 import useApp from "../../store/app.context";
-import dayjs from "dayjs";
-import GlobalSearch from "../app/GlobalSearch";
 import CloseIcon from "@mui/icons-material/Close";
 import Header from "./Header";
+import GlobalDateSelect from "../app/GlobalDateSelect";
 
 interface Props {
     children?: React.ReactNode;
@@ -58,22 +50,12 @@ const menuList = [
     },
 ];
 
-function setInitialDateRange() {
-    const dateRange = {
-        startDate: dayjs(new Date()).subtract(6, "day").format("MMM D, YYYY"),
-        endDate: dayjs(new Date()).format("MMM D, YYYY"),
-    };
-    return `${dateRange.startDate} - ${dateRange.endDate}`;
-}
-
 export default function SideNav(props: Props) {
     const [drwaerOpen, setDrawerOpen] = useState(false);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [currentPath, setCurrentPath] = useState("");
-    const [showDateRangePicker, setShowDateRangePicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(setInitialDateRange());
-    const { loader, setSelectedDateRange, user = { name: "" } } = useApp();
+    const { loader, user = { name: "" } } = useApp();
 
     useEffect(() => {
         setCurrentPath(pathname);
@@ -83,21 +65,6 @@ export default function SideNav(props: Props) {
         localStorage.setItem("token", "");
         localStorage.setItem("user", "");
         navigate("/signin");
-    };
-
-    const onDateSelect = (isClose: boolean, selectedDateRange: any[]) => {
-        if (Array.isArray(selectedDateRange) && selectedDateRange.length) {
-            const startDate = dayjs(selectedDateRange[0].startDate).format(
-                "MMM D, YYYY"
-            );
-            const endDate = dayjs(selectedDateRange[0].endDate).format(
-                "MMM D, YYYY"
-            );
-
-            setSelectedDateRange({ startDate, endDate });
-            setSelectedDate(`${startDate} - ${endDate}`);
-        }
-        setShowDateRangePicker(isClose);
     };
 
     return (
@@ -220,7 +187,7 @@ export default function SideNav(props: Props) {
                         marginTop: loader ? "65px" : "65px",
                         overflowY: "auto",
                         overflowX: "hidden",
-                        backgroundColor: "secondary.light",
+                        backgroundColor: "secondary.main",
                         position: "relative",
                     }}
                 >
@@ -235,9 +202,10 @@ export default function SideNav(props: Props) {
                             }}
                         ></LinearProgress>
                     )}
+
+                    {props.children}
                     <Box
                         sx={{
-                            display: { xs: "block", md: "none" },
                             background: "#eef2f5",
                             border: "none",
                             position: "absolute",
@@ -245,44 +213,8 @@ export default function SideNav(props: Props) {
                             right: "1rem",
                         }}
                     >
-                        <IconButton
-                            onClick={() => setShowDateRangePicker(true)}
-                        >
-                            <DateRangeRoundedIcon sx={{ color: "#aaa" }} />
-                        </IconButton>
+                        <GlobalDateSelect />
                     </Box>
-                    <OutlinedInput
-                        sx={{
-                            fontSize: "0.85rem",
-                            background: "#eef2f5",
-                            border: "none",
-                            position: "absolute",
-                            top: "1rem",
-                            right: "1rem",
-                            display: { xs: "none", md: "inline-flex" },
-                        }}
-                        id="dashboard-date-range"
-                        placeholder="Chose date range..."
-                        value={selectedDate}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={() => setShowDateRangePicker(true)}
-                                >
-                                    <DateRangeRoundedIcon
-                                        sx={{ color: "#aaa" }}
-                                    />
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        inputComponent="input"
-                        onClick={() => setShowDateRangePicker(true)}
-                    />
-                    {props.children}
-                    <DateRangePicker
-                        show={showDateRangePicker}
-                        closeHandler={onDateSelect}
-                    />
                 </Box>
             </Box>
         </>

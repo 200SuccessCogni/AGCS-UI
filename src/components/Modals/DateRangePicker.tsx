@@ -41,10 +41,15 @@ export default function DateRangePickerModal(props: IDateRangePicker) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => props.closeHandler(false)}>
+                    <Button
+                        onClick={() => props.closeHandler(false)}
+                        variant="outlined"
+                    >
                         Cancel
                     </Button>
                     <Button
+                        color="black"
+                        variant="contained"
                         onClick={() => props.closeHandler(false, state)}
                         autoFocus
                     >
