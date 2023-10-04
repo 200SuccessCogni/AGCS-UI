@@ -1,7 +1,36 @@
+import { useEffect, useState } from "react";
+import LinearProgressWithLabel from "../components/core/linearProgressWithLabel";
 import LineChart from "../components/charts/LineChart";
-import { Box, Grid, Typography } from "@mui/material";
+import ReviewForm from "../components/review/ReviewForm";
+import useApp from "../store/app.context";
+import { GET } from "../services/api.service";
+
+import { Box, Grid, Typography, Container } from "@mui/material";
 
 function Dashboard() {
+    const [insights, setInsights] = useState([]);
+    const { setLoader } = useApp();
+    const onFilterApply = (data: any) => {
+        // console
+    };
+
+    useEffect(() => {
+        getInsights();
+    }, []);
+
+    const getInsights = async (resortId = "649da3f7953f4d5cdeaff1c1") => {
+        setLoader(true);
+        try {
+            const res = await GET(`/review/reviewStats?resortId=${resortId}`);
+            if (res && res.status === 200) {
+                setInsights(res.data.analytics);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        setLoader(false);
+    };
     const userData1 = {
         labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
         datasets: [
@@ -96,9 +125,172 @@ function Dashboard() {
     return (
         <>
             <Typography variant="h5" fontWeight={500}>
-                Analytics
+                Insights & Analytics
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
+                <Grid item xs={12} md={9}>
+                    <Container
+                        sx={{
+                            backgroundColor: "primary.main",
+                            borderRadius: "1rem",
+                            px: 2,
+                            py: 4,
+                        }}
+                    >
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6}>
+                                <Box
+                                    sx={{
+                                        backgroundColor: "primary.light",
+                                        borderRadius: "1rem",
+                                        p: 2,
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        color="text.contrastText"
+                                    >
+                                        Top Performing Amenity
+                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="h4"
+                                            color="text.contrastText"
+                                            fontWeight={500}
+                                        >
+                                            Food & Drinks
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                backgroundColor:
+                                                    "secondary.dark",
+                                                px: 2,
+                                                py: 1,
+                                                borderRadius: 2,
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="h4"
+                                                color="text"
+                                                fontWeight={500}
+                                            >
+                                                9
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Box
+                                    sx={{
+                                        backgroundColor: "secondary.dark",
+                                        borderRadius: "1rem",
+                                        p: 2,
+                                        height: "100%",
+                                    }}
+                                >
+                                    <Typography variant="caption">
+                                        Low Performing Amenity
+                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="h4"
+                                            color="text"
+                                            fontWeight={500}
+                                        >
+                                            Parking
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                backgroundColor: "primary.main",
+                                                px: 2,
+                                                py: 1,
+                                                borderRadius: 2,
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="h4"
+                                                color="text.contrastText"
+                                                fontWeight={500}
+                                            >
+                                                2
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                    <Box
+                        sx={{
+                            backgroundColor: "secondary.light",
+                            my: 3,
+                        }}
+                    >
+                        {insights &&
+                            insights.map((e: any) => (
+                                <Box
+                                    sx={{
+                                        p: 3,
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    <Grid item xs={5} md={2}>
+                                        <Typography>
+                                            {e._id.toUpperCase()}
+                                        </Typography>
+                                    </Grid>
+                                    <LinearProgressWithLabel count={e.count} />
+                                </Box>
+                            ))}
+                    </Box>
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={3}
+                    sx={{
+                        display: { xs: "none", md: "flex" },
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "secondary.light",
+                            borderRadius: "10px",
+                            p: 3,
+                            width: "100%",
+                        }}
+                    >
+                        <Typography
+                            variant="body1"
+                            gutterBottom
+                            fontWeight={500}
+                        >
+                            Filters
+                        </Typography>
+                        <ReviewForm
+                            sourcesFilter={onFilterApply}
+                            showCategory={false}
+                        />
+                    </Box>
+                </Grid>
+            </Grid>
+            {/* <Grid container spacing={3} sx={{ mt: 0 }}>
                 <Grid item xs={12} md={6}>
                     <Box
                         sx={{
@@ -231,7 +423,7 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </>
     );
 }

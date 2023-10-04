@@ -29,8 +29,8 @@ function FeatureCard(props: IFeatureCard) {
             p={1.5}
             mb={1}
             border="1px solid"
-            width="70%"
             position="relative"
+            sx={{ width: { xs: "100%", md: "70%" } }}
         >
             <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
@@ -111,7 +111,12 @@ function Integrate(props: any) {
                 className="bg-secondary"
                 py={3}
                 px={6}
-                sx={{ flexBasis: "60%", maxWidth: "50%", overflowY: "auto" }}
+                sx={{
+                    flexBasis: { xs: "100%", md: "60%" },
+                    maxWidth: { xs: "100%", md: "50%" },
+                    overflowY: "auto",
+                    backgroundColor: "secondary.light",
+                }}
             >
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box mb={3}>
@@ -185,7 +190,13 @@ function Integrate(props: any) {
                     </Button>
                 </Box>
             </Box>
-            <Box sx={{ flexBasis: "40%", maxWidth: "50%" }}>
+            <Box
+                sx={{
+                    flexBasis: "40%",
+                    maxWidth: "50%",
+                    display: { xs: "none", md: "block" },
+                }}
+            >
                 <Box
                     sx={{
                         mt: "10%",

@@ -301,10 +301,15 @@ function Dashboard() {
                                         }
                                         label={<small>{e.name}</small>}
                                         variant="outlined"
+                                        color={
+                                            e.unfavourable < 50
+                                                ? "success"
+                                                : "error"
+                                        }
                                         sx={{
                                             m: 0.5,
                                             px: 0.5,
-                                            color: "primary.dark",
+                                            // color: "primary.dark",
                                         }}
                                     />
                                 </Tooltip>

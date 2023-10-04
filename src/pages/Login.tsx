@@ -49,9 +49,9 @@ function Login() {
             <Box
                 sx={{
                     background: "#eee",
-                    margin: "2rem",
-                    borderRadius: "1rem",
-                    maxWidth: "30%",
+                    margin: { xs: 0, md: "2rem" },
+                    borderRadius: { xs: 0, md: "1rem" },
+                    maxWidth: { xs: "100%", md: "30%" },
                     p: 5,
                     display: "flex",
                     justifyContent: "space-between",

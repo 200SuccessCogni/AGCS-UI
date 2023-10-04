@@ -5,42 +5,76 @@ import {
     TextField,
     OutlinedInput,
 } from "@mui/material";
+import DragDropFileUpload from "../app/DragDropFileUpload";
 // import { useEffect, useState } from "react";
 
 function Intro2(props: any) {
     return (
-        <Box display="flex" height="100%">
+        <Box display="flex" height="100%" position="relative">
             <Box
                 className="bg-secondary"
                 py={3}
-                px={6}
-                sx={{ flexBasis: "60%", maxWidth: "50%", overflowY: "auto" }}
+                sx={{
+                    flexBasis: { xs: "100%", md: "60%" },
+                    maxWidth: { xs: "100%", md: "50%" },
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                    backgroundColor: "secondary.light",
+                    position: "relative",
+                }}
             >
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Box mb={3}>
-                        <Typography
-                            variant="body2"
-                            fontWeight="bold"
-                            lineHeight={0.9}
-                        >
-                            CFRA
-                        </Typography>
+                <Box
+                    px={4}
+                    sx={{
+                        backgroundColor: "secondary.light",
+                        position: "relative",
+                        zIndex: 10,
+                        pb: 4,
+                        width: "100%",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Box mb={3}>
+                            <Typography
+                                variant="body2"
+                                fontWeight="bold"
+                                lineHeight={0.9}
+                            >
+                                CFRA
+                            </Typography>
+                            <Typography variant="caption" gutterBottom>
+                                Customer Feedback and Review Analysis
+                            </Typography>
+                        </Box>
                         <Typography variant="caption" gutterBottom>
-                            Customer Feedback and Review Analysis
+                            Step 2 of 3
                         </Typography>
                     </Box>
-                    <Typography variant="caption" gutterBottom>
-                        Step 2 of 3
+                    <Typography variant="h6" fontWeight={400}>
+                        One time Integrate
+                    </Typography>
+                    <Typography variant="h4" fontWeight={600}>
+                        Integrate own hotels or resorts
                     </Typography>
                 </Box>
-                <Typography variant="h6" fontWeight={400}>
-                    One time Integrate
-                </Typography>
-                <Typography variant="h4" fontWeight={600}>
-                    Integrate own hotels or resorts
-                </Typography>
 
-                <Box my={3}>
+                <Box
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        mt: "20%",
+                    }}
+                >
+                    <DragDropFileUpload />
+                </Box>
+
+                {/* <Box my={3}>
                     <OutlinedInput
                         id="outlined-basic"
                         label="API url"
@@ -87,8 +121,18 @@ function Intro2(props: any) {
                         }}
                         sx={{ width: "100%", mb: 2 }}
                     />
-                </Box>
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                </Box> */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        position: "absolute",
+                        bottom: "2rem",
+                        right: "2rem",
+                        width: "100%",
+                        zIndex: 10,
+                    }}
+                >
                     <Button
                         variant="outlined"
                         color="black"
@@ -115,7 +159,13 @@ function Intro2(props: any) {
                     </Button>
                 </Box>
             </Box>
-            <Box sx={{ flexBasis: "40%", maxWidth: "50%" }}>
+            <Box
+                sx={{
+                    flexBasis: "40%",
+                    maxWidth: "50%",
+                    display: { xs: "none", md: "block" },
+                }}
+            >
                 <Box
                     sx={{
                         mt: "10%",

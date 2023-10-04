@@ -18,16 +18,24 @@ function FeatureCard(props: IFeatureCard) {
             border="1px solid"
             width="70%"
             position="relative"
+            sx={{ backgroundColor: "secondary.main" }}
         >
-            <Typography variant="body2" fontWeight="bold">
+            <Typography
+                variant="body1"
+                fontWeight="bold"
+                gutterBottom
+                // color="text.contrastText"
+            >
                 {props.title}
             </Typography>
             <Typography
                 variant="caption"
                 gutterBottom
+                // color="text.contrastText"
                 sx={{
                     lineHeight: "120%",
                     display: "inline-block",
+                    mb: 2,
                 }}
             >
                 {props.subtitle}
@@ -58,10 +66,14 @@ function Intro1(props: any) {
     return (
         <Box display="flex" height="100%">
             <Box
-                className="bg-secondary"
                 py={3}
                 px={6}
-                sx={{ flexBasis: "60%", maxWidth: "50%" }}
+                sx={{
+                    flexBasis: "60%",
+                    maxWidth: "50%",
+                    backgroundColor: "secondary.light",
+                    overflowY: "auto",
+                }}
             >
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box mb={3}>
@@ -134,7 +146,13 @@ function Intro1(props: any) {
                     Next
                 </Button>
             </Box>
-            <Box sx={{ flexBasis: "40%", maxWidth: "50%" }}>
+            <Box
+                sx={{
+                    flexBasis: "40%",
+                    maxWidth: "50%",
+                    display: { xs: "none", md: "block" },
+                }}
+            >
                 <Box
                     sx={{
                         mt: "10%",

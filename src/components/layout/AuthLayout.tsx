@@ -17,14 +17,15 @@ import {
     SwipeableDrawer,
     Link as MuiLink,
 } from "@mui/material";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import QueryStatsRoundedIcon from "@mui/icons-material/QueryStatsRounded";
-import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import PolylineRoundedIcon from "@mui/icons-material/PolylineRounded";
+import HomeTwoToneIcon from "@mui/icons-material/HomeTwoTone";
+import QueryStatsTwoToneIcon from "@mui/icons-material/QueryStatsTwoTone";
+import TimelineTwoToneIcon from "@mui/icons-material/TimelineTwoTone";
+// import RecommendTwoToneIcon from "@mui/icons-material/RecommendTwoTone";
+import PolylineTwoToneIcon from "@mui/icons-material/PolylineTwoTone";
+import RecommendTwoToneIcon from "@mui/icons-material/RecommendTwoTone";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useApp from "../../store/app.context";
 import CloseIcon from "@mui/icons-material/Close";
@@ -38,13 +39,21 @@ interface Props {
 const drawerWidth = 260;
 
 const menuList = [
-    { icon: <HomeRoundedIcon />, name: "Dashboard", url: "/" },
-    { icon: <TimelineRoundedIcon />, name: "Reviews", url: "/reviews" },
+    { icon: <HomeTwoToneIcon />, name: "Dashboard", url: "/" },
+    { icon: <TimelineTwoToneIcon />, name: "Reviews", url: "/reviews" },
     { icon: <CompareArrowsIcon />, name: "Comparision", url: "/compare" },
-    { icon: <QueryStatsRoundedIcon />, name: "Analytics", url: "/analytics" },
-    { icon: <DescriptionOutlinedIcon />, name: "Insights", url: "/insights" },
     {
-        icon: <PolylineRoundedIcon />,
+        icon: <QueryStatsTwoToneIcon />,
+        name: "Insights & Analytics",
+        url: "/analytics",
+    },
+    {
+        icon: <RecommendTwoToneIcon />,
+        name: "Recommendations",
+        url: "/recommendations",
+    },
+    {
+        icon: <PolylineTwoToneIcon />,
         name: "Integratation",
         url: "/integration",
     },
@@ -314,7 +323,7 @@ const MenuList = ({
                 <ListItem disablePadding>
                     <ListItemButton sx={{ p: 0.5 }}>
                         <Menutem
-                            icon={<SettingsOutlinedIcon />}
+                            icon={<SettingsTwoToneIcon />}
                             name={"Settings"}
                             url={"/settings"}
                             currentPath={currentPath}
