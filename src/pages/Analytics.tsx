@@ -131,7 +131,7 @@ function Dashboard() {
                 <Grid item xs={12} md={9}>
                     <Container
                         sx={{
-                            backgroundColor: "primary.main",
+                            backgroundColor: "primary.light",
                             borderRadius: "1rem",
                             px: 2,
                             py: 4,
@@ -141,7 +141,7 @@ function Dashboard() {
                             <Grid item xs={12} md={6}>
                                 <Box
                                     sx={{
-                                        backgroundColor: "primary.light",
+                                        backgroundColor: "primary.main",
                                         borderRadius: "1rem",
                                         p: 2,
                                     }}
@@ -237,19 +237,22 @@ function Dashboard() {
                         sx={{
                             backgroundColor: "secondary.light",
                             my: 3,
+                            py: 2,
                         }}
                     >
                         {insights &&
                             insights.map((e: any) => (
                                 <Box
                                     sx={{
-                                        p: 3,
+                                        px: 2,
+                                        py: 1,
                                         display: "flex",
                                         justifyContent: "space-between",
+                                        borderRadius: 2,
                                     }}
                                 >
                                     <Grid item xs={5} md={2}>
-                                        <Typography>
+                                        <Typography variant="body1">
                                             {e._id.toUpperCase()}
                                         </Typography>
                                     </Grid>
@@ -290,7 +293,7 @@ function Dashboard() {
                     </Box>
                 </Grid>
             </Grid>
-            {/* <Grid container spacing={3} sx={{ mt: 0 }}>
+            <Grid container spacing={3} sx={{ mt: 0 }}>
                 <Grid item xs={12} md={6}>
                     <Box
                         sx={{
@@ -423,7 +426,7 @@ function Dashboard() {
                         </Typography>
                     </Box>
                 </Grid>
-            </Grid> */}
+            </Grid>
         </>
     );
 }

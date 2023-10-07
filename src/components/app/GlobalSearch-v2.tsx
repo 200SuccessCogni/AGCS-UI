@@ -14,7 +14,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { styled } from "@mui/system";
+import { GlobalSearchV2PropsType } from "../types/golbalSearch";
+import PlaceIcon from "@mui/icons-material/Place";
 
 const SearchForm = styled("form")({
     alignItems: "center",
@@ -47,7 +50,55 @@ const SearchLabel = styled("label")({
     justifyContent: "center",
 });
 
-function GlobalSearchV2() {
+const SearchItem = ({
+    imgUrl = "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg",
+    name,
+    address,
+}: {
+    imgUrl: string;
+    name: string;
+    address: string;
+}) => {
+    return (
+        <ListItemButton>
+            <Avatar variant="rounded" src={imgUrl}>
+                Hotel
+            </Avatar>
+            <Box px={2}>
+                <Typography variant="body2" fontWeight={500}>
+                    {name}
+                </Typography>
+                <Typography variant="caption">{address}</Typography>
+            </Box>
+        </ListItemButton>
+    );
+};
+
+const SearchHeader = ({
+    headerText,
+    icon,
+}: {
+    headerText: string;
+    icon: React.ReactNode;
+}) => {
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                pl: 2,
+            }}
+        >
+            {icon}
+            <ListSubheader component="div" id="recent-location">
+                {headerText}
+            </ListSubheader>
+        </Box>
+    );
+};
+
+function GlobalSearchV2(props: GlobalSearchV2PropsType) {
     const searchInpRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
     const [searchText, setSearchText] = React.useState("");
@@ -66,13 +117,21 @@ function GlobalSearchV2() {
 
     React.useEffect(() => {
         setTimeout(() => {
-            console.log(searchInpRef.current, open);
             if (open && searchInpRef.current) {
-                console.log("before focus....");
                 searchInpRef.current?.focus();
             }
         }, 500);
     }, [open]);
+
+    const onSearch = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(ev.target.value);
+        props.onChange(ev.target.value);
+    };
+
+    const onClear = () => {
+        setSearchText("");
+        props.onChange("");
+    };
 
     const SearchItem = ({
         imgUrl = "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg",
@@ -107,7 +166,7 @@ function GlobalSearchV2() {
             >
                 <SearchIcon />
                 <Typography variant="body2" sx={{ px: { xs: 1, md: 2 } }}>
-                    Search your resorts...
+                    Search your location...
                 </Typography>
                 <Box sx={{ display: { xs: "none", md: "inline-block" } }}>
                     <kbd>⌘ + k</kbd>
@@ -115,10 +174,11 @@ function GlobalSearchV2() {
             </Button>
             <Dialog
                 open={open}
+                fullWidth
                 onClose={() => setOpen(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                maxWidth={"md"}
+                maxWidth={"sm"}
             >
                 <header>
                     <SearchForm>
@@ -126,9 +186,9 @@ function GlobalSearchV2() {
                             <SearchIcon />
                         </SearchLabel>
                         <SearchInput
-                            placeholder="Search your resorts..."
+                            placeholder="Search your location..."
                             value={searchText}
-                            onChange={(e: any) => setSearchText(e.target.value)}
+                            onChange={onSearch}
                             ref={searchInpRef}
                         />
 
@@ -136,7 +196,7 @@ function GlobalSearchV2() {
                             sx={{
                                 visibility: searchText ? "visible" : "hidden",
                             }}
-                            onClick={() => setSearchText("")}
+                            onClick={onClear}
                         >
                             <CloseIcon />
                         </IconButton>
@@ -144,20 +204,45 @@ function GlobalSearchV2() {
                 </header>
                 <Divider />
                 <DialogContent sx={{ p: 0 }}>
+                    {!!props.searchDataResult.length && (
+                        <List
+                            sx={{
+                                width: "100%",
+                                bgcolor: "background.paper",
+                            }}
+                            component="nav"
+                            aria-labelledby="suggested-location"
+                            subheader={
+                                <SearchHeader
+                                    headerText="Search Results"
+                                    icon={<PlaceIcon />}
+                                />
+                            }
+                        >
+                            {props.searchDataResult.map((e, i) => (
+                                <Box key={i}>
+                                    <SearchItem
+                                        imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
+                                        name="Club Wyndham Bonnet Greek"
+                                        address="Orlando, Florida, USA"
+                                    />
+                                    <Divider />
+                                </Box>
+                            ))}
+                        </List>
+                    )}
                     <List
                         sx={{
                             width: "100%",
                             bgcolor: "background.paper",
                         }}
                         component="nav"
-                        aria-labelledby="suggested-resort"
+                        aria-labelledby="recent-location"
                         subheader={
-                            <ListSubheader
-                                component="div"
-                                id="suggested-resort"
-                            >
-                                Suggested
-                            </ListSubheader>
+                            <SearchHeader
+                                headerText="Recent"
+                                icon={<AccessTimeIcon />}
+                            />
                         }
                     >
                         <SearchItem
@@ -165,20 +250,11 @@ function GlobalSearchV2() {
                             name="Club Wyndham Bonnet Greek"
                             address="Orlando, Florida, USA"
                         />
+                        <Divider />
                         <SearchItem
                             imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                            name="Club Wyndham Bonnet Greek"
-                            address="Orlando, Florida, USA"
-                        />
-                        <SearchItem
-                            imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                            name="Club Wyndham Bonnet Greek"
-                            address="Orlando, Florida, USA"
-                        />
-                        <SearchItem
-                            imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                            name="Club Wyndham Bonnet Greek"
-                            address="Orlando, Florida, USA"
+                            name="Club Wyndham Grand Desert"
+                            address="Las Vegas, NV 89169, United States"
                         />
                     </List>
                 </DialogContent>

@@ -9,6 +9,8 @@ import "../../App.css";
 import dayjs from "dayjs";
 import useApp from "../../store/app.context";
 import DateRangeRoundedIcon from "@mui/icons-material/DateRangeRounded";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function setInitialDateRange() {
     const dateRange = {
@@ -31,6 +33,8 @@ function GlobalDateSelect() {
             key: "selection",
         },
     ]);
+    const theme = useTheme();
+    const isLargeDevice = useMediaQuery("(min-width:600px)");
 
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -97,7 +101,8 @@ function GlobalDateSelect() {
                         moveRangeOnFirstSelection={false}
                         months={2}
                         ranges={state}
-                        direction="horizontal"
+                        direction={isLargeDevice ? "horizontal" : "vertical"}
+                        rangeColors={[theme.palette.primary.main]}
                     />
                 </DialogContent>
                 <DialogActions>

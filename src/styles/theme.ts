@@ -42,7 +42,7 @@ const palette: ExtendedPaletteOptions = {
         light: "#0C766F",
     },
     secondary: {
-        main: "#FAF7EA",
+        main: "#f4f1e3",
         light: "#FFFCF1",
         dark: "#FFD681",
         darker: "#FFD681",

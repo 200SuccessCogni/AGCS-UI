@@ -1,11 +1,9 @@
+import { LinearProgressWithLabelProps } from "@/components/types/linearProgressWithLabel";
 import { Grid, LinearProgress, Typography } from "@mui/material";
 
-interface Iprops {
-    children?: React.ReactNode;
-    count: number;
-}
-
-export default function LinearProgressWithLabel(props: Iprops) {
+export default function LinearProgressWithLabel(
+    props: LinearProgressWithLabelProps
+) {
     return (
         <>
             <Grid item xs={6} md={9} sx={{ mt: "10px", ml: 2 }}>

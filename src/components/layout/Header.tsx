@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     Box,
     AppBar,
@@ -14,11 +14,30 @@ import NotificationsPopover from "../popover/Notifications";
 import GlobalSearch from "../app/GlobalSearch";
 import useApp from "../../store/app.context";
 import GlobalSearchV2 from "../app/GlobalSearch-v2";
+import { GET } from "../../services/api.service";
+import { IResort } from "../../interfaces/resort.interface";
 
 const drawerWidth = 260;
 
 function Header(props: any) {
-    const { user = { name: "" } } = useApp();
+    const [selectedResort, setSelectedResort] = useState("");
+    const {
+        resortList,
+        setResort,
+        setSelectedLocation,
+        user = { name: "" },
+    } = useApp();
+
+    useEffect(() => {
+        getALlResort();
+    }, []);
+
+    const onResortChange = (value: any) => {
+        const reosort = resortList.find(
+            (r) => r.resortName.toLowerCase() === value.toLowerCase()
+        );
+        setSelectedLocation(reosort);
+    };
 
     // notification popover
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -29,6 +48,37 @@ function Header(props: any) {
         setAnchorEl(null);
     };
     const open = Boolean(anchorEl);
+
+    const getALlResort = useCallback(async () => {
+        try {
+            const res = await GET("resort/getAllResort");
+            if (
+                res &&
+                res?.data &&
+                res.data?.data &&
+                Array.isArray(res.data.data)
+            ) {
+                const resorts: IResort[] = res.data.data.map((r: any) => ({
+                    address: r.address,
+                    city: r.city,
+                    country: r.country,
+                    organization: r.organization,
+                    resortName: r.resortName,
+                    state: r.state,
+                    userId: r.userId,
+                    id: r._id,
+                }));
+
+                if (resorts && resorts.length) {
+                    setResort(resorts);
+                    setSelectedResort(resorts[0].resortName);
+                    setSelectedLocation(resorts[0]);
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
 
     return (
         <AppBar
@@ -72,7 +122,11 @@ function Header(props: any) {
                     {/* <MenuIcon /> */}
                 </IconButton>
 
-                <GlobalSearchV2 />
+                <GlobalSearchV2
+                    searchDataResult={resortList || []}
+                    onChange={onResortChange}
+                    onSelect={onResortChange}
+                />
                 {/* <GlobalSearch /> */}
                 <Box
                     sx={{

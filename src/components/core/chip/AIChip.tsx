@@ -1,4 +1,3 @@
-import React from "react";
 import { Chip, Typography } from "@mui/material";
 
 function AIChip() {

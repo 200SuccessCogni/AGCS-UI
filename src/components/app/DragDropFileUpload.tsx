@@ -71,6 +71,7 @@ const DropContent = styled(Box)(({ theme }) => ({
     borderRadius: "50%",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.text.contrastText,
+    cursor: "pointer",
 }));
 
 function DragDropFileUpload() {
