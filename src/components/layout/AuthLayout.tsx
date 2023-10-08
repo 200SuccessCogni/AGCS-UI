@@ -49,8 +49,8 @@ const menuList = [
     },
     {
         icon: <RecommendTwoToneIcon />,
-        name: "Recommendations",
-        url: "/recommendations",
+        name: "Recommendation",
+        url: "/recommendation",
     },
     {
         icon: <PolylineTwoToneIcon />,

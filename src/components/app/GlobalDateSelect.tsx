@@ -96,6 +96,7 @@ function GlobalDateSelect() {
                 </DialogTitle>
                 <DialogContent>
                     <DateRangePicker
+                        className="global-date-range-selector"
                         onChange={(item: any) => setState([item.selection])}
                         // showSelectionPreview={true}
                         moveRangeOnFirstSelection={false}
@@ -106,7 +107,11 @@ function GlobalDateSelect() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)} variant="outlined">
+                    <Button
+                        color="black"
+                        onClick={() => setOpen(false)}
+                        variant="outlined"
+                    >
                         Cancel
                     </Button>
                     <Button

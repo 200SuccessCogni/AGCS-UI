@@ -21,6 +21,8 @@ const Integration = lazy(() => import("./pages/Integration"));
 const Intro = lazy(() => import("./pages/Intro"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
+const Recommendation = lazy(() => import("./pages/Recommendation"));
+const Compare = lazy(() => import("./pages/Compare"));
 
 function layoutWrapper(component: ReactElement) {
     return <AuthLayout>{component}</AuthLayout>;
@@ -53,8 +55,12 @@ function App() {
                         element={withAuthInterceptor(<Analytics />)}
                     />
                     <Route
-                        path="/insights"
-                        element={withAuthInterceptor(<Insights />)}
+                        path="/recommendation"
+                        element={withAuthInterceptor(<Recommendation />)}
+                    />
+                    <Route
+                        path="/compare"
+                        element={withAuthInterceptor(<Compare />)}
                     />
                     <Route
                         path="/integration"
