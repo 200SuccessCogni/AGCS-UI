@@ -253,11 +253,10 @@ const MenuList = ({
                 <ListItemIcon
                     sx={{
                         justifyContent: "center",
-                        color: `${
-                            currentPath === url
+                        color: `${currentPath === url
                                 ? "primary.main"
                                 : "text.primary"
-                        }`,
+                            }`,
                     }}
                 >
                     {icon}
@@ -283,7 +282,10 @@ const MenuList = ({
     };
 
     return (
-        <Box p={2}>
+        <Box p={2} sx={{
+            display: "flex",
+            flexDirection: "column", height: "100%"
+        }}>
             <List>
                 {menuList.slice(0, 3).map((e) => {
                     return (
@@ -319,7 +321,7 @@ const MenuList = ({
                     </Link>
                 ))}
             </List>
-            <Box sx={{ position: "absolute", bottom: 0, py: 2 }}>
+            <Box sx={{ mt: "auto", py: 2, width: "100%" }}>
                 <ListItem disablePadding>
                     <ListItemButton sx={{ p: 0.5 }}>
                         <Menutem
