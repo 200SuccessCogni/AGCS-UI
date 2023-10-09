@@ -54,7 +54,7 @@ const menuList = [
     },
     {
         icon: <PolylineTwoToneIcon />,
-        name: "Integratation",
+        name: "Integration",
         url: "/integration",
     },
 ];
@@ -254,8 +254,8 @@ const MenuList = ({
                     sx={{
                         justifyContent: "center",
                         color: `${currentPath === url
-                                ? "primary.main"
-                                : "text.primary"
+                            ? "primary.main"
+                            : "text.primary"
                             }`,
                     }}
                 >
@@ -322,16 +322,18 @@ const MenuList = ({
                 ))}
             </List>
             <Box sx={{ mt: "auto", py: 2, width: "100%" }}>
-                <ListItem disablePadding>
-                    <ListItemButton sx={{ p: 0.5 }}>
-                        <Menutem
-                            icon={<SettingsTwoToneIcon />}
-                            name={"Settings"}
-                            url={"/settings"}
-                            currentPath={currentPath}
-                        />
-                    </ListItemButton>
-                </ListItem>
+                <Link to={"/settings"}>
+                    <ListItem disablePadding>
+                        <ListItemButton sx={{ p: 0.5 }}>
+                            <Menutem
+                                icon={<SettingsTwoToneIcon />}
+                                name={"Settings"}
+                                url={"/settings"}
+                                currentPath={currentPath}
+                            />
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
                 <ListItem disablePadding>
                     <ListItemButton sx={{ p: 0.5 }} onClick={() => logout()}>
                         <Menutem
