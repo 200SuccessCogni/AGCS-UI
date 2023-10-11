@@ -9,11 +9,13 @@ export interface IReviewItem {
     date: string;
     desc?: string;
     isActioned?: boolean;
+    locationId: string;
+    locationName: string;
     isSeen?: boolean;
     rating?: number;
     replyMessage?: string;
-    resortId: string;
-    resortName: string;
+    // resortId: string;
+    // resortName: string;
     sentimentMagnitude?: number;
     sentimentScore?: number;
     source: string;

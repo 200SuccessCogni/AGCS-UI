@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -6,11 +6,30 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IReplyModal } from "@/interfaces/modal.interface";
 import { Typography, TextField, Box, Rating } from "@mui/material";
+import { POST } from "../../services/api.service";
+import useApp from "../../store/app.context";
 
 export default function ReplyModal(props: IReplyModal) {
-    const [message, setMessage] = useState(
-        "We are thrilled to hear you love your vacation at Club Wyndham Bonnet Creek. We look forward to welcoming you back soon. Thank you!"
-    );
+    const { setLoader } = useApp();
+    const [message, setMessage] = useState("");
+
+    const getReplyMsg = useCallback(async () => {
+        const url = "/gen/reply";
+        setLoader(true);
+        try {
+            const res = await POST(url, { content: props.description });
+            if (res && res.status === 200) {
+                setMessage(res?.data.data);
+            }
+            setLoader(false);
+        } catch (err) {
+            setLoader(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        getReplyMsg();
+    }, []);
 
     return (
         <div>
@@ -58,7 +77,12 @@ export default function ReplyModal(props: IReplyModal) {
                     <Button onClick={() => props.closeHandler(false)}>
                         Cancel
                     </Button>
-                    <Button onClick={() => props.closeHandler(false)} autoFocus>
+                    <Button
+                        onClick={() => props.closeHandler(false)}
+                        color="black"
+                        variant="contained"
+                        autoFocus
+                    >
                         Post
                     </Button>
                 </DialogActions>

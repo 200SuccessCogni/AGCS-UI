@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GET } from "../services/api.service";
 import dayjs from "dayjs";
 import AIChip from "../components/core/chip/AIChip";
+import { IReviewItem } from "@/interfaces/review.interface";
 
 const insights = [
     {
@@ -89,32 +90,74 @@ function StatCard(props: ICountCard) {
 }
 
 function Dashboard() {
-    const { setLoader, selectedLocation, loader } = useApp();
+    const { setLoader, selectedLocation, loader, setALLReviews, allReviews } =
+        useApp();
     const navigate = useNavigate();
     const [reviews, setReviews] = useState([]);
     const [posReview, setPosReview] = useState(0);
     const [negReview, setNegReview] = useState(0);
+    const [neuReview, setNeuReview] = useState(0);
+    const [mixReview, setMixReview] = useState(0);
 
     useEffect(() => {
-        console.log({ selectedLocation });
-        if (selectedLocation) getReviews(selectedLocation.id);
-        else getReviews();
+        getInsightsAndAnalytics();
+        getAllReviews();
+        // console.log({ selectedLocation });
+        // if (selectedLocation) getReviews(selectedLocation.id);
+        // else getReviews();
     }, [selectedLocation]);
 
-    const getReviews = async (resortId = "649da34e953f4d5cdeaff1bb") => {
+    const getAllReviews = useCallback(async () => {
         setLoader(true);
         try {
-            const res = await GET(`/review/getall?resortId=${resortId}`);
+            const res = await GET(
+                "/review/getall?businessId=65227a4fd7a294d9ee6f18a6&locationId=65227ab4d7a294d9ee6f18db"
+            );
             if (res && res.status === 200) {
-                setPosReview(
-                    res.data.data.filter((e: any) => e.category === "positive")
-                        .length
+                const allReviews: IReviewItem[] = res.data.data.map(
+                    (e: any) => ({
+                        ...e,
+                        id: e._id,
+                    })
                 );
-                setNegReview(
-                    res.data.data.filter((e: any) => e.category === "negative")
-                        .length
-                );
-                setReviews(res.data.data);
+                setALLReviews(allReviews);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        setLoader(false);
+    }, []);
+
+    const getInsightsAndAnalytics = async (
+        businessId = "65227a4fd7a294d9ee6f18a6",
+        locationId = "65227ab4d7a294d9ee6f18db"
+    ) => {
+        setLoader(true);
+        try {
+            const res = await GET(
+                `/review/getinsightAnalytics?businessId=${businessId}&locationId=${locationId}`
+            );
+            if (res && res.status === 200) {
+                if (res.data.categories && res.data.categories.length) {
+                    res.data.categories.map((e: any) => {
+                        switch (e._id) {
+                            case "negative":
+                                setNegReview(e.count);
+                                break;
+                            case "positive":
+                                setPosReview(e.count);
+                                break;
+                            case "neutral":
+                                setNeuReview(e.count);
+                                break;
+                            default:
+                                setMixReview(e.count);
+                                break;
+                        }
+                    });
+                }
+                // setReviews(res.data.data);
             }
         } catch (err) {
             console.log(err);
@@ -177,8 +220,8 @@ function Dashboard() {
                     <Grid container spacing={3}>
                         <Grid item xs={6} md={3}>
                             <StatCard
-                                count={0}
-                                label="New Reviews"
+                                count={neuReview}
+                                label="Neutral Reviews"
                                 backgroundColor="rgb(178 226 254 / 50%)"
                             />
                         </Grid>
@@ -197,10 +240,7 @@ function Dashboard() {
                             />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <StatCard
-                                count={reviews.length}
-                                label="Total Reviews"
-                            />
+                            <StatCard count={mixReview} label="Mixed Reviews" />
                         </Grid>
                     </Grid>
                     <Box
@@ -222,16 +262,20 @@ function Dashboard() {
                                 See All
                             </Button>
                         </Box>
-                        {!!reviews.length &&
-                            reviews.map((r: any) => (
-                                <ReviewItem
-                                    key={r.id}
-                                    {...r}
-                                    date={dayjs(r.date).format("DD/MM/YYYY")}
-                                    listView="false"
-                                />
-                            ))}
-                        {reviews && !reviews.length && !loader && (
+                        {!!allReviews.length &&
+                            allReviews
+                                .slice(0, 5)
+                                .map((r: any) => (
+                                    <ReviewItem
+                                        key={r.id}
+                                        {...r}
+                                        date={dayjs(r.date).format(
+                                            "DD/MM/YYYY"
+                                        )}
+                                        listView="false"
+                                    />
+                                ))}
+                        {allReviews && !allReviews.length && !loader && (
                             <Typography variant="body2">
                                 No records found
                             </Typography>

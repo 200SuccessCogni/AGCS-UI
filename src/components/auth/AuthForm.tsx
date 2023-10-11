@@ -9,8 +9,8 @@ interface IAuthForm {
 }
 
 function AuthForm(props: IAuthForm) {
-    const [email, setEmail] = useState("user1@email.com");
-    const [password, setPassword] = useState("Test@123");
+    const [email, setEmail] = useState("admin@mcdonalds.com");
+    const [password, setPassword] = useState("Admin@123");
     const [errMsg, setErrMsg] = useState("");
 
     const onSubmitHandler = () => {

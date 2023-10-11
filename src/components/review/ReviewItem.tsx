@@ -5,16 +5,18 @@ import {
     Rating,
     IconButton,
     Chip,
+    Tooltip,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ShareIcon from "@mui/icons-material/Share";
 import { IReviewItem } from "../../interfaces/review.interface";
-import { format } from "date-fns";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
 interface IReviewItemProps extends IReviewItem {
     listView: boolean;
     onReply: (data: any) => void;
+    onRecommend: (data: any) => void;
 }
 
 const ReviewWrapper: any = styled(Box)(({ theme }) =>
@@ -92,8 +94,10 @@ export default function ReviewItem(props: IReviewItemProps) {
                             variant="caption"
                             component="p"
                             fontWeight="600"
+                            lineHeight={1.1}
+                            gutterBottom
                         >
-                            {props.resortName}
+                            {props.locationName}
                         </Typography>
                         <Typography
                             variant="caption"
@@ -186,7 +190,8 @@ export default function ReviewItem(props: IReviewItemProps) {
                         component="p"
                         sx={{ color: "#777", px: 1, lineHeight: 2 }}
                     >
-                        {props.date}
+                        {props.date && props.date.split("T")[0]}
+                        {/* {dayjs(props.date).format("DD/MM/YYYY")} */}
                         {/* {format(new Date(props.date), "MMM-dd-yyyy")} */}
                     </Typography>
                     <Chip
@@ -220,6 +225,16 @@ export default function ReviewItem(props: IReviewItemProps) {
                             >
                                 <ReplyIcon fontSize="small" />
                             </IconButton>
+                            {props.category === "negative" && (
+                                <Tooltip title="AI Recommendation">
+                                    <IconButton
+                                        size="small"
+                                        onClick={() => props.onRecommend(props)}
+                                    >
+                                        <AutoFixHighIcon fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
                             <IconButton size="small" onClick={share}>
                                 <ShareIcon fontSize="small" />
                             </IconButton>

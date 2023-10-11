@@ -7,7 +7,8 @@ import useApp from "../store/app.context";
 import ReviewForm from "../components/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 
-import ComparisonCard from '../components/Comparison/ComparisonCard';
+import ComparisonCard from "../components/comparison/ComparisonCard";
+import UnderConstruction from "../components/app/UnderConstruction";
 
 function Comparison() {
     const userData2 = {
@@ -76,7 +77,6 @@ function Comparison() {
     const [filterReviews, setFilterReviews] = useState<IReviewItem[] | null>(
         null
     );
-   
 
     const onFilterApply = (filterData: any) => {
         console.log({ filterData });
@@ -125,13 +125,10 @@ function Comparison() {
 
     return (
         <>
-          
-            <Grid container spacing={3} sx={{ mt: 0 }}>
-              
+            <UnderConstruction />
+            {/* <Grid container spacing={3} sx={{ mt: 0 }}>
                 <Grid item md={9}>
-                    <Box
-                        sx={{ background: "#fff", borderRadius: "10px" }}
-                    >
+                    <Box sx={{ background: "#fff", borderRadius: "10px" }}>
                         <Box
                             sx={{
                                 background: "#fff",
@@ -148,7 +145,6 @@ function Comparison() {
                                 <Grid item xs={6}>
                                     <ComparisonCard />
                                 </Grid>
-                              
                             </Grid>
                         </Box>
                     </Box>
@@ -187,7 +183,6 @@ function Comparison() {
             </Grid>
 
             <Grid container spacing={3} sx={{ mt: 0 }}>
-                
                 <Grid item md={6}>
                     <Box
                         sx={{
@@ -199,9 +194,15 @@ function Comparison() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData2} options={options} />
+                            <LineChart
+                                chartData={userData2}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Activities
                         </Typography>
                     </Box>
@@ -217,9 +218,15 @@ function Comparison() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData3} options={options} />
+                            <LineChart
+                                chartData={userData3}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Comfort
                         </Typography>
                     </Box>
@@ -235,9 +242,15 @@ function Comparison() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData2} options={options} />
+                            <LineChart
+                                chartData={userData2}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Activities
                         </Typography>
                     </Box>
@@ -253,16 +266,20 @@ function Comparison() {
                         }}
                     >
                         <Box px={10}>
-                            <LineChart chartData={userData3} options={options} />
+                            <LineChart
+                                chartData={userData3}
+                                options={options}
+                            />
                         </Box>
-                        <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ textAlign: "center" }}
+                        >
                             Comfort
                         </Typography>
                     </Box>
                 </Grid>
-               
-               
-            </Grid>
+            </Grid> */}
         </>
     );
 }

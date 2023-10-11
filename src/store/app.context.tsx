@@ -9,12 +9,14 @@ const initAppData: IApp = {
     user: null,
     resortList: [],
     selectedDateRange: null,
-    selectedLocation: {},
+    selectedLocation: null,
+    allReviews: [],
     setSelectedDateRange: (data: any) => undefined,
-    setSelectedLocation: (data: any) => undefined,
+    setSelectedLocation: (data: IResort) => undefined,
     setLoader: (data: boolean) => undefined,
     setUser: (data: any) => undefined,
     setResort: (data: IResort[]) => undefined,
+    setALLReviews: (data: any[]) => undefined,
 };
 
 const appReducer = (prevState: any, action: any) => {
@@ -28,6 +30,8 @@ const appReducer = (prevState: any, action: any) => {
         return { ...prevState, resortList: action.data };
     } else if (action.type === "SET_USER") {
         return { ...prevState, user: action.data };
+    } else if (action.type === "SET_ALL_REVIEWS") {
+        return { ...prevState, allReviews: action.data };
     } else return initAppData;
 };
 
@@ -57,6 +61,10 @@ export const AppContextProvidor = (props: any) => {
         appDispatch({ type: "SET_RESORT", data });
     };
 
+    const setALLReviews = (data: any[]) => {
+        appDispatch({ type: "SET_ALL_REVIEWS", data });
+    };
+
     const reset = () => {
         appDispatch({
             type: "RESET",
@@ -76,6 +84,7 @@ export const AppContextProvidor = (props: any) => {
                 setUser,
                 setResort,
                 reset,
+                setALLReviews,
             }}
         >
             {props.children}

@@ -20,16 +20,16 @@ import { IResort } from "../../interfaces/resort.interface";
 const drawerWidth = 260;
 
 function Header(props: any) {
-    const [selectedResort, setSelectedResort] = useState("");
     const {
         resortList,
         setResort,
         setSelectedLocation,
         user = { name: "" },
+        selectedLocation,
     } = useApp();
 
     useEffect(() => {
-        getALlResort();
+        getAllLocations();
     }, []);
 
     const onResortChange = (value: any) => {
@@ -49,9 +49,12 @@ function Header(props: any) {
     };
     const open = Boolean(anchorEl);
 
-    const getALlResort = useCallback(async () => {
+    const getAllLocations = useCallback(async () => {
         try {
-            const res = await GET("resort/getAllResort");
+            const res = await GET(
+                "/location/getAll?businessId=65227a4fd7a294d9ee6f18a6"
+            );
+
             if (
                 res &&
                 res?.data &&
@@ -59,19 +62,18 @@ function Header(props: any) {
                 Array.isArray(res.data.data)
             ) {
                 const resorts: IResort[] = res.data.data.map((r: any) => ({
-                    address: r.address,
+                    id: r._id,
+                    businessId: r.businessId,
+                    locationName: r.locationName,
+                    locationAddress: r.address,
                     city: r.city,
                     country: r.country,
-                    organization: r.organization,
-                    resortName: r.resortName,
                     state: r.state,
-                    userId: r.userId,
-                    id: r._id,
+                    organization: r.organization,
                 }));
 
                 if (resorts && resorts.length) {
                     setResort(resorts);
-                    setSelectedResort(resorts[0].resortName);
                     setSelectedLocation(resorts[0]);
                 }
             }
@@ -126,6 +128,7 @@ function Header(props: any) {
                     searchDataResult={resortList || []}
                     onChange={onResortChange}
                     onSelect={onResortChange}
+                    selectedLocation={selectedLocation}
                 />
                 {/* <GlobalSearch /> */}
                 <Box

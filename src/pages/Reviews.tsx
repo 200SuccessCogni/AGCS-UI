@@ -8,18 +8,31 @@ import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
 import ReplyModal from "../components/modals/ReplyModal";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import RecommendModal from "../components/modals/RecommendModal";
+import DateRangeRounded from "@mui/icons-material/DateRangeRounded";
 
 function Reviews() {
-    const { setLoader, loader } = useApp();
+    const { setLoader, loader, allReviews } = useApp();
     const [reviews, setReviews] = useState<IReviewItem[] | null>(null);
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
     const [filterReviews, setFilterReviews] = useState<IReviewItem[] | null>(
         null
     );
-    const [selectedReview, setSlectedReview] = useState<IReviewItem | null>(
+    const [selectedReview, setSelectedReview] = useState<IReviewItem | null>(
         null
     );
+    const [showRecModal, setShowRecModal] = useState(false);
+    const [recommendedTxt, setRecommendedTxt] = useState("");
     // const isSmallDevice = useMediaQuery("(max-width: 0px)");
+
+    useEffect(() => {
+        setReviews(allReviews);
+    }, [allReviews]);
+
+    const onRecommend = (data: any) => {
+        setRecommendedTxt(data.desc);
+        setShowRecModal(true);
+    };
 
     const onFilterApply = (filterData: any) => {
         console.log({ filterData });
@@ -66,32 +79,6 @@ function Reviews() {
         }
     };
 
-    useEffect(() => {
-        getReviews();
-    }, []);
-
-    const getReviews = useCallback(async () => {
-        setLoader(true);
-        try {
-            const res = await GET(
-                "/review/getall?resortId=649da34e953f4d5cdeaff1bb"
-            );
-            if (res && res.status === 200) {
-                const allReviews: IReviewItem[] = res.data.data.map(
-                    (e: any) => ({
-                        ...e,
-                        id: e._id,
-                    })
-                );
-                setReviews(allReviews);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        setLoader(false);
-    }, []);
-
     return (
         <>
             <Typography variant="h5" fontWeight={500}>
@@ -120,7 +107,8 @@ function Reviews() {
                                 <ReviewItem
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
-                                    onReply={(data) => setSlectedReview(data)}
+                                    onReply={(data) => setSelectedReview(data)}
+                                    onRecommend={(data) => onRecommend(data)}
                                     listView={false}
                                     {...r}
                                 />
@@ -132,7 +120,8 @@ function Reviews() {
                                 <ReviewItem
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
-                                    onReply={(data) => setSlectedReview(data)}
+                                    onReply={(data) => setSelectedReview(data)}
+                                    onRecommend={(data) => onRecommend(data)}
                                     listView={false}
                                     {...r}
                                 />
@@ -183,10 +172,16 @@ function Reviews() {
                     title={selectedReview.title}
                     description={selectedReview.desc}
                     show={!!selectedReview}
-                    closeHandler={() => setSlectedReview(null)}
+                    closeHandler={() => setSelectedReview(null)}
                     rating={selectedReview.rating}
                 />
             )}
+
+            <RecommendModal
+                reviewText={recommendedTxt}
+                show={showRecModal}
+                closeHandler={() => setShowRecModal(false)}
+            />
         </>
     );
 }

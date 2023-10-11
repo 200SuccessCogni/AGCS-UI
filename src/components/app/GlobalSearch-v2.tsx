@@ -16,7 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { styled } from "@mui/system";
-import { GlobalSearchV2PropsType } from "../types/golbalSearch";
+import { GlobalSearchV2PropsType, SearchDataType } from "../types/golbalSearch";
 import PlaceIcon from "@mui/icons-material/Place";
 
 const SearchForm = styled("form")({
@@ -102,6 +102,8 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
     const searchInpRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
     const [searchText, setSearchText] = React.useState("");
+    const [prevSearchItems, setPrevSearchItems] = React.useState([]);
+    // const [selectedLocation, setSelectedLocation] = React.useState(null);
 
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -133,17 +135,34 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
         props.onChange("");
     };
 
+    const onItemClick = (item: SearchDataType) => {
+        console.log("here....");
+        const prevItems = localStorage.getItem("prevSearchItems");
+        const parsedPrevItems = (prevItems && JSON.parse(prevItems)) || [];
+
+        if (parsedPrevItems.length) parsedPrevItems.push(item);
+
+        localStorage.setItem(
+            "prevSearchItems",
+            JSON.stringify(parsedPrevItems)
+        );
+        setPrevSearchItems(parsedPrevItems);
+        setOpen(false);
+    };
+
     const SearchItem = ({
         imgUrl = "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg",
         name,
         address,
+        onClick,
     }: {
         imgUrl: string;
         name: string;
         address: string;
+        onClick: () => void;
     }) => {
         return (
-            <ListItemButton>
+            <ListItemButton onClick={() => onClick()}>
                 <Avatar variant="rounded" src={imgUrl}>
                     Hotel
                 </Avatar>
@@ -166,7 +185,8 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
             >
                 <SearchIcon />
                 <Typography variant="body2" sx={{ px: { xs: 1, md: 2 } }}>
-                    Search your location...
+                    {props.selectedLocation?.locationName ||
+                        "Search your location..."}
                 </Typography>
                 <Box sx={{ display: { xs: "none", md: "inline-block" } }}>
                     <kbd>⌘ + k</kbd>
@@ -219,16 +239,22 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
                                 />
                             }
                         >
-                            {props.searchDataResult.map((e, i) => (
-                                <Box key={i}>
-                                    <SearchItem
-                                        imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                                        name="Club Wyndham Bonnet Greek"
-                                        address="Orlando, Florida, USA"
-                                    />
-                                    <Divider />
-                                </Box>
-                            ))}
+                            {props.searchDataResult.map(
+                                (e: SearchDataType, i) => (
+                                    <Box key={i}>
+                                        <SearchItem
+                                            imgUrl={
+                                                e.locationImg ||
+                                                "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
+                                            }
+                                            name={e.locationName}
+                                            address={e.locationAddress}
+                                            onClick={() => onItemClick(e)}
+                                        />
+                                        <Divider />
+                                    </Box>
+                                )
+                            )}
                         </List>
                     )}
                     <List
@@ -245,17 +271,31 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
                             />
                         }
                     >
-                        <SearchItem
-                            imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                            name="Club Wyndham Bonnet Greek"
-                            address="Orlando, Florida, USA"
-                        />
-                        <Divider />
-                        <SearchItem
-                            imgUrl="https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                            name="Club Wyndham Grand Desert"
-                            address="Las Vegas, NV 89169, United States"
-                        />
+                        {!!prevSearchItems.length &&
+                            prevSearchItems.map((e: SearchDataType, i) => (
+                                <Box key={i}>
+                                    <SearchItem
+                                        imgUrl={
+                                            e.locationImg ||
+                                            "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
+                                        }
+                                        name={e.locationName}
+                                        address={e.locationAddress}
+                                        onClick={() => onItemClick(e)}
+                                    />
+                                    <Divider />
+                                </Box>
+                            ))}
+
+                        {!prevSearchItems.length && (
+                            <Typography
+                                variant="body1"
+                                align="center"
+                                gutterBottom
+                            >
+                                No recent serach found.
+                            </Typography>
+                        )}
                     </List>
                 </DialogContent>
             </Dialog>
