@@ -15,7 +15,7 @@ interface IRecModal {
 }
 
 function RecommendModal(props: IRecModal) {
-    const { setLoader } = useApp();
+    const { setLoader, loader } = useApp();
     const [message, setMessage] = useState("");
 
     const getRecommendation = useCallback(async () => {
@@ -55,7 +55,9 @@ function RecommendModal(props: IRecModal) {
                     AI Recommendation
                 </DialogTitle>
                 <DialogContent>
-                    <Typography variant="body2">{message}</Typography>
+                    <Typography variant="body2">
+                        {loader ? "Please wait..." : message}
+                    </Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button

@@ -10,7 +10,7 @@ import { POST } from "../../services/api.service";
 import useApp from "../../store/app.context";
 
 export default function ReplyModal(props: IReplyModal) {
-    const { setLoader } = useApp();
+    const { setLoader, loader } = useApp();
     const [message, setMessage] = useState("");
 
     const getReplyMsg = useCallback(async () => {
@@ -42,6 +42,9 @@ export default function ReplyModal(props: IReplyModal) {
             >
                 <DialogTitle id="alert-dialog-title">Reply Message</DialogTitle>
                 <DialogContent>
+                    {!!loader && (
+                        <Typography variant="body2">Please wait...</Typography>
+                    )}
                     <Box
                         sx={{
                             display: "flex",
