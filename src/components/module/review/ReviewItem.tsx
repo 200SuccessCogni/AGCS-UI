@@ -13,6 +13,7 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import ShareIcon from "@mui/icons-material/Share";
 import { IReviewItem } from "../../../interfaces/review.interface";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import ReadMore from "../../core/readmore";
 
 interface IReviewItemProps extends IReviewItem {
     listView: boolean;
@@ -277,7 +278,7 @@ export default function ReviewItem(props: IReviewItemProps) {
                     component="p"
                     sx={{ color: "#777", lineHeight: "140%", mt: 1 }}
                 >
-                    {props.desc}
+                    <ReadMore>{`${props.desc}`}</ReadMore>
                 </Typography>
             </Box>
         </ReviewWrapper>
