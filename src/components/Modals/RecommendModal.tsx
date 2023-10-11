@@ -34,11 +34,11 @@ function RecommendModal(props: IRecModal) {
         } catch (err) {
             setLoader(false);
         }
-    }, []);
+    }, [props.reviewText]);
 
     useEffect(() => {
         getRecommendation();
-    }, []);
+    }, [props.reviewText]);
 
     return (
         <div>
