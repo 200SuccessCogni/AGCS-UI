@@ -1,7 +1,7 @@
 import ReviewItem from "../components/review/ReviewItem";
 import { GET } from "../services/api.service";
 import { Grid, Typography, Box } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import useApp from "../store/app.context";
 import ReviewForm from "../components/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
@@ -22,16 +22,20 @@ function Reviews() {
         null
     );
     const [showRecModal, setShowRecModal] = useState(false);
-    const [recommendedTxt, setRecommendedTxt] = useState("");
+    const recommendedTxt = useRef("");
     // const isSmallDevice = useMediaQuery("(max-width: 0px)");
 
     useEffect(() => {
-        setReviews(allReviews);
+        setReviews(allReviews.slice(0, 50));
     }, [allReviews]);
 
     const onRecommend = (data: any) => {
-        setRecommendedTxt(data.desc);
-        setShowRecModal(true);
+        recommendedTxt.current = data.desc;
+        console.log(recommendedTxt.current);
+        // setRecommendedTxt(data.desc);
+        setTimeout(() => {
+            setShowRecModal(true);
+        }, 100);
     };
 
     const onFilterApply = (filterData: any) => {
@@ -178,7 +182,7 @@ function Reviews() {
             )}
 
             <RecommendModal
-                reviewText={recommendedTxt}
+                reviewText={recommendedTxt.current}
                 show={showRecModal}
                 closeHandler={() => setShowRecModal(false)}
             />
