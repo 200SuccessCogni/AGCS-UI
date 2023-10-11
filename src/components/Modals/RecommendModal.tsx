@@ -37,6 +37,7 @@ function RecommendModal(props: IRecModal) {
     }, [props.reviewText]);
 
     useEffect(() => {
+        setMessage("");
         getRecommendation();
     }, [props.reviewText]);
 
