@@ -162,7 +162,7 @@ function Reviews() {
                                     px: 2,
                                     ml: "auto",
                                     width: "100%",
-                                    "& > MuiPagination-ul": {
+                                    "& .MuiPagination-ul": {
                                         justifyContent: "flex-end",
                                     },
                                 }}
