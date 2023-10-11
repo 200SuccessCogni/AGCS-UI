@@ -8,6 +8,7 @@ import { IReplyModal } from "@/interfaces/modal.interface";
 import { Typography, TextField, Box, Rating } from "@mui/material";
 import { POST } from "../../services/api.service";
 import useApp from "../../store/app.context";
+import LinearProgress from "@mui/material/LinearProgress";
 
 export default function ReplyModal(props: IReplyModal) {
     const { setLoader, loader } = useApp();
@@ -40,11 +41,19 @@ export default function ReplyModal(props: IReplyModal) {
                 aria-describedby="alert-dialog-description"
                 maxWidth={"sm"}
             >
-                <DialogTitle id="alert-dialog-title">Reply Message</DialogTitle>
+                {!!loader && <LinearProgress color="primary" />}
+
+                <DialogTitle id="alert-dialog-title">
+                    Reply Message
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        className="txt-gradient"
+                    >
+                        AI Generated
+                    </Typography>
+                </DialogTitle>
                 <DialogContent>
-                    {!!loader && (
-                        <Typography variant="body2">Please wait...</Typography>
-                    )}
                     <Box
                         sx={{
                             display: "flex",
@@ -61,19 +70,21 @@ export default function ReplyModal(props: IReplyModal) {
                             readOnly
                         />
                     </Box>
-                    <Typography variant="body2">{props.description}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {props.description}
+                    </Typography>
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Reply message"
                         fullWidth
                         multiline
-                        maxRows={4}
+                        maxRows={6}
                         inputProps={{
                             value: message,
                             name: message,
                         }}
                         onChange={(e) => setMessage(e.target.value)}
-                        sx={{ my: 3 }}
+                        sx={{ my: 3, fontSize: "0.9rem", color: "text." }}
                     />
                 </DialogContent>
                 <DialogActions>

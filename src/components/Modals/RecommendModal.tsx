@@ -7,6 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
 import { POST } from "../../services/api.service";
 import useApp from "../../store/app.context";
+import LinearProgress from "@mui/material/LinearProgress";
 
 interface IRecModal {
     reviewText: string;
@@ -49,6 +50,7 @@ function RecommendModal(props: IRecModal) {
                 maxWidth={"sm"}
                 fullWidth
             >
+                {!!loader && <LinearProgress color="primary" />}
                 <DialogTitle id="alert-dialog-title">
                     AI Recommendation
                 </DialogTitle>

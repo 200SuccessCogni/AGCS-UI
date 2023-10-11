@@ -40,9 +40,11 @@ function Reviews() {
     }, [allReviews]);
 
     const onPaginate = (pageNumber: number) => {
-        setLimit(pageNumber * 10);
-        setCount(limit);
-        setReviews(allReviews.slice(limit, pageNumber * 10));
+        const newLimit = pageNumber * 10;
+        const newCount = newLimit - 10;
+        setLimit(newLimit);
+        setCount(newCount);
+        setReviews(allReviews.slice(newCount, newLimit));
     };
 
     const onRecommend = (data: any) => {
