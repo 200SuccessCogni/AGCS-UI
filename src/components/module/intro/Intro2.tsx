@@ -5,7 +5,7 @@ import {
     TextField,
     OutlinedInput,
 } from "@mui/material";
-import DragDropFileUpload from "../app/DragDropFileUpload";
+import DragDropFileUpload from "../../app/DragDropFileUpload";
 // import { useEffect, useState } from "react";
 
 function Intro2(props: any) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Typography, Link } from "@mui/material";
-import AuthForm from "../components/auth/AuthForm";
+import AuthForm from "../components/module/auth/AuthForm";
 import { useNavigate } from "react-router-dom";
 import { POST } from "../services/api.service";
 import useApp from "../store/app.context";

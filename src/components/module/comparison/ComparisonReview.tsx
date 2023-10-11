@@ -1,4 +1,4 @@
-import { GET } from "../../services/api.service";
+import { GET } from "../../../services/api.service";
 import { Grid, Typography, Box } from "@mui/material";
 import { useState } from "react";
 import { Avatar, Rating } from "@mui/material";

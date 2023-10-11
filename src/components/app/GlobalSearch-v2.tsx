@@ -136,18 +136,35 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
     };
 
     const onItemClick = (item: SearchDataType) => {
-        console.log("here....");
-        const prevItems = localStorage.getItem("prevSearchItems");
-        const parsedPrevItems = (prevItems && JSON.parse(prevItems)) || [];
-
-        if (parsedPrevItems.length) parsedPrevItems.push(item);
-
-        localStorage.setItem(
-            "prevSearchItems",
-            JSON.stringify(parsedPrevItems)
-        );
-        setPrevSearchItems(parsedPrevItems);
+        saveRecentSearch(item);
+        setPrevSearchItems(getSavedSearchItems());
         setOpen(false);
+    };
+
+    const saveRecentSearch = (item: SearchDataType) => {
+        const prevRecentSearchItems = localStorage.getItem("prevSearchItems");
+
+        if (prevRecentSearchItems && JSON.parse(prevRecentSearchItems)) {
+            const data = [...JSON.parse(prevRecentSearchItems)];
+            if (data.length) {
+                const isExist = data.some(
+                    (l: SearchDataType) =>
+                        l.locationName.toLowerCase() ===
+                        item.locationName.toLowerCase()
+                );
+                if (!isExist) data.push(item);
+            }
+
+            localStorage.setItem("prevSearchItems", JSON.stringify(data));
+        }
+    };
+
+    const getSavedSearchItems = () => {
+        return (
+            (!!localStorage.getItem("prevSearchItems") &&
+                JSON.parse(localStorage.getItem("prevSearchItems") || "")) ||
+            []
+        );
     };
 
     const SearchItem = ({
@@ -224,7 +241,44 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
                 </header>
                 <Divider />
                 <DialogContent sx={{ p: 0 }}>
-                    {!!props.searchDataResult.length && (
+                    {/* Recommended  */}
+                    {!!props.recommendedItems.length &&
+                        !props.searchItemResult.length && (
+                            <List
+                                sx={{
+                                    width: "100%",
+                                    bgcolor: "background.paper",
+                                }}
+                                component="nav"
+                                aria-labelledby="suggested-location"
+                                subheader={
+                                    <SearchHeader
+                                        headerText="Recommended"
+                                        icon={<PlaceIcon />}
+                                    />
+                                }
+                            >
+                                {props.recommendedItems.map(
+                                    (e: SearchDataType, i) => (
+                                        <Box key={i}>
+                                            <SearchItem
+                                                imgUrl={
+                                                    e.locationImg ||
+                                                    "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
+                                                }
+                                                name={e.locationName}
+                                                address={e.locationAddress}
+                                                onClick={() => onItemClick(e)}
+                                            />
+                                            <Divider />
+                                        </Box>
+                                    )
+                                )}
+                            </List>
+                        )}
+
+                    {/* Search result */}
+                    {!!props.searchItemResult.length && (
                         <List
                             sx={{
                                 width: "100%",
@@ -234,12 +288,12 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
                             aria-labelledby="suggested-location"
                             subheader={
                                 <SearchHeader
-                                    headerText="Search Results"
+                                    headerText="Search result"
                                     icon={<PlaceIcon />}
                                 />
                             }
                         >
-                            {props.searchDataResult.map(
+                            {props.searchItemResult.map(
                                 (e: SearchDataType, i) => (
                                     <Box key={i}>
                                         <SearchItem
@@ -289,9 +343,10 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
 
                         {!prevSearchItems.length && (
                             <Typography
-                                variant="body1"
-                                align="center"
+                                variant="body2"
+                                align="left"
                                 gutterBottom
+                                sx={{ pl: 3 }}
                             >
                                 No recent serach found.
                             </Typography>

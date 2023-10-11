@@ -1,7 +1,7 @@
 import { Box, Typography, Button, AvatarGroup, Avatar } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import React, { useEffect, useState } from "react";
-import { tags } from "../../constants/taglines.constant";
+import { tags } from "../../../constants/taglines.constant";
 
 interface IFeatureCard {
     title: string;

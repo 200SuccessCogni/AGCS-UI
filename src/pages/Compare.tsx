@@ -1,13 +1,13 @@
-import ReviewItem from "../components/review/ReviewItem";
+import ReviewItem from "../components/module/review/ReviewItem";
 import { GET } from "../services/api.service";
-import LineChart from "../components/Charts/LineChart";
+import LineChart from "../components/charts/LineChart";
 import { Grid, Typography, Box } from "@mui/material";
 import { useState } from "react";
 import useApp from "../store/app.context";
-import ReviewForm from "../components/review/ReviewForm";
+import ReviewForm from "../components/module/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 
-import ComparisonCard from "../components/comparison/ComparisonCard";
+import ComparisonCard from "../components/module/comparison/ComparisonCard";
 import UnderConstruction from "../components/app/UnderConstruction";
 
 function Comparison() {

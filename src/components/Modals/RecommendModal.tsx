@@ -23,9 +23,7 @@ function RecommendModal(props: IRecModal) {
         setLoader(true);
         try {
             const res = await POST(url, {
-                content:
-                    props.reviewText ||
-                    `"I fancy a Macca's" -- words you'll often hear on a Thursday, Friday, or Saturday night in Clapham Junction. If you want to rub shoulders with the stumbling hordes from The Grand and Northcote Road watering holes as they cure their hangovers with meat, grease, and salt, then this is the place! It's disgusting and not in a good way. The few times I've broken down and eaten there I've felt sicker than I would have if I'd just walked on to the kebab/pasty shops or the Sainsbury's/M&S in Clapham Junction station. Â McDonald's has managed to condition us from an early age. Resistance is futile but do try!`,
+                content: props.reviewText,
             });
             if (res && res.status === 200) {
                 setMessage(res?.data.data);

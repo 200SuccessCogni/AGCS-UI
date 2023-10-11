@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LinearProgressWithLabel from "../components/core/linearProgressWithLabel";
-import ReviewForm from "../components/review/ReviewForm";
+import ReviewForm from "../components/module/review/ReviewForm";
 import { Box, Grid, Typography } from "@mui/material";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";

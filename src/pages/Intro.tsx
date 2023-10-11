@@ -1,4 +1,4 @@
-import Intro from "../components/intro";
+import Intro from "../components/module/intro";
 
 function IntroPage() {
     return <Intro />;

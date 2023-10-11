@@ -6,11 +6,11 @@ import AuthLayout from "./components/layout/AuthLayout";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthGuard } from "./components/auth/AuthGuard";
+import { AuthGuard } from "./components/module/auth/AuthGuard";
 
 // Blogs
 import TripadvisorIntegrate from "../blogs/how-to-get-tripadvisor-partner-api.mdx";
-import Blog from "./components/blogs";
+import Blog from "./components/module/blogs";
 
 // Lazy loading
 const Dashboard = lazy(() => import("./pages/Dashboard"));

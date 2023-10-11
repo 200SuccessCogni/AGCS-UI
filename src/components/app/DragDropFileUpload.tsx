@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -28,7 +27,10 @@ const DropRing = styled("span")<DropRingProps>(
             width: "100%",
             height: "100%",
             opacity: 0.2,
-            backgroundColor: theme.palette.primary.main,
+            background: `linear-gradient(-180deg, ${theme.palette.primary.main}, ${theme.palette.primary.light}, ${theme.palette.primary.dark})`,
+            // backgroundColor: theme.palette.primary.main,
+            animation: "aigradient 5s ease infinite",
+            backgroundSize: "400% 400%",
             borderRadius: "50%",
         },
     })
@@ -85,7 +87,7 @@ function DragDropFileUpload() {
                             fontWeight={500}
                             lineHeight={1.1}
                         >
-                            Drag and drop your resorts or hotels
+                            Drag and drop your locations
                         </Typography>
                         <Typography variant="body2">OR</Typography>
                         <Typography variant="body2">Browse here</Typography>

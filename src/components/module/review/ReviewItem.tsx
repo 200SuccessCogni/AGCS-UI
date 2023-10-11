@@ -7,10 +7,11 @@ import {
     Chip,
     Tooltip,
 } from "@mui/material";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ShareIcon from "@mui/icons-material/Share";
-import { IReviewItem } from "../../interfaces/review.interface";
+import { IReviewItem } from "../../../interfaces/review.interface";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
 interface IReviewItemProps extends IReviewItem {
@@ -32,6 +33,13 @@ const ReviewWrapper: any = styled(Box)(({ theme }) =>
 );
 
 export default function ReviewItem(props: IReviewItemProps) {
+    const [hasUserData, setHasUserData] = useState(false);
+
+    useEffect(() => {
+        if (props.cusName) setHasUserData(true);
+        else setHasUserData(false);
+    }, [props.cusName]);
+
     const getSentementColor = (
         type?: "review" | "neutral" | "positive" | "negative"
     ): any => {
@@ -74,13 +82,15 @@ export default function ReviewItem(props: IReviewItemProps) {
 
     return (
         <ReviewWrapper>
-            {!props.listView && (
+            {/* Location details */}
+            {(!props.listView || !hasUserData) && (
                 <Box
                     sx={{
                         display: "flex",
                         justifyContent: "flex-start",
-                        alignItems: "center",
+                        alignItems: "flex-start",
                         flex: 0.2,
+                        // flexBasis: "27%",
                     }}
                 >
                     <Avatar
@@ -109,73 +119,85 @@ export default function ReviewItem(props: IReviewItemProps) {
                     </Box>
                 </Box>
             )}
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignContent: "center",
-                    flexBasis: { xs: "100%", md: "20%" },
-                    flexDirection: { xs: "row", md: "column" },
-                    width: "100%",
-                    height: "100%",
-                }}
-            >
+
+            {/* User details */}
+            {hasUserData && (
                 <Box
-                    display="flex"
-                    justifyContent="flex-start"
-                    alignContent="center"
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        flex: 0.2,
+                        // flexBasis: { xs: "100%", md: "27%" },
+                        flexDirection: { xs: "row", md: "column" },
+                        width: "100%",
+                        height: "100%",
+                    }}
                 >
-                    <Avatar src="https://api.multiavatar.com/kathrin.svg">
-                        User
-                    </Avatar>
                     <Box
                         display="flex"
-                        flexDirection="column"
+                        justifyContent="flex-start"
                         alignContent="center"
-                        sx={{ ml: 0.8 }}
                     >
-                        <Typography
-                            variant="caption"
-                            component="p"
-                            fontWeight="600"
+                        <Avatar src="https://api.multiavatar.com/kathrin.svg">
+                            User
+                        </Avatar>
+                        <Box
+                            display="flex"
+                            flexDirection="column"
+                            alignContent="center"
+                            sx={{ ml: 0.8 }}
                         >
-                            {props.cusName || "John Doe"}
-                        </Typography>
-                        <Typography
-                            variant="caption"
-                            component="p"
-                            gutterBottom
-                            sx={{ color: "#777", lineHeight: 1, mb: 2 }}
-                        >
-                            {props.cusCity}, {props.cusCountry}
-                        </Typography>
+                            <Typography
+                                variant="caption"
+                                component="p"
+                                fontWeight="600"
+                            >
+                                {props.cusName || "John Doe"}
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                component="p"
+                                gutterBottom
+                                sx={{ color: "#777", lineHeight: 1, mb: 2 }}
+                            >
+                                {props.cusCity}, {props.cusCountry}
+                            </Typography>
+                        </Box>
                     </Box>
+                    <Chip
+                        size="small"
+                        icon={
+                            <img
+                                src={
+                                    (props?.source &&
+                                        `/${props?.source
+                                            .split(" ")
+                                            .join("")}.png`) ||
+                                    "https://www.google.com/images/hpp/ic_wahlberg_product_core_48.png8.png"
+                                }
+                                height={20}
+                                width={20}
+                                style={{ borderRadius: "50%" }}
+                            />
+                        }
+                        label={
+                            <small>{props?.source.toUpperCase()}</small> ||
+                            "Source"
+                        }
+                        variant="outlined"
+                        sx={{ width: "min-content" }}
+                    />
                 </Box>
-                <Chip
-                    size="small"
-                    icon={
-                        <img
-                            src={
-                                (props?.source &&
-                                    `/${props?.source
-                                        .split(" ")
-                                        .join("")}.png`) ||
-                                "https://www.google.com/images/hpp/ic_wahlberg_product_core_48.png8.png"
-                            }
-                            height={20}
-                            width={20}
-                            style={{ borderRadius: "50%" }}
-                        />
-                    }
-                    label={
-                        <small>{props?.source.toUpperCase()}</small> || "Source"
-                    }
-                    variant="outlined"
-                    sx={{ width: "min-content" }}
-                />
-            </Box>
+            )}
+
+            {/* Review Details */}
             <Box
-                sx={{ flexBasis: props.listView ? "70%" : "60%" }}
+                sx={{
+                    flex: 0.8,
+                    // flexBasis: !props.listView || !hasUserData ? "73%" : "60%",
+                    pl: 2,
+                }}
                 className="review__review"
             >
                 <Box
@@ -183,7 +205,13 @@ export default function ReviewItem(props: IReviewItemProps) {
                     justifyContent="space-between"
                     alignContent="center"
                 >
-                    <Rating name="read-only" value={props.rating} readOnly />
+                    {!!props.rating && (
+                        <Rating
+                            name="read-only"
+                            value={props.rating}
+                            readOnly
+                        />
+                    )}
 
                     <Typography
                         variant="caption"
@@ -247,7 +275,7 @@ export default function ReviewItem(props: IReviewItemProps) {
                 <Typography
                     variant="caption"
                     component="p"
-                    sx={{ color: "#777", lineHeight: "140%" }}
+                    sx={{ color: "#777", lineHeight: "140%", mt: 1 }}
                 >
                     {props.desc}
                 </Typography>

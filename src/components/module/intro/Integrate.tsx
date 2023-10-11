@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { tags } from "../../constants/taglines.constant";
+import { tags } from "../../../constants/taglines.constant";
 
 interface IFeatureCard {
     title: string;

@@ -8,7 +8,7 @@ import {
     Tooltip,
 } from "@mui/material";
 import PieChart from "../components/charts/PieChart";
-import ReviewItem from "../components/review/ReviewItem";
+import ReviewItem from "../components/module/review/ReviewItem";
 import { ICountCard } from "@/interfaces/dashboard.interface";
 import { useNavigate } from "react-router-dom";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
@@ -157,7 +157,6 @@ function Dashboard() {
                         }
                     });
                 }
-                // setReviews(res.data.data);
             }
         } catch (err) {
             console.log(err);
@@ -269,9 +268,7 @@ function Dashboard() {
                                     <ReviewItem
                                         key={r.id}
                                         {...r}
-                                        date={dayjs(r.date).format(
-                                            "DD/MM/YYYY"
-                                        )}
+                                        date={r.date.split("T")[0]}
                                         listView="false"
                                     />
                                 ))}

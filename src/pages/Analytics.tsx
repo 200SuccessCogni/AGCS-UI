@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LinearProgressWithLabel from "../components/core/linearProgressWithLabel";
 import LineChart from "../components/charts/LineChart";
-import ReviewForm from "../components/review/ReviewForm";
+import ReviewForm from "../components/module/review/ReviewForm";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
 

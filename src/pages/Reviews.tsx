@@ -1,20 +1,25 @@
-import ReviewItem from "../components/review/ReviewItem";
+import ReviewItem from "../components/module/review/ReviewItem";
 import { GET } from "../services/api.service";
 import { Grid, Typography, Box } from "@mui/material";
 import { useRef, useEffect, useState } from "react";
 import useApp from "../store/app.context";
-import ReviewForm from "../components/review/ReviewForm";
+import ReviewForm from "../components/module/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
 import ReplyModal from "../components/modals/ReplyModal";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import RecommendModal from "../components/modals/RecommendModal";
 import DateRangeRounded from "@mui/icons-material/DateRangeRounded";
+import Pagination from "@mui/material/Pagination";
 
 function Reviews() {
     const { setLoader, loader, allReviews } = useApp();
     const [reviews, setReviews] = useState<IReviewItem[] | null>(null);
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
+    const [limit, setLimit] = useState(10);
+    const [count, setCount] = useState(0);
+
+    const [paginationCount, setPaginationCount] = useState(1);
     const [filterReviews, setFilterReviews] = useState<IReviewItem[] | null>(
         null
     );
@@ -26,8 +31,19 @@ function Reviews() {
     // const isSmallDevice = useMediaQuery("(max-width: 0px)");
 
     useEffect(() => {
-        setReviews(allReviews.slice(0, 50));
+        setReviews(allReviews.slice(count, limit));
+        setPaginationCount(
+            allReviews.length > 10
+                ? Math.round(allReviews.length / 10)
+                : allReviews.length
+        );
     }, [allReviews]);
+
+    const onPaginate = (pageNumber: number) => {
+        setLimit(pageNumber * 10);
+        setCount(limit);
+        setReviews(allReviews.slice(limit, pageNumber * 10));
+    };
 
     const onRecommend = (data: any) => {
         recommendedTxt.current = data.desc;
@@ -136,6 +152,27 @@ function Reviews() {
                                 No records found
                             </Typography>
                         )}
+
+                        {reviews && !!reviews.length && (
+                            <Box
+                                sx={{
+                                    my: 2,
+                                    px: 2,
+                                    ml: "auto",
+                                    width: "100%",
+                                    "& > MuiPagination-ul": {
+                                        justifyContent: "flex-end",
+                                    },
+                                }}
+                            >
+                                <Pagination
+                                    count={paginationCount}
+                                    variant="outlined"
+                                    shape="rounded"
+                                    onChange={(e, p) => onPaginate(p)}
+                                />
+                            </Box>
+                        )}
                     </Box>
                 </Grid>
                 <Grid
@@ -181,11 +218,13 @@ function Reviews() {
                 />
             )}
 
-            <RecommendModal
-                reviewText={recommendedTxt.current}
-                show={showRecModal}
-                closeHandler={() => setShowRecModal(false)}
-            />
+            {!!recommendedTxt.current && (
+                <RecommendModal
+                    reviewText={recommendedTxt.current}
+                    show={showRecModal}
+                    closeHandler={() => setShowRecModal(false)}
+                />
+            )}
         </>
     );
 }

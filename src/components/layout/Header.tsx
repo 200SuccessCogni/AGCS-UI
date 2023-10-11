@@ -125,7 +125,8 @@ function Header(props: any) {
                 </IconButton>
 
                 <GlobalSearchV2
-                    searchDataResult={resortList || []}
+                    recommendedItems={resortList || []}
+                    searchItemResult={[]}
                     onChange={onResortChange}
                     onSelect={onResortChange}
                     selectedLocation={selectedLocation}
