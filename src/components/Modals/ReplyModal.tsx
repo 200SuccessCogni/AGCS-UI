@@ -9,6 +9,7 @@ import { Typography, TextField, Box, Rating } from "@mui/material";
 import { POST } from "../../services/api.service";
 import useApp from "../../store/app.context";
 import LinearProgress from "@mui/material/LinearProgress";
+import ReadMore from "../core/readmore";
 
 export default function ReplyModal(props: IReplyModal) {
     const { setLoader, loader } = useApp();
@@ -72,14 +73,14 @@ export default function ReplyModal(props: IReplyModal) {
                         />
                     </Box>
                     <Typography variant="body2" color="text.secondary">
-                        {props.description}
+                        <ReadMore>{`${props.description}`}</ReadMore>
                     </Typography>
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Reply message"
                         fullWidth
                         multiline
-                        maxRows={6}
+                        maxRows={10}
                         inputProps={{
                             value: message,
                             name: message,

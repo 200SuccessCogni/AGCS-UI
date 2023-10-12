@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
-import LinearProgressWithLabel from "../components/core/linearProgressWithLabel";
 import LineChart from "../components/charts/LineChart";
 import ReviewForm from "../components/module/review/ReviewForm";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
 
-import {
-    Box,
-    Grid,
-    Typography,
-    Container,
-    Link,
-    Button,
-    Chip,
-} from "@mui/material";
+import { Box, Grid, Typography, Container } from "@mui/material";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import { camelCaseToTitleCase } from "../services/shared.service";
+import { camelCaseToTitleCase, randomColor } from "../services/shared.service";
+import OverviewCard from "../components/module/analytics/OverviewCard";
+import OverallScore from "../components/module/analytics/OverallScore";
+import AnalyticsChart from "../components/module/analytics/AnalyticsChart";
+import dayjs from "dayjs";
 
 const initChartDataSet = [
     {
@@ -47,12 +42,33 @@ const initChartDataSet = [
         tension: 0.4,
         pointHoverBorderWidth: 1,
     },
+    {
+        label: "Bedroom",
+        data: [4, 4, 2, 4, 2, 3, 3],
+        borderColor: "rgb(53, 162, 235)",
+        tension: 0.4,
+        pointHoverBorderWidth: 1,
+    },
+    {
+        label: "Housekeeping",
+        data: [2, 1, 2, 3, 2.5, 3, 2],
+        borderColor: "#095F59",
+        tension: 0.4,
+        pointHoverBorderWidth: 1,
+    },
+    {
+        label: "Restaurant",
+        data: [3, 4, 3, 4, 2, 1, 2],
+        borderColor: "#FFD681",
+        tension: 0.4,
+        pointHoverBorderWidth: 1,
+    },
 ];
 
 function Dashboard() {
     const [insights, setInsights] = useState([]);
     const { setLoader } = useApp();
-    const [dateSet, setDataSet] = useState(initChartDataSet);
+    const [chartsData, setChartsData] = useState<any[]>();
     const [appliedDateSet, setAppliedDateSet] = useState(initChartDataSet);
     const [lowPerfAment, setLowPerfAment] = useState("");
     const [highPerfAment, setHighPerfAment] = useState("");
@@ -87,7 +103,8 @@ function Dashboard() {
                 if (insightsRes && insightsRes.length) {
                     const insights = insightsRes.map((e: any) => ({
                         ...e,
-                        count: Math.floor(e.avgMagnitude * 10),
+                        label: e._id,
+                        value: Math.floor(e.avgMagnitude * 10),
                     }));
                     setInsights(insights);
 
@@ -103,6 +120,56 @@ function Dashboard() {
                         })._id
                     );
                 }
+
+                if (res.data.analytics && res.data.analytics.length) {
+                    const data = res.data.analytics.map((e: any) => ({
+                        entityName: e.entityScores.entityName,
+                        date: dayjs(e.entityScores.date.split("T")),
+                        score: Math.floor(e.entityScores.sentimentScore * 10),
+                    }));
+
+                    const analyticsData: any[] = [];
+
+                    insights.forEach((e: any) => {
+                        analyticsData.push({
+                            type: e?.label,
+                            data: data.filter(
+                                (d: any) => d.entityName === e?.label
+                            ),
+                        });
+                    });
+
+                    const newData = analyticsData.map((a) => {
+                        const sortedData = a.data.sort((a: any, b: any) =>
+                            dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1
+                        );
+                        const data =
+                            sortedData.length < 6
+                                ? sortedData
+                                : sortedData.slice(0, 6);
+                        return {
+                            type: a.type,
+                            data: data,
+                        };
+                    });
+
+                    const chartData = newData.map((e: any) => ({
+                        type: e.type,
+                        data: {
+                            labels: e.data.map((n: any) =>
+                                dayjs(n.date).format("MMM, YYYY")
+                            ),
+                            datasets: [
+                                {
+                                    backgroundColor: randomColor(),
+                                    data: e.data.map((l: any) => l.score),
+                                },
+                            ],
+                        },
+                    }));
+
+                    setChartsData(chartData);
+                }
             }
         } catch (err) {
             console.log(err);
@@ -112,96 +179,15 @@ function Dashboard() {
     };
 
     const userData1 = {
-        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July"],
         datasets: [
             {
-                backgroundColor: [
-                    "#51EAEA",
-                    "#FCDDB0",
-                    "#FF9D76",
-                    "#FB3569",
-                    "#82CD47",
-                    "#DACD47",
-                    "#AACD47",
-                ],
+                backgroundColor: ["#51EAEA"],
                 data: [4.2, 3.7, 1.8, 5, 4.1, 2.5, 4.6],
             },
         ],
     };
-    const userData2 = {
-        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
-        datasets: [
-            {
-                backgroundColor: [
-                    "#51EAEA",
-                    "#FCDDB0",
-                    "#FF9D76",
-                    "#FB3569",
-                    "#82CD47",
-                    "#DACD47",
-                    "#AACD47",
-                ],
-                data: [2.2, 4.7, 2.8, 4.5, 4.1, 3.5, 2.6],
-            },
-        ],
-    };
-    const userData3 = {
-        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
-        datasets: [
-            {
-                backgroundColor: [
-                    "#51EAEA",
-                    "#FCDDB0",
-                    "#FF9D76",
-                    "#FB3569",
-                    "#82CD47",
-                    "#DACD47",
-                    "#AACD47",
-                ],
-                data: [3.2, 4.7, 2.8, 4.5, 1.1, 3.5, 4.6],
-            },
-        ],
-    };
-    const userData4 = {
-        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
-        datasets: [
-            {
-                backgroundColor: [
-                    "#51EAEA",
-                    "#FCDDB0",
-                    "#FF9D76",
-                    "#FB3569",
-                    "#82CD47",
-                    "#DACD47",
-                    "#AACD47",
-                ],
-                data: [3.2, 4.7, 2.8, 3.5, 4.1, 4.5, 3.6],
-            },
-        ],
-    };
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: "bottom",
-                display: false,
-            },
-            title: {
-                display: true,
-                // text: "Review Sources",
-            },
-            tooltip: {
-                enabled: true,
-                position: "nearest",
-            },
-            chartAreaBorder: {
-                borderColor: "red",
-                borderWidth: 2,
-                borderDash: [5, 5],
-                borderDashOffset: 2,
-            },
-        },
-    };
+
     return (
         <>
             <Typography variant="h5" fontWeight={500}>
@@ -211,7 +197,7 @@ function Dashboard() {
                 <Grid item xs={12} md={9}>
                     <Container
                         sx={{
-                            backgroundColor: "primary.light",
+                            backgroundColor: "secondary.light",
                             borderRadius: "1rem",
                             px: 2,
                             pb: 3,
@@ -220,98 +206,39 @@ function Dashboard() {
                     >
                         <Typography
                             variant="h6"
-                            color="text.contrastText"
+                            color="text.primary"
                             gutterBottom
                         >
                             Overview
                         </Typography>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
-                                <Box
-                                    sx={{
-                                        backgroundColor: "primary.main",
-                                        borderRadius: "1rem",
-                                        p: 2,
-                                    }}
-                                >
-                                    <Typography
-                                        variant="caption"
-                                        color="text.contrastText"
-                                    >
-                                        Top Performing Amenity
-                                    </Typography>
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="h4"
-                                            color="text.contrastText"
-                                            fontWeight={500}
-                                        >
-                                            {camelCaseToTitleCase(
-                                                highPerfAment
-                                            )}
-                                        </Typography>
-                                        <Box
-                                            sx={{
-                                                backgroundColor:
-                                                    "secondary.dark",
-                                                p: 1,
-                                                borderRadius: 2,
-                                            }}
-                                        >
-                                            <TrendingUpIcon />
-                                        </Box>
-                                    </Box>
-                                </Box>
+                                <OverviewCard
+                                    bgColor="secondary.main"
+                                    icon={<TrendingUpIcon />}
+                                    iconBgColor="secondary.dark"
+                                    contentText={camelCaseToTitleCase(
+                                        highPerfAment
+                                    )}
+                                    headerTitle="Top Performing Amenity / Category"
+                                />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <Box
-                                    sx={{
-                                        backgroundColor: "secondary.dark",
-                                        borderRadius: "1rem",
-                                        p: 2,
-                                        height: "100%",
-                                    }}
-                                >
-                                    <Typography variant="caption">
-                                        Low Performing Amenity
-                                    </Typography>
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="h4"
-                                            color="text"
-                                            fontWeight={500}
-                                        >
-                                            {camelCaseToTitleCase(lowPerfAment)}
-                                        </Typography>
-                                        <Box
-                                            sx={{
-                                                backgroundColor: "primary.main",
-                                                p: 1,
-                                                borderRadius: 2,
-                                                mb: "auto",
-                                                color: "text.contrastText",
-                                            }}
-                                        >
-                                            <TrendingDownIcon />
-                                        </Box>
-                                    </Box>
-                                </Box>
+                                <OverviewCard
+                                    bgColor="secondary.dark"
+                                    icon={<TrendingDownIcon />}
+                                    iconBgColor="primary.main"
+                                    contentText={camelCaseToTitleCase(
+                                        lowPerfAment
+                                    )}
+                                    iconColor="text.contrastText"
+                                    headerTitle="Low Performing Amenity / Category"
+                                />
                             </Grid>
                         </Grid>
                     </Container>
-                    <Box
+                    <OverallScore scores={insights} />
+                    {/* <Box
                         sx={{
                             borderRadius: "1rem",
                             backgroundColor: "secondary.light",
@@ -368,20 +295,30 @@ function Dashboard() {
                                         variant="outlined"
                                         key={i}
                                         sx={{
-                                            color: e.borderColor,
-                                            mx: 0.5,
-                                            borderColor: e.borderColor,
+                                            color: "text.primary",
+                                            m: 0.5,
+                                            backgroundColor: e.borderColor,
                                         }}
                                         onDelete={() => handleDelete(i)}
                                         size="small"
                                     />
                                 ))}
+                                <Chip
+                                    label="Customize"
+                                    color="primary"
+                                    sx={{
+                                        m: 0.5,
+                                        bgColor: "black",
+                                        color: "text.contrastText",
+                                    }}
+                                    size="small"
+                                />
                             </Box>
                             <Button
                                 color="black"
                                 variant="contained"
+                                size="small"
                                 sx={{
-                                    borderRadius: "10px",
                                     boxShadow: "none",
                                     ml: "auto",
                                     mt: 1,
@@ -392,10 +329,11 @@ function Dashboard() {
                             </Button>
                         </Box>
                         <AnalyticsChart dataSet={appliedDateSet} />
-                    </Box>
+                    </Box> */}
                     <Box
                         sx={{
                             backgroundColor: "secondary.light",
+                            borderRadius: "1rem",
                             my: 3,
                             p: 2,
                         }}
@@ -406,27 +344,20 @@ function Dashboard() {
                             fontWeight={500}
                             sx={{ mb: 2 }}
                         >
-                            Overall Score
+                            In details analysis
                         </Typography>
-                        {insights &&
-                            insights.map((e: any) => (
-                                <Box
-                                    sx={{
-                                        px: 2,
-                                        py: 1,
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        borderRadius: 2,
-                                    }}
-                                >
-                                    <Grid item xs={5} md={2}>
-                                        <Typography variant="body1">
-                                            {camelCaseToTitleCase(e._id)}
-                                        </Typography>
+                        <Grid container spacing={3} sx={{ mt: 0 }}>
+                            {!!chartsData &&
+                                !!chartsData.length &&
+                                chartsData.map((e: any, i: number) => (
+                                    <Grid item xs={12} md={6} key={i}>
+                                        <AnalyticsChart
+                                            label={e.type}
+                                            data={e.data}
+                                        />
                                     </Grid>
-                                    <LinearProgressWithLabel count={e.count} />
-                                </Box>
-                            ))}
+                                ))}
+                        </Grid>
                     </Box>
                 </Grid>
                 <Grid
@@ -462,221 +393,68 @@ function Dashboard() {
                     </Box>
                 </Grid>
             </Grid>
-            {/* <Grid container spacing={3} sx={{ mt: 0 }}>
-                <Grid item xs={12} md={6}>
-                    <Box
-                        sx={{
-                            background: "#fff",
-                            borderRadius: "10px",
-                            width: "100%",
-                        }}
-                    >
-                        <Box px={10}>
-                            <LineChart
-                                chartData={userData1}
-                                options={options}
-                            />
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{ textAlign: "center" }}
-                        >
-                            Cleanliness
-                        </Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box
-                        sx={{
-                            background: "#fff",
-                            borderRadius: "10px",
-                            width: "100%",
-                        }}
-                    >
-                        <Box px={10}>
-                            <LineChart
-                                chartData={userData2}
-                                options={options}
-                            />
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{ textAlign: "center" }}
-                        >
-                            Activities
-                        </Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box
-                        sx={{
-                            background: "#fff",
-                            borderRadius: "10px",
-                            width: "100%",
-                        }}
-                    >
-                        <Box px={10}>
-                            <LineChart
-                                chartData={userData3}
-                                options={options}
-                            />
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{ textAlign: "center" }}
-                        >
-                            Comfort
-                        </Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box
-                        sx={{
-                            background: "#fff",
-                            borderRadius: "10px",
-                            width: "100%",
-                        }}
-                    >
-                        <Box px={10}>
-                            <LineChart
-                                chartData={userData4}
-                                options={options}
-                            />
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{ textAlign: "center" }}
-                        >
-                            Destination
-                        </Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box
-                        sx={{
-                            background: "#fff",
-                            borderRadius: "10px",
-                            width: "100%",
-                        }}
-                    >
-                        <Box px={10}>
-                            <LineChart
-                                chartData={userData2}
-                                options={options}
-                            />
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{ textAlign: "center" }}
-                        >
-                            Facilities
-                        </Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box
-                        sx={{
-                            background: "#fff",
-                            borderRadius: "10px",
-                            width: "100%",
-                        }}
-                    >
-                        <Box px={10}>
-                            <LineChart
-                                chartData={userData1}
-                                options={options}
-                            />
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{ textAlign: "center" }}
-                        >
-                            Food & Drinks
-                        </Typography>
-                    </Box>
-                </Grid>
-            </Grid> */}
         </>
     );
 }
 
 export default Dashboard;
 
-const AnalyticsChart = ({ dataSet }: { dataSet: any[] }) => {
-    const [chartData, setChartData] = useState({
-        labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
-        datasets: dataSet,
-    });
+// const AnalyticsChart = ({ dataSet }: { dataSet: any[] }) => {
+//     const [chartData, setChartData] = useState({
+//         labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
+//         datasets: dataSet,
+//     });
 
-    useEffect(() => {
-        setChartData({
-            labels: [
-                "26/06",
-                "27/06",
-                "28/06",
-                "29/06",
-                "30/06",
-                "01/07",
-                "02/07",
-            ],
-            datasets: dataSet,
-        });
-    }, [dataSet]);
+//     useEffect(() => {
+//         setChartData({
+//             labels: [
+//                 "26/06",
+//                 "27/06",
+//                 "28/06",
+//                 "29/06",
+//                 "30/06",
+//                 "01/07",
+//                 "02/07",
+//             ],
+//             datasets: dataSet,
+//         });
+//     }, [dataSet]);
 
-    const options = {
-        responsive: true,
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                },
-            },
-        },
-        plugins: {
-            legend: {
-                position: "bottom",
-                display: false,
-            },
-            title: {
-                display: true,
-                // text: "Review Sources",
-            },
-            tooltip: {
-                enabled: true,
-                position: "nearest",
-            },
-            chartAreaBorder: {
-                borderColor: "red",
-                borderWidth: 2,
-                borderDash: [5, 5],
-                borderDashOffset: 2,
-            },
-        },
-    };
+//     const options = {
+//         responsive: true,
+//         scales: {
+//             x: {
+//                 grid: {
+//                     display: false,
+//                 },
+//             },
+//             y: {
+//                 ticks: {
+//                     display: false,
+//                 },
+//             },
+//         },
+//         plugins: {
+//             legend: {
+//                 position: "bottom",
+//                 display: false,
+//             },
+//             title: {
+//                 display: true,
+//                 // text: "Review Sources",
+//             },
+//             tooltip: {
+//                 enabled: true,
+//                 position: "nearest",
+//             },
+//             chartAreaBorder: {
+//                 borderColor: "red",
+//                 borderWidth: 2,
+//                 borderDash: [5, 5],
+//                 borderDashOffset: 2,
+//             },
+//         },
+//     };
 
-    // const chartData = {
-    //     labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
-    //     datasets: [
-    //         {
-    //             borderColor: "rgb(255, 99, 132)",
-    //             // backgroundColor: "rgba(255, 99, 132, 0.5)",
-    //             tension: 0.4,
-    //             pointHoverBorderWidth: 1,
-    //             data: [2, 4, 2, 4, 2, 3, 2],
-    //         },
-    //         {
-    //             borderColor: "rgb(53, 162, 235)",
-    //             // backgroundColor: "rgba(53, 162, 235, 0.5)",
-    //             tension: 0.4,
-    //             pointHoverBorderWidth: 1,
-    //             data: [3, 2, 2.5, 3, 2, 3, 1],
-    //         },
-    //         // {
-    //         //     backgroundColor: ["#51EAEA"],
-    //         //     data: [2.2, 4.7, 2.8, 4.5, 4.1, 3.5, 2.6],
-    //         // },
-    //     ],
-    // };
-
-    return <LineChart chartData={chartData} options={options} />;
-};
+//     return <LineChart chartData={chartData} options={options} />;
+// };

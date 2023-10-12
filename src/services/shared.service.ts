@@ -7,3 +7,7 @@ export function camelCaseToTitleCase(text: string) {
     const result = text.replace(/([A-Z])/g, " $1");
     return result.charAt(0).toUpperCase() + result.slice(1);
 }
+
+export function randomColor() {
+    return Math.floor(Math.random() * 16777215).toString(16);
+}
