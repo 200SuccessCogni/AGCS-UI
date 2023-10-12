@@ -339,7 +339,7 @@ function Dashboard() {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
-                                    flexBasis: "30%",
+                                    flexBasis: "40%",
                                 }}
                             >
                                 <Link underline="hover">
