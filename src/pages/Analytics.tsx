@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { camelCaseToTitleCase } from "../services/shared.service";
 
 const initChartDataSet = [
     {
@@ -53,6 +54,8 @@ function Dashboard() {
     const { setLoader } = useApp();
     const [dateSet, setDataSet] = useState(initChartDataSet);
     const [appliedDateSet, setAppliedDateSet] = useState(initChartDataSet);
+    const [lowPerfAment, setLowPerfAment] = useState("");
+    const [highPerfAment, setHighPerfAment] = useState("");
 
     const handleDelete = (index: number) => {
         setAppliedDateSet(
@@ -67,7 +70,6 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        // getInsights();
         getInsightsAndAnalytics();
     }, []);
 
@@ -81,12 +83,24 @@ function Dashboard() {
                 `/review/getinsightAnalytics?businessId=${businessId}&locationId=${locationId}`
             );
             if (res && res.status === 200) {
-                if (res.data.insights && res.data.insights.length) {
-                    setInsights(
-                        res.data.insights.map((e: any) => ({
-                            ...e,
-                            count: Math.floor(e.avgMagnitude * 10),
-                        }))
+                const insightsRes = res.data.insights;
+                if (insightsRes && insightsRes.length) {
+                    const insights = insightsRes.map((e: any) => ({
+                        ...e,
+                        count: Math.floor(e.avgMagnitude * 10),
+                    }));
+                    setInsights(insights);
+
+                    setLowPerfAment(
+                        insights.reduce((a: any, b: any) => {
+                            return a.count < b.count ? a : b;
+                        })._id
+                    );
+
+                    setHighPerfAment(
+                        insights.reduce((a: any, b: any) => {
+                            return a.count > b.count ? a : b;
+                        })._id
                     );
                 }
             }
@@ -97,19 +111,6 @@ function Dashboard() {
         setLoader(false);
     };
 
-    const getInsights = async (resortId = "649da3f7953f4d5cdeaff1c1") => {
-        setLoader(true);
-        try {
-            const res = await GET(`/review/reviewStats?resortId=${resortId}`);
-            if (res && res.status === 200) {
-                setInsights(res.data.analytics);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        setLoader(false);
-    };
     const userData1 = {
         labels: ["26/06", "27/06", "28/06", "29/06", "30/06", "01/07", "02/07"],
         datasets: [
@@ -251,7 +252,9 @@ function Dashboard() {
                                             color="text.contrastText"
                                             fontWeight={500}
                                         >
-                                            Food & Drinks
+                                            {camelCaseToTitleCase(
+                                                highPerfAment
+                                            )}
                                         </Typography>
                                         <Box
                                             sx={{
@@ -290,7 +293,7 @@ function Dashboard() {
                                             color="text"
                                             fontWeight={500}
                                         >
-                                            Parking
+                                            {camelCaseToTitleCase(lowPerfAment)}
                                         </Typography>
                                         <Box
                                             sx={{
@@ -340,13 +343,13 @@ function Dashboard() {
                                 }}
                             >
                                 <Link underline="hover">
+                                    <small>Last year</small>
+                                </Link>
+                                <Link underline="hover">
+                                    <small>Last 6 month</small>
+                                </Link>
+                                <Link underline="hover">
                                     <small>Last month</small>
-                                </Link>
-                                <Link underline="hover">
-                                    <small>14 days</small>
-                                </Link>
-                                <Link underline="hover">
-                                    <small>Last week</small>
                                 </Link>
                             </Box>
                         </Box>
@@ -418,7 +421,7 @@ function Dashboard() {
                                 >
                                     <Grid item xs={5} md={2}>
                                         <Typography variant="body1">
-                                            {e._id.toUpperCase()}
+                                            {camelCaseToTitleCase(e._id)}
                                         </Typography>
                                     </Grid>
                                     <LinearProgressWithLabel count={e.count} />
