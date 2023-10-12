@@ -10,14 +10,16 @@ const ReadMore = ({ children }: { children: string }) => {
     return (
         <>
             {isReadMore ? text.slice(0, 350) : text}
-            <Typography
-                component="span"
-                variant="caption"
-                onClick={toggleReadMore}
-                sx={{ cursor: "pointer", color: "purple" }}
-            >
-                {isReadMore ? "...read more" : " show less"}
-            </Typography>
+            {text.length >= 350 && (
+                <Typography
+                    component="span"
+                    variant="caption"
+                    onClick={toggleReadMore}
+                    sx={{ cursor: "pointer", color: "purple" }}
+                >
+                    {isReadMore ? "...read more" : " show less"}
+                </Typography>
+            )}
         </>
     );
 };

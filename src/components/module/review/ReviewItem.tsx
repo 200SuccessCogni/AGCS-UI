@@ -90,7 +90,7 @@ export default function ReviewItem(props: IReviewItemProps) {
                         display: "flex",
                         justifyContent: "flex-start",
                         alignItems: "flex-start",
-                        flex: 0.2,
+                        flex: 0.3,
                         // flexBasis: "27%",
                     }}
                 >
@@ -193,14 +193,7 @@ export default function ReviewItem(props: IReviewItemProps) {
             )}
 
             {/* Review Details */}
-            <Box
-                sx={{
-                    flex: 0.8,
-                    // flexBasis: !props.listView || !hasUserData ? "73%" : "60%",
-                    pl: 2,
-                }}
-                className="review__review"
-            >
+            <Box sx={{ flex: 1, pl: 2 }} className="review__review">
                 <Box
                     display="flex"
                     justifyContent="space-between"
@@ -248,12 +241,14 @@ export default function ReviewItem(props: IReviewItemProps) {
 
                     {!props.listView && (
                         <>
-                            <IconButton
-                                size="small"
-                                onClick={() => props.onReply(props)}
-                            >
-                                <ReplyIcon fontSize="small" />
-                            </IconButton>
+                            <Tooltip title="Reply">
+                                <IconButton
+                                    size="small"
+                                    onClick={() => props.onReply(props)}
+                                >
+                                    <ReplyIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
                             {props.category === "negative" && (
                                 <Tooltip title="AI Recommendation">
                                     <IconButton
@@ -264,9 +259,11 @@ export default function ReviewItem(props: IReviewItemProps) {
                                     </IconButton>
                                 </Tooltip>
                             )}
-                            <IconButton size="small" onClick={share}>
-                                <ShareIcon fontSize="small" />
-                            </IconButton>
+                            <Tooltip title="Share">
+                                <IconButton size="small" onClick={share}>
+                                    <ShareIcon fontSize="small" />
+                                </IconButton>
+                            </Tooltip>
                         </>
                     )}
                 </Box>

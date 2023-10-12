@@ -20,6 +20,7 @@ function RecommendModal(props: IRecModal) {
     const [message, setMessage] = useState("");
 
     const getRecommendation = useCallback(async () => {
+        setMessage("");
         const url = "/gen/recommend";
         setLoader(true);
         try {
@@ -36,8 +37,9 @@ function RecommendModal(props: IRecModal) {
     }, [props.reviewText]);
 
     useEffect(() => {
-        setMessage("");
-        getRecommendation();
+        // const controller = new AbortController();
+        // const signal = getRecommendation();
+        if (props.reviewText) getRecommendation();
     }, [props.reviewText]);
 
     return (

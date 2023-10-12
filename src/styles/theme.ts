@@ -60,7 +60,7 @@ const palette: ExtendedPaletteOptions = {
         main: red.A400,
     },
     text: {
-        primary: "#00301F",
+        primary: "#032e2b",
         secondary: "#222",
         contrastText: "#fff",
         contrastTextLight: "#d0e9f3",

@@ -15,6 +15,7 @@ export default function ReplyModal(props: IReplyModal) {
     const [message, setMessage] = useState("");
 
     const getReplyMsg = useCallback(async () => {
+        setMessage("");
         const url = "/gen/reply";
         setLoader(true);
         try {
@@ -26,11 +27,11 @@ export default function ReplyModal(props: IReplyModal) {
         } catch (err) {
             setLoader(false);
         }
-    }, []);
+    }, [props.description]);
 
     useEffect(() => {
-        getReplyMsg();
-    }, []);
+        if (props.description) getReplyMsg();
+    }, [props.description]);
 
     return (
         <div>

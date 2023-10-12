@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 const sourceList = [
+    { name: "Local", isChecked: true, value: "local" },
     { name: "Google", isChecked: true, value: "google" },
     { name: "Booking.com", isChecked: true, value: "booking" },
     { name: "TripAdvisor", isChecked: true, value: "tripadvisor" },

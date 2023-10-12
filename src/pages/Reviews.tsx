@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import ReviewItem from "../components/module/review/ReviewItem";
 import { GET } from "../services/api.service";
 import { Grid, Typography, Box } from "@mui/material";
@@ -13,7 +14,7 @@ import DateRangeRounded from "@mui/icons-material/DateRangeRounded";
 import Pagination from "@mui/material/Pagination";
 
 function Reviews() {
-    const { setLoader, loader, allReviews } = useApp();
+    const { setLoader, loader, allReviews, setALLReviews } = useApp();
     const [reviews, setReviews] = useState<IReviewItem[] | null>(null);
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
     const [limit, setLimit] = useState(10);
@@ -31,6 +32,8 @@ function Reviews() {
     // const isSmallDevice = useMediaQuery("(max-width: 0px)");
 
     useEffect(() => {
+        if (allReviews.length === 0) getAllReviews();
+
         setReviews(allReviews.slice(count, limit));
         setPaginationCount(
             allReviews.length > 10
@@ -38,6 +41,33 @@ function Reviews() {
                 : allReviews.length
         );
     }, [allReviews]);
+
+    const getAllReviews = useCallback(
+        async (
+            businessId = "65227a4fd7a294d9ee6f18a6",
+            locationId = "65227ab4d7a294d9ee6f18db"
+        ) => {
+            setLoader(true);
+            try {
+                const res = await GET(
+                    `/review/getall?businessId=${businessId}&locationId=${locationId}`
+                );
+                if (res && res.status === 200) {
+                    const allReviews: IReviewItem[] = res.data.data.map(
+                        (e: any) => ({
+                            ...e,
+                            id: e._id,
+                        })
+                    );
+                    setALLReviews(allReviews);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+            setLoader(false);
+        },
+        []
+    );
 
     const onPaginate = (pageNumber: number) => {
         const newLimit = pageNumber * 10;
@@ -49,11 +79,7 @@ function Reviews() {
 
     const onRecommend = (data: any) => {
         recommendedTxt.current = data.desc;
-        console.log(recommendedTxt.current);
-        // setRecommendedTxt(data.desc);
-        setTimeout(() => {
-            setShowRecModal(true);
-        }, 100);
+        setShowRecModal(true);
     };
 
     const onFilterApply = (filterData: any) => {
@@ -220,13 +246,11 @@ function Reviews() {
                 />
             )}
 
-            {!!recommendedTxt.current && (
-                <RecommendModal
-                    reviewText={recommendedTxt.current}
-                    show={showRecModal}
-                    closeHandler={() => setShowRecModal(false)}
-                />
-            )}
+            <RecommendModal
+                reviewText={recommendedTxt.current}
+                show={showRecModal}
+                closeHandler={() => setShowRecModal(false)}
+            />
         </>
     );
 }
