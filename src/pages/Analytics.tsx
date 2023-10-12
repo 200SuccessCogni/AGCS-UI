@@ -100,8 +100,9 @@ function Dashboard() {
             );
             if (res && res.status === 200) {
                 const insightsRes = res.data.insights;
+                let insights;
                 if (insightsRes && insightsRes.length) {
-                    const insights = insightsRes.map((e: any) => ({
+                    insights = insightsRes.map((e: any) => ({
                         ...e,
                         label: e._id,
                         value: Math.floor(e.avgMagnitude * 10),
@@ -161,7 +162,8 @@ function Dashboard() {
                             ),
                             datasets: [
                                 {
-                                    backgroundColor: randomColor(),
+                                    tension: 0.4,
+                                    borderColor: randomColor(),
                                     data: e.data.map((l: any) => l.score),
                                 },
                             ],

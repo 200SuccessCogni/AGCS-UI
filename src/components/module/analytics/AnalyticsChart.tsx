@@ -5,8 +5,6 @@ import { AnalyticsChartType } from "../types/analytics";
 import { camelCaseToTitleCase } from "../../../services/shared.service";
 
 function AnalyticsChart(props: AnalyticsChartType) {
-    console.log(props.data);
-
     const options = {
         responsive: true,
         scales: {
