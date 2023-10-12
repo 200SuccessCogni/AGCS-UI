@@ -67,8 +67,35 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        getInsights();
+        // getInsights();
+        getInsightsAndAnalytics();
     }, []);
+
+    const getInsightsAndAnalytics = async (
+        businessId = "65227a4fd7a294d9ee6f18a6",
+        locationId = "65227ab4d7a294d9ee6f18db"
+    ) => {
+        setLoader(true);
+        try {
+            const res = await GET(
+                `/review/getinsightAnalytics?businessId=${businessId}&locationId=${locationId}`
+            );
+            if (res && res.status === 200) {
+                if (res.data.insights && res.data.insights.length) {
+                    setInsights(
+                        res.data.insights.map((e: any) => ({
+                            ...e,
+                            count: Math.floor(e.avgMagnitude * 10),
+                        }))
+                    );
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        setLoader(false);
+    };
 
     const getInsights = async (resortId = "649da3f7953f4d5cdeaff1c1") => {
         setLoader(true);
