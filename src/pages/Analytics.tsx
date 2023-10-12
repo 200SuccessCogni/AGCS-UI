@@ -147,7 +147,10 @@ function Dashboard() {
                         const data =
                             sortedData.length < 6
                                 ? sortedData
-                                : sortedData.slice(0, 6);
+                                : sortedData.slice(
+                                      sortedData.length - 6,
+                                      sortedData.length
+                                  );
                         return {
                             type: a.type,
                             data: data,
