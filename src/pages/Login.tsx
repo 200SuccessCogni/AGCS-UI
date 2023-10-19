@@ -6,7 +6,7 @@ import { POST } from "../services/api.service";
 import useApp from "../store/app.context";
 
 function Login() {
-    const { setUser } = useApp();
+    const { setUser, setAlert } = useApp();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -17,17 +17,25 @@ function Login() {
             const res = await POST("/auth/signin", { email, password });
 
             if (res && res.status && res.status === 200) {
-                localStorage.setItem("token", res.data.data.token);
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(res.data.data.user)
-                );
-                setUser(res.data.data.user);
+                if (res.data.data && res.data.code === 1) {
+                    localStorage.setItem("token", res.data.data.token);
+                    localStorage.setItem(
+                        "user",
+                        JSON.stringify(res.data.data.user)
+                    );
+                    setUser(res.data.data.user);
 
-                if (localStorage.getItem("introDone")) {
-                    navigate("/");
+                    if (localStorage.getItem("introDone")) {
+                        navigate("/");
+                    } else {
+                        navigate("/intro");
+                    }
                 } else {
-                    navigate("/intro");
+                    setAlert({
+                        title: "Alert",
+                        show: true,
+                        message: res.data.msg,
+                    });
                 }
             }
         } catch (err) {

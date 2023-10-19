@@ -1,4 +1,4 @@
-import { IApp } from "../interfaces/app.interface";
+import { IAlert, IApp } from "../interfaces/app.interface";
 import { IResort } from "../interfaces/resort.interface";
 import { useContext, useReducer, createContext } from "react";
 
@@ -7,6 +7,11 @@ const initAppData: IApp = {
     currentPage: "",
     loader: false,
     user: null,
+    alert: {
+        title: "",
+        message: "",
+        show: false,
+    },
     resortList: [],
     selectedDateRange: null,
     selectedLocation: null,
@@ -17,6 +22,7 @@ const initAppData: IApp = {
     setUser: (data: any) => undefined,
     setResort: (data: IResort[]) => undefined,
     setALLReviews: (data: any[]) => undefined,
+    setAlert: (data: IAlert) => undefined,
 };
 
 const appReducer = (prevState: any, action: any) => {
@@ -32,6 +38,8 @@ const appReducer = (prevState: any, action: any) => {
         return { ...prevState, user: action.data };
     } else if (action.type === "SET_ALL_REVIEWS") {
         return { ...prevState, allReviews: action.data };
+    } else if (action.type === "SET_ALERT") {
+        return { ...prevState, alert: action.data };
     } else return initAppData;
 };
 
@@ -49,7 +57,7 @@ export const AppContextProvidor = (props: any) => {
     };
 
     const setSelectedLocation = (data: any) => {
-        console.log({ data });
+        // console.log({ data });
         appDispatch({ type: "SET_SELECTED_LOCATION", data });
     };
 
@@ -63,6 +71,10 @@ export const AppContextProvidor = (props: any) => {
 
     const setALLReviews = (data: any[]) => {
         appDispatch({ type: "SET_ALL_REVIEWS", data });
+    };
+
+    const setAlert = (data: IAlert) => {
+        appDispatch({ type: "SET_ALERT", data });
     };
 
     const reset = () => {
@@ -85,6 +97,7 @@ export const AppContextProvidor = (props: any) => {
                 setResort,
                 reset,
                 setALLReviews,
+                setAlert,
             }}
         >
             {props.children}

@@ -11,6 +11,8 @@ import { AuthGuard } from "./components/module/auth/AuthGuard";
 // Blogs
 import TripadvisorIntegrate from "../blogs/how-to-get-tripadvisor-partner-api.mdx";
 import Blog from "./components/module/blogs";
+import AppAlertModal from "./components/app/AppAlertModal";
+import useApp from "./store/app.context";
 
 // Lazy loading
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -35,66 +37,78 @@ function withAuthInterceptor(component: ReactElement, isAuthenticated = true) {
 }
 
 function App() {
+    const { alert, setAlert } = useApp();
+
     return (
-        <Router>
-            <Suspense fallback={layoutWrapper(<p>Loading...</p>)}>
-                <Routes>
-                    <Route
-                        path="/"
-                        element={withAuthInterceptor(<Dashboard />)}
-                    />
-                    <Route
-                        path="/dashboard"
-                        element={withAuthInterceptor(<Dashboard />)}
-                    />
-                    <Route
-                        path="/reviews"
-                        element={withAuthInterceptor(<Reviews />)}
-                    />
-                    <Route
-                        path="/analytics"
-                        element={withAuthInterceptor(<Analytics />)}
-                    />
-                    <Route
-                        path="/recommendation"
-                        element={withAuthInterceptor(<Recommendation />)}
-                    />
-                    <Route
-                        path="/compare"
-                        element={withAuthInterceptor(<Compare />)}
-                    />
-                    <Route
-                        path="/integration"
-                        element={withAuthInterceptor(<Integration />)}
-                    />
-                    <Route
-                        path="/settings"
-                        element={withAuthInterceptor(<Settings />)}
-                    />
-                    <Route
-                        path="/intro"
-                        element={withAuthInterceptor(<Intro />, false)}
-                    />
-                    <Route
-                        path="/signin"
-                        element={withAuthInterceptor(<Login />, false)}
-                    />
-                    <Route
-                        path="/signup"
-                        element={withAuthInterceptor(<Signup />, false)}
-                    />
-                    {/* Blogs route */}
-                    <Route
-                        path="/blogs/how-to-get-tripadvisor-partner-api"
-                        element={
-                            <Blog>
-                                <TripadvisorIntegrate />
-                            </Blog>
-                        }
-                    />
-                </Routes>
-            </Suspense>
-        </Router>
+        <>
+            <Router>
+                <Suspense fallback={layoutWrapper(<p>Loading...</p>)}>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={withAuthInterceptor(<Dashboard />)}
+                        />
+                        <Route
+                            path="/dashboard"
+                            element={withAuthInterceptor(<Dashboard />)}
+                        />
+                        <Route
+                            path="/reviews"
+                            element={withAuthInterceptor(<Reviews />)}
+                        />
+                        <Route
+                            path="/analytics"
+                            element={withAuthInterceptor(<Analytics />)}
+                        />
+                        <Route
+                            path="/recommendation"
+                            element={withAuthInterceptor(<Recommendation />)}
+                        />
+                        <Route
+                            path="/compare"
+                            element={withAuthInterceptor(<Compare />)}
+                        />
+                        <Route
+                            path="/integration"
+                            element={withAuthInterceptor(<Integration />)}
+                        />
+                        <Route
+                            path="/settings"
+                            element={withAuthInterceptor(<Settings />)}
+                        />
+                        <Route
+                            path="/intro"
+                            element={withAuthInterceptor(<Intro />, false)}
+                        />
+                        <Route
+                            path="/signin"
+                            element={withAuthInterceptor(<Login />, false)}
+                        />
+                        <Route
+                            path="/signup"
+                            element={withAuthInterceptor(<Signup />, false)}
+                        />
+                        {/* Blogs route */}
+                        <Route
+                            path="/blogs/how-to-get-tripadvisor-partner-api"
+                            element={
+                                <Blog>
+                                    <TripadvisorIntegrate />
+                                </Blog>
+                            }
+                        />
+                    </Routes>
+                </Suspense>
+            </Router>
+            <AppAlertModal
+                title={alert.title}
+                show={alert.show}
+                message={alert.message}
+                handleClose={() =>
+                    setAlert({ show: false, message: "", title: "" })
+                }
+            />
+        </>
     );
 }
 
