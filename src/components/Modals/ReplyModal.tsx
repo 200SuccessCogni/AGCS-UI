@@ -41,22 +41,23 @@ export default function ReplyModal(props: IReplyModal) {
                 onClose={() => props.closeHandler}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                maxWidth={"sm"}
+                maxWidth={"md"}
+                fullWidth
             >
                 {!!loader && <LinearProgress color="primary" />}
 
                 <DialogTitle id="alert-dialog-title">
                     Reply Message
-                    <Typography
+                    {/* <Typography
                         variant="body2"
                         color="text.secondary"
                         className="txt-gradient"
                     >
                         AI Generated
-                    </Typography>
+                    </Typography> */}
                 </DialogTitle>
                 <DialogContent>
-                    <Box
+                    {/* <Box
                         sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -71,13 +72,13 @@ export default function ReplyModal(props: IReplyModal) {
                             value={props.rating}
                             readOnly
                         />
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
+                    </Box> */}
+                    {/* <Typography variant="body2" color="text.secondary">
                         <ReadMore>{`${props.description}`}</ReadMore>
-                    </Typography>
+                    </Typography> */}
                     <TextField
                         id="outlined-multiline-flexible"
-                        label="Reply message"
+                        label="Draft"
                         fullWidth
                         multiline
                         maxRows={10}
@@ -85,7 +86,7 @@ export default function ReplyModal(props: IReplyModal) {
                             value: message,
                             name: message,
                         }}
-                        onChange={(e) => setMessage(e.target.value)}
+                        onChange={(e:any) => setMessage(e.target.value)}
                         sx={{ my: 3, fontSize: "0.9rem", color: "text." }}
                     />
                 </DialogContent>

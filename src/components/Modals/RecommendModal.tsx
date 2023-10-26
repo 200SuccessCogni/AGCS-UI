@@ -54,7 +54,7 @@ function RecommendModal(props: IRecModal) {
             >
                 {!!loader && <LinearProgress color="primary" />}
                 <DialogTitle id="alert-dialog-title">
-                    AI Recommendation
+                    Recommendation
                 </DialogTitle>
                 <DialogContent>
                     <Typography variant="body2">
@@ -63,10 +63,17 @@ function RecommendModal(props: IRecModal) {
                 </DialogContent>
                 <DialogActions>
                     <Button
+                        color="black"
+                        variant="outlined"
+                        autoFocus
+                    >
+                        Share
+                    </Button>
+                    <Button
                         onClick={props.closeHandler}
                         color="black"
                         variant="contained"
-                        autoFocus
+                        // autoFocus
                     >
                         Close
                     </Button>
