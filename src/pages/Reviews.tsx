@@ -7,9 +7,9 @@ import useApp from "../store/app.context";
 import ReviewForm from "../components/module/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
-import ReplyModal from "../components/modals/ReplyModal";
+import ReplyModal from "../components/Modals/ReplyModal";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import RecommendModal from "../components/modals/RecommendModal";
+import RecommendModal from "../components/Modals/RecommendModal";
 import DateRangeRounded from "@mui/icons-material/DateRangeRounded";
 import Pagination from "@mui/material/Pagination";
 
