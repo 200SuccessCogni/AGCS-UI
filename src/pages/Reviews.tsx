@@ -14,7 +14,14 @@ import DateRangeRounded from "@mui/icons-material/DateRangeRounded";
 import Pagination from "@mui/material/Pagination";
 
 function Reviews() {
-    const { setLoader, loader, allReviews, setALLReviews } = useApp();
+    const {
+        setLoader,
+        loader,
+        allReviews,
+        setALLReviews,
+        user,
+        selectedLocation,
+    } = useApp();
     const [reviews, setReviews] = useState<IReviewItem[] | null>(null);
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
     const [limit, setLimit] = useState(10);
@@ -32,8 +39,6 @@ function Reviews() {
     // const isSmallDevice = useMediaQuery("(max-width: 0px)");
 
     useEffect(() => {
-        if (allReviews.length === 0) getAllReviews();
-
         setReviews(allReviews.slice(count, limit));
         setPaginationCount(
             allReviews.length > 10
@@ -42,11 +47,21 @@ function Reviews() {
         );
     }, [allReviews]);
 
+    useEffect(() => {
+        if (
+            user &&
+            user?.business &&
+            user?.business?.businessId &&
+            allReviews.length === 0 &&
+            selectedLocation &&
+            selectedLocation
+        ) {
+            getAllReviews(user?.business?.businessId, selectedLocation.id);
+        }
+    }, [user, selectedLocation]);
+
     const getAllReviews = useCallback(
-        async (
-            businessId = "65227a4fd7a294d9ee6f18a6",
-            locationId = "65227ab4d7a294d9ee6f18db"
-        ) => {
+        async (businessId: string, locationId: string) => {
             setLoader(true);
             try {
                 const res = await GET(

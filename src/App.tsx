@@ -20,7 +20,7 @@ const Reviews = lazy(() => import("./pages/Reviews"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Insights = lazy(() => import("./pages/Insights"));
 const Integration = lazy(() => import("./pages/Integration"));
-const Intro = lazy(() => import("./pages/Intro"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Recommendation = lazy(() => import("./pages/Recommendation"));
@@ -77,8 +77,8 @@ function App() {
                             element={withAuthInterceptor(<Settings />)}
                         />
                         <Route
-                            path="/intro"
-                            element={withAuthInterceptor(<Intro />, false)}
+                            path="/onboarding"
+                            element={withAuthInterceptor(<Onboarding />, false)}
                         />
                         <Route
                             path="/signin"

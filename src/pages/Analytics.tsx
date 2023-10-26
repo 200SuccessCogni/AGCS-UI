@@ -67,7 +67,7 @@ const initChartDataSet = [
 
 function Dashboard() {
     const [insights, setInsights] = useState([]);
-    const { setLoader } = useApp();
+    const { setLoader, user, selectedLocation } = useApp();
     const [chartsData, setChartsData] = useState<any[]>();
     const [appliedDateSet, setAppliedDateSet] = useState(initChartDataSet);
     const [lowPerfAment, setLowPerfAment] = useState("");
@@ -86,12 +86,21 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        getInsightsAndAnalytics();
-    }, []);
+        if (
+            user &&
+            user?.business &&
+            user?.business?.businessId &&
+            selectedLocation
+        )
+            getInsightsAndAnalytics(
+                user?.business?.businessId,
+                selectedLocation.id
+            );
+    }, [user, selectedLocation]);
 
     const getInsightsAndAnalytics = async (
-        businessId = "65227a4fd7a294d9ee6f18a6",
-        locationId = "65227ab4d7a294d9ee6f18db"
+        businessId: string,
+        locationId: string
     ) => {
         setLoader(true);
         try {

@@ -11,6 +11,7 @@ interface ExtendedPaletteColorOptions extends SimplePaletteColorOptions {
 }
 
 interface ExtendedTypeText extends TypeText {
+    light: string;
     contrastText: string;
     contrastTextLight: string;
 }
@@ -62,6 +63,7 @@ const palette: ExtendedPaletteOptions = {
     text: {
         primary: "#032e2b",
         secondary: "#222",
+        light: "#454545",
         contrastText: "#fff",
         contrastTextLight: "#d0e9f3",
     },

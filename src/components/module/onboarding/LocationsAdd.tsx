@@ -8,16 +8,22 @@ import {
 import DragDropFileUpload from "../../app/DragDropFileUpload";
 // import { useEffect, useState } from "react";
 
-function Intro2(props: any) {
+function LocationsAdd(props: any) {
     return (
-        <Box display="flex" height="100%" position="relative">
+        <Box
+            display="flex"
+            justifyContent="center"
+            height="100%"
+            position="relative"
+        >
             <Box
                 className="bg-secondary"
-                py={3}
                 sx={{
-                    flexBasis: { xs: "100%", md: "60%" },
-                    maxWidth: { xs: "100%", md: "50%" },
-                    overflowY: "auto",
+                    // flexBasis: { xs: "100%", md: "60%" },
+                    // maxWidth: { xs: "100%", md: "50%" },
+                    padding: "24px 15%",
+                    width: "100%",
+                    overflowY: "hidden",
                     overflowX: "hidden",
                     backgroundColor: "secondary.light",
                     position: "relative",
@@ -59,7 +65,15 @@ function Intro2(props: any) {
                         One time Integrate
                     </Typography>
                     <Typography variant="h4" fontWeight={600}>
-                        Integrate own hotels or resorts
+                        Integrate your own properties
+                        <Typography
+                            component="span"
+                            variant="h5"
+                            fontWeight={500}
+                            color="text.light"
+                        >
+                            {" (Hotels, Restaurants or Airlines)"}
+                        </Typography>
                     </Typography>
                 </Box>
 
@@ -68,7 +82,7 @@ function Intro2(props: any) {
                         width: "100%",
                         display: "flex",
                         justifyContent: "center",
-                        mt: "20%",
+                        mt: "10%",
                     }}
                 >
                     <DragDropFileUpload />
@@ -159,7 +173,7 @@ function Intro2(props: any) {
                     </Button>
                 </Box>
             </Box>
-            <Box
+            {/* <Box
                 sx={{
                     flexBasis: "40%",
                     maxWidth: "50%",
@@ -182,9 +196,9 @@ function Intro2(props: any) {
                         }}
                     />
                 </Box>
-            </Box>
+            </Box> */}
         </Box>
     );
 }
 
-export default Intro2;
+export default LocationsAdd;

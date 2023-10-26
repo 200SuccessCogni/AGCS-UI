@@ -19,7 +19,7 @@ export function AuthGuard({
         }
 
         if (!isIntroCompleted && token) {
-            navigate("/intro");
+            navigate("/onboarding");
         }
         if (!token) {
             navigate("/signin");

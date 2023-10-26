@@ -23,25 +23,17 @@ export default function AppAlertModal(props: AppAlertModalType) {
                 fullWidth
             >
                 <Box sx={{ px: 5, py: 3 }}>
-                    <DialogTitle id="alert-dialog-title">
+                    <Typography variant="h4" fontWeight={600} align="center">
+                        {props.title || "An Error Occoured!"}
+                    </Typography>
+                    <DialogContent>
                         <Typography
-                            variant="h4"
-                            fontWeight={600}
+                            variant="h6"
+                            fontWeight={500}
                             align="center"
                         >
-                            {props.title || "An Error Occoured!"}
+                            {props?.message}
                         </Typography>
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            <Typography
-                                variant="h6"
-                                fontWeight={500}
-                                align="center"
-                            >
-                                {props?.message}
-                            </Typography>
-                        </DialogContentText>
                     </DialogContent>
                     <DialogActions sx={{ justifyContent: "center" }}>
                         <Button

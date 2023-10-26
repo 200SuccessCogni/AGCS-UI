@@ -90,8 +90,14 @@ function StatCard(props: ICountCard) {
 }
 
 function Dashboard() {
-    const { setLoader, selectedLocation, loader, setALLReviews, allReviews } =
-        useApp();
+    const {
+        setLoader,
+        selectedLocation,
+        loader,
+        setALLReviews,
+        allReviews,
+        user,
+    } = useApp();
     const navigate = useNavigate();
     const [reviews, setReviews] = useState([]);
     const [posReview, setPosReview] = useState(0);
@@ -100,34 +106,44 @@ function Dashboard() {
     const [mixReview, setMixReview] = useState(0);
 
     useEffect(() => {
-        getInsightsAndAnalytics();
-        getAllReviews();
-        // console.log({ selectedLocation });
-        // if (selectedLocation) getReviews(selectedLocation.id);
-        // else getReviews();
-    }, [selectedLocation]);
-
-    const getAllReviews = useCallback(async () => {
-        setLoader(true);
-        try {
-            const res = await GET(
-                "/review/getall?businessId=65227a4fd7a294d9ee6f18a6&locationId=65227ab4d7a294d9ee6f18db"
+        if (
+            user &&
+            user?.business &&
+            user?.business?.businessId &&
+            selectedLocation
+        ) {
+            getInsightsAndAnalytics(
+                user?.business?.businessId,
+                selectedLocation.id
             );
-            if (res && res.status === 200) {
-                const allReviews: IReviewItem[] = res.data.data.map(
-                    (e: any) => ({
-                        ...e,
-                        id: e._id,
-                    })
-                );
-                setALLReviews(allReviews);
-            }
-        } catch (err) {
-            console.log(err);
+            getAllReviews(user?.business?.businessId, selectedLocation.id);
         }
+    }, [user, selectedLocation]);
 
-        setLoader(false);
-    }, []);
+    const getAllReviews = useCallback(
+        async (businessId: string, locationId: string) => {
+            setLoader(true);
+            try {
+                const res = await GET(
+                    `/review/getall?businessId=?businessId=${businessId}&locationId=${locationId}`
+                );
+                if (res && res.status === 200) {
+                    const allReviews: IReviewItem[] = res.data.data.map(
+                        (e: any) => ({
+                            ...e,
+                            id: e._id,
+                        })
+                    );
+                    setALLReviews(allReviews);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+            setLoader(false);
+        },
+        []
+    );
 
     const getInsightsAndAnalytics = async (
         businessId = "65227a4fd7a294d9ee6f18a6",

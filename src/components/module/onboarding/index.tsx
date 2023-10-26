@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 import Intro1 from "./Intro1";
-import Intro2 from "./Intro2";
+import LocationsAdd from "./LocationsAdd";
 import Integrate from "./Integrate";
 
 function Intro() {
@@ -10,7 +10,7 @@ function Intro() {
     return (
         <Box maxWidth="xl" height="100vh">
             {step === 1 && <Intro1 setStep={setStep} />}
-            {step === 2 && <Intro2 setStep={setStep} />}
+            {step === 2 && <LocationsAdd setStep={setStep} />}
             {step === 3 && <Integrate setStep={setStep} />}
         </Box>
     );

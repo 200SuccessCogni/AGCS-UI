@@ -1,7 +1,8 @@
 export type GlobalSearchV2PropsType = {
-    selectedLocation: SelectedResort;
+    selectedLocation: SelectedLocation;
     recommendedItems: earchDataType[];
     searchItemResult: SearchDataType[];
+    // allLocations?: SearchDataType[];
     others?: any[];
     loading?: boolean;
     onChange: (searchQuery: string) => void;
@@ -15,7 +16,7 @@ export type SearchDataType = {
     locationImg: string;
 };
 
-export type SelectedResort = {
+export type SelectedLocation = {
     locationId: string;
     locationName: string;
     locationAddress: string;

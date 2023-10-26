@@ -1,3 +1,4 @@
+import { Iuser } from "../interfaces/user.interface";
 import { IAlert, IApp } from "../interfaces/app.interface";
 import { IResort } from "../interfaces/resort.interface";
 import { useContext, useReducer, createContext } from "react";
@@ -61,11 +62,12 @@ export const AppContextProvidor = (props: any) => {
         appDispatch({ type: "SET_SELECTED_LOCATION", data });
     };
 
-    const setUser = (data: any) => {
+    const setUser = (data: Iuser) => {
         appDispatch({ type: "SET_USER", data });
     };
 
     const setResort = (data: any[]) => {
+        console.log({ data });
         appDispatch({ type: "SET_RESORT", data });
     };
 

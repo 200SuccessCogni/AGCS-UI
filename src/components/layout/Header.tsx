@@ -20,23 +20,40 @@ import { IResort } from "../../interfaces/resort.interface";
 const drawerWidth = 260;
 
 function Header(props: any) {
+    const [filteredLocations, setFilteredLocations] = useState<any[]>([]);
+    const [recommendedLocs, setRecommendedLocs] = useState<any[]>([]);
     const {
         resortList,
         setResort,
         setSelectedLocation,
-        user = { name: "" },
+        user,
         selectedLocation,
     } = useApp();
 
     useEffect(() => {
-        getAllLocations();
-    }, []);
+        setRecommendedLocs(
+            resortList.length < 4 ? resortList : resortList.splice(0, 3) || []
+        );
+    }, [resortList]);
+
+    useEffect(() => {
+        console.log({ user });
+        if (user && user.business && user.business?.businessId)
+            getAllLocations();
+    }, [user]);
 
     const onResortChange = (value: any) => {
-        const reosort = resortList.find(
-            (r) => r.resortName.toLowerCase() === value.toLowerCase()
+        // console.log({ value, resortList });
+
+        if (!value) {
+            setFilteredLocations([]);
+            return;
+        }
+        const locations = resortList.filter((r) =>
+            r.locationName.toLowerCase().includes(value.toLowerCase())
         );
-        setSelectedLocation(reosort);
+        console.log({ locations, value, resortList });
+        setFilteredLocations(locations);
     };
 
     // notification popover
@@ -52,7 +69,7 @@ function Header(props: any) {
     const getAllLocations = useCallback(async () => {
         try {
             const res = await GET(
-                "/location/getAll?businessId=65227a4fd7a294d9ee6f18a6"
+                `/location/getAll?businessId=${user?.business?.businessId}`
             );
 
             if (
@@ -80,7 +97,7 @@ function Header(props: any) {
         } catch (err) {
             console.log(err);
         }
-    }, []);
+    }, [user?.business?.businessId]);
 
     return (
         <AppBar
@@ -125,8 +142,8 @@ function Header(props: any) {
                 </IconButton>
 
                 <GlobalSearchV2
-                    recommendedItems={resortList || []}
-                    searchItemResult={[]}
+                    recommendedItems={recommendedLocs}
+                    searchItemResult={filteredLocations || []}
                     onChange={onResortChange}
                     onSelect={onResortChange}
                     selectedLocation={selectedLocation}
@@ -171,7 +188,7 @@ function Header(props: any) {
                             fontWeight={500}
                             color="text.primary"
                         >
-                            {!!user && `${user?.name}`}
+                            {!!user && `${user?.fullname}`}
                         </Typography>
                         <Typography
                             variant="caption"
@@ -183,7 +200,7 @@ function Header(props: any) {
                     </Box>
                     <Box mx={1}>
                         <Avatar
-                            alt={user?.name || ""}
+                            alt={user?.fullname || ""}
                             src="/static/images/avatar/1.jpg"
                         />
                     </Box>

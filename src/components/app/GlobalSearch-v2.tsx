@@ -241,42 +241,6 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
                 </header>
                 <Divider />
                 <DialogContent sx={{ p: 0 }}>
-                    {/* Recommended  */}
-                    {!!props.recommendedItems.length &&
-                        !props.searchItemResult.length && (
-                            <List
-                                sx={{
-                                    width: "100%",
-                                    bgcolor: "background.paper",
-                                }}
-                                component="nav"
-                                aria-labelledby="suggested-location"
-                                subheader={
-                                    <SearchHeader
-                                        headerText="Recommended"
-                                        icon={<PlaceIcon />}
-                                    />
-                                }
-                            >
-                                {props.recommendedItems.map(
-                                    (e: SearchDataType, i) => (
-                                        <Box key={i}>
-                                            <SearchItem
-                                                imgUrl={
-                                                    e.locationImg ||
-                                                    "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
-                                                }
-                                                name={e.locationName}
-                                                address={e.locationAddress}
-                                                onClick={() => onItemClick(e)}
-                                            />
-                                            <Divider />
-                                        </Box>
-                                    )
-                                )}
-                            </List>
-                        )}
-
                     {/* Search result */}
                     {!!props.searchItemResult.length && (
                         <List
@@ -294,6 +258,40 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
                             }
                         >
                             {props.searchItemResult.map(
+                                (e: SearchDataType, i) => (
+                                    <Box key={i}>
+                                        <SearchItem
+                                            imgUrl={
+                                                e.locationImg ||
+                                                "https://www.rci.com/static/Resorts/Assets/3603E02L.jpg"
+                                            }
+                                            name={e.locationName}
+                                            address={e.locationAddress}
+                                            onClick={() => onItemClick(e)}
+                                        />
+                                        <Divider />
+                                    </Box>
+                                )
+                            )}
+                        </List>
+                    )}
+                    {/* Recommended  */}
+                    {!!props.recommendedItems.length && (
+                        <List
+                            sx={{
+                                width: "100%",
+                                bgcolor: "background.paper",
+                            }}
+                            component="nav"
+                            aria-labelledby="suggested-location"
+                            subheader={
+                                <SearchHeader
+                                    headerText="Recommended"
+                                    icon={<PlaceIcon />}
+                                />
+                            }
+                        >
+                            {props.recommendedItems.map(
                                 (e: SearchDataType, i) => (
                                     <Box key={i}>
                                         <SearchItem

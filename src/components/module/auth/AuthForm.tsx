@@ -22,8 +22,6 @@ function AuthForm(props: IAuthForm) {
             return;
         }
 
-        console.log(validateEmail(email));
-
         setErrMsg("");
         props.onSubmit(email, password);
     };
