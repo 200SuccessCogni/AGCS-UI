@@ -41,9 +41,7 @@ function Reviews() {
     useEffect(() => {
         setReviews(allReviews.slice(count, limit));
         setPaginationCount(
-            allReviews.length > 10
-                ? Math.round(allReviews.length / 10)
-                : allReviews.length
+            allReviews.length > 10 ? Math.round(allReviews.length / 10) : 1
         );
     }, [allReviews]);
 
