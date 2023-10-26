@@ -114,7 +114,7 @@ function Dashboard() {
                     insights = insightsRes.map((e: any) => ({
                         ...e,
                         label: e._id,
-                        value: Math.floor(e.avgMagnitude * 10),
+                        value: e.avgMagnitude>1?Math.floor(e.avgMagnitude): Math.floor(e.avgMagnitude * 10),
                     }));
                     setInsights(insights);
 
