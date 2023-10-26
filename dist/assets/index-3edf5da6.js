@@ -1,0 +1,1 @@
+import{j as r,L as t,T as i}from"./index-8f45885e.js";import{G as s}from"./Grid-42d30c92.js";function n(e){return r.jsxs(r.Fragment,{children:[r.jsx(s,{item:!0,xs:6,md:9,sx:{mt:"10px",ml:2},children:r.jsx(t,{variant:"determinate",color:"primary",value:e.count*10})}),r.jsx(s,{item:!0,xs:1,md:1,sx:{ml:"40px"},children:r.jsx(i,{children:e.count})})]})}export{n as L};
