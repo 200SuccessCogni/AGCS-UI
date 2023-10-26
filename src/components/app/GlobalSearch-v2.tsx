@@ -139,6 +139,7 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
         saveRecentSearch(item);
         setPrevSearchItems(getSavedSearchItems());
         setOpen(false);
+        props.onSelect(item);
     };
 
     const saveRecentSearch = (item: SearchDataType) => {

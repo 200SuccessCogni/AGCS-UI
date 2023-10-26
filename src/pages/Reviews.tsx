@@ -46,12 +46,11 @@ function Reviews() {
     }, [allReviews]);
 
     useEffect(() => {
+        console.log({ selectedLocation });
         if (
             user &&
             user?.business &&
-            user?.business?.businessId &&
-            allReviews.length === 0 &&
-            selectedLocation &&
+            user.business?.businessId &&
             selectedLocation
         ) {
             getAllReviews(user?.business?.businessId, selectedLocation.id);

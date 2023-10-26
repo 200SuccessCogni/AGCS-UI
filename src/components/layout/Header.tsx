@@ -32,28 +32,30 @@ function Header(props: any) {
 
     useEffect(() => {
         setRecommendedLocs(
-            resortList.length < 4 ? resortList : resortList.splice(0, 3) || []
+            resortList.length < 4 ? resortList : resortList.slice(0, 3) || []
         );
     }, [resortList]);
 
     useEffect(() => {
-        console.log({ user });
-        if (user && user.business && user.business?.businessId)
+        if (user && user.business && user.business?.businessId) {
             getAllLocations();
+        }
     }, [user]);
 
-    const onResortChange = (value: any) => {
-        // console.log({ value, resortList });
-
+    const onResortChange = (value: string) => {
         if (!value) {
             setFilteredLocations([]);
             return;
         }
-        const locations = resortList.filter((r) =>
-            r.locationName.toLowerCase().includes(value.toLowerCase())
-        );
-        console.log({ locations, value, resortList });
+        const locations = [...resortList].filter((r) => {
+            return r.locationName.toLowerCase().includes(value.toLowerCase());
+        });
         setFilteredLocations(locations);
+    };
+
+    const onLocationChoose = (data: any) => {
+        console.log({ data });
+        setSelectedLocation(data);
     };
 
     // notification popover
@@ -145,7 +147,7 @@ function Header(props: any) {
                     recommendedItems={recommendedLocs}
                     searchItemResult={filteredLocations || []}
                     onChange={onResortChange}
-                    onSelect={onResortChange}
+                    onSelect={onLocationChoose}
                     selectedLocation={selectedLocation}
                 />
                 {/* <GlobalSearch /> */}

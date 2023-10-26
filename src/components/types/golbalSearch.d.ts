@@ -6,7 +6,7 @@ export type GlobalSearchV2PropsType = {
     others?: any[];
     loading?: boolean;
     onChange: (searchQuery: string) => void;
-    onSelect: (searchQuery: string) => void;
+    onSelect: (searchQuery: SearchDataType) => void;
 };
 
 export type SearchDataType = {

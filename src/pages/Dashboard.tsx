@@ -74,6 +74,7 @@ function Dashboard() {
     const [mixReview, setMixReview] = useState(0);
 
     useEffect(() => {
+        console.log({ selectedLocation });
         if (
             user &&
             user?.business &&
