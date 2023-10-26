@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LineChart from "../components/charts/LineChart";
+import LineChart from "../components/Charts/LineChart";
 import ReviewForm from "../components/module/review/ReviewForm";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
