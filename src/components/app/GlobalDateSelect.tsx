@@ -14,7 +14,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 function setInitialDateRange() {
     const dateRange = {
-        startDate: dayjs(new Date()).subtract(6, "day").format("MMM D, YYYY"),
+        startDate: dayjs(new Date(new Date().getFullYear(), 0, 1)).format(
+            "MMM D, YYYY"
+        ),
         endDate: dayjs(new Date()).format("MMM D, YYYY"),
     };
     return `${dateRange.startDate} - ${dateRange.endDate}`;
