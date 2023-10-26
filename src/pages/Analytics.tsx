@@ -181,8 +181,9 @@ function Dashboard() {
                             ],
                         },
                     }));
-
-                    setChartsData(chartData);
+                    setChartsData(
+                        chartData.filter((e) => e.data.labels.length > 1)
+                    );
                 }
             }
         } catch (err) {
