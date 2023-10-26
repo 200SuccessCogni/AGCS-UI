@@ -1,5 +1,5 @@
 export interface IReviewItem {
-    category?: "review" | "neutral" | "positive" | "negative";
+    category?: "evaluate" | "neutral" | "positive" | "negative";
     city?: string;
     country?: string;
     cusCity?: string;
