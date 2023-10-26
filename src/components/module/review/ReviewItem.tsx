@@ -46,7 +46,7 @@ export default function ReviewItem(props: IReviewItemProps) {
     ): any => {
         let color = "";
         switch (type) {
-            case "review":
+            case "evaluate":
                 color = "warning";
                 break;
             case "neutral":
