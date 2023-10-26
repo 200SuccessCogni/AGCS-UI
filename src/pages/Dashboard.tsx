@@ -19,45 +19,7 @@ import { GET } from "../services/api.service";
 import dayjs from "dayjs";
 import AIChip from "../components/core/chip/AIChip";
 import { IReviewItem } from "@/interfaces/review.interface";
-
-const insights = [
-    {
-        name: "Service",
-        mentionedCount: "15",
-        unfavourable: "19",
-        favourable: "77",
-    },
-    {
-        name: "Fitness",
-        mentionedCount: "5",
-        unfavourable: "9",
-        favourable: "85",
-    },
-    {
-        name: "Family",
-        mentionedCount: "7",
-        unfavourable: "10",
-        favourable: "84",
-    },
-    {
-        name: "Parking",
-        mentionedCount: "12",
-        unfavourable: "55",
-        favourable: "33",
-    },
-    {
-        name: "Cleanliness",
-        mentionedCount: "5",
-        unfavourable: "11",
-        favourable: "87",
-    },
-    {
-        name: "Wellness",
-        mentionedCount: "13",
-        unfavourable: "9",
-        favourable: "13",
-    },
-];
+import { camelCaseToTitleCase } from "../services/shared.service";
 
 function StatCard(props: ICountCard) {
     return (
@@ -89,6 +51,12 @@ function StatCard(props: ICountCard) {
     );
 }
 
+type InsightsType = {
+    name: string;
+    count: number;
+    score: number;
+};
+
 function Dashboard() {
     const {
         setLoader,
@@ -99,7 +67,7 @@ function Dashboard() {
         user,
     } = useApp();
     const navigate = useNavigate();
-    const [reviews, setReviews] = useState([]);
+    const [insights, setInsights] = useState<InsightsType[]>([]);
     const [posReview, setPosReview] = useState(0);
     const [negReview, setNegReview] = useState(0);
     const [neuReview, setNeuReview] = useState(0);
@@ -125,7 +93,7 @@ function Dashboard() {
             setLoader(true);
             try {
                 const res = await GET(
-                    `/review/getall?businessId=?businessId=${businessId}&locationId=${locationId}`
+                    `/review/getall?businessId=${businessId}&locationId=${locationId}`
                 );
                 if (res && res.status === 200) {
                     const allReviews: IReviewItem[] = res.data.data.map(
@@ -155,6 +123,16 @@ function Dashboard() {
                 `/review/getinsightAnalytics?businessId=${businessId}&locationId=${locationId}`
             );
             if (res && res.status === 200) {
+                if (res.data.insights && res.data.insights.length) {
+                    setInsights(
+                        res.data.insights.map((e: any) => ({
+                            name: e?._id,
+                            score: e?.avgScore * 10,
+                            count: e?.count,
+                        }))
+                    );
+                }
+
                 if (res.data.categories && res.data.categories.length) {
                     res.data.categories.map((e: any) => {
                         switch (e._id) {
@@ -343,25 +321,24 @@ function Dashboard() {
                         </Typography>
                         <Box>
                             {insights.map((e: any) => (
-                                <Tooltip
-                                    title={`${e.favourable}% favourable, ${e.unfavourable}% unfavourable`}
-                                    key={e.namme}
-                                >
+                                <Tooltip title={e.name} key={e.name}>
                                     <Chip
                                         size="small"
                                         icon={
-                                            e.unfavourable > 50 ? (
+                                            e.score < 0 ? (
                                                 <ThumbDownOffAltOutlinedIcon />
                                             ) : (
                                                 <ThumbUpOutlinedIcon />
                                             )
                                         }
-                                        label={<small>{e.name}</small>}
+                                        label={
+                                            <small>
+                                                {camelCaseToTitleCase(e.name)}
+                                            </small>
+                                        }
                                         variant="outlined"
                                         color={
-                                            e.unfavourable < 50
-                                                ? "success"
-                                                : "error"
+                                            e.score > 0 ? "success" : "error"
                                         }
                                         sx={{
                                             m: 0.5,
@@ -373,7 +350,7 @@ function Dashboard() {
                             ))}
                         </Box>
                     </Box>
-                    <Box
+                    {/* <Box
                         sx={{
                             bgcolor: "secondary.light",
                             borderRadius: "10px",
@@ -391,7 +368,7 @@ function Dashboard() {
                         <Typography variant="body2">
                             10 no replied reviews
                         </Typography>
-                    </Box>
+                    </Box> */}
                 </Grid>
             </Grid>
         </>
