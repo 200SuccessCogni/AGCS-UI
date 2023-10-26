@@ -11,7 +11,6 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsPopover from "../popover/Notifications";
 
-import GlobalSearch from "../app/GlobalSearch";
 import useApp from "../../store/app.context";
 import GlobalSearchV2 from "../app/GlobalSearch-v2";
 import { GET } from "../../services/api.service";
@@ -150,7 +149,6 @@ function Header(props: any) {
                     onSelect={onLocationChoose}
                     selectedLocation={selectedLocation}
                 />
-                {/* <GlobalSearch /> */}
                 <Box
                     sx={{
                         ml: "auto",
