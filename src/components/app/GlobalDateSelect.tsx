@@ -30,7 +30,7 @@ function GlobalDateSelect() {
     const [open, setOpen] = React.useState(false);
     const [state, setState] = React.useState([
         {
-            startDate: dayjs(new Date()).subtract(6, "day").toDate(),
+            startDate: dayjs(new Date(new Date().getFullYear(), 0, 1)).toDate(),
             endDate: new Date(),
             key: "selection",
         },
