@@ -12,7 +12,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsPopover from "../popover/Notifications";
 
 import useApp from "../../store/app.context";
-import GlobalSearchV2 from "../app/GlobalSearch-v2";
+import GlobalSearch from "../app/GlobalSearch";
 import { GET } from "../../services/api.service";
 import { IResort } from "../../interfaces/resort.interface";
 
@@ -142,7 +142,7 @@ function Header(props: any) {
                     {/* <MenuIcon /> */}
                 </IconButton>
 
-                <GlobalSearchV2
+                <GlobalSearch
                     recommendedItems={recommendedLocs}
                     searchItemResult={filteredLocations || []}
                     onChange={onResortChange}

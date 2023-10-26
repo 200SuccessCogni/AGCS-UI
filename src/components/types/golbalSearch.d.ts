@@ -1,4 +1,4 @@
-export type GlobalSearchV2PropsType = {
+export type GlobalSearchPropsType = {
     selectedLocation: SelectedLocation;
     recommendedItems: earchDataType[];
     searchItemResult: SearchDataType[];

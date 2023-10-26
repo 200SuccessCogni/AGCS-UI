@@ -16,7 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { styled } from "@mui/system";
-import { GlobalSearchV2PropsType, SearchDataType } from "../types/golbalSearch";
+import { GlobalSearchPropsType, SearchDataType } from "../types/golbalSearch";
 import PlaceIcon from "@mui/icons-material/Place";
 
 const SearchForm = styled("form")({
@@ -98,7 +98,7 @@ const SearchHeader = ({
     );
 };
 
-function GlobalSearchV2(props: GlobalSearchV2PropsType) {
+function GlobalSearch(props: GlobalSearchPropsType) {
     const searchInpRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
     const [searchText, setSearchText] = React.useState("");
@@ -357,4 +357,4 @@ function GlobalSearchV2(props: GlobalSearchV2PropsType) {
     );
 }
 
-export default GlobalSearchV2;
+export default GlobalSearch;
