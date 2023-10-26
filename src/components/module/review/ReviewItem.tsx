@@ -42,7 +42,7 @@ export default function ReviewItem(props: IReviewItemProps) {
     }, [props.cusName]);
 
     const getSentementColor = (
-        type?: "review" | "neutral" | "positive" | "negative"
+        type?: "evaluate" | "neutral" | "positive" | "negative"
     ): any => {
         let color = "";
         switch (type) {
