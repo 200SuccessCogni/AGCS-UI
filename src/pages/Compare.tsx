@@ -1,6 +1,6 @@
 import ReviewItem from "../components/module/review/ReviewItem";
 import { GET } from "../services/api.service";
-import LineChart from "../components/charts/LineChart";
+import LineChart from "../components/Charts/LineChart";
 import { Grid, Typography, Box } from "@mui/material";
 import { useState } from "react";
 import useApp from "../store/app.context";
