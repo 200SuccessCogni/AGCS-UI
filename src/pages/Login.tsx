@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Link } from "@mui/material";
-import AuthForm from "../components/AuthForm";
+import AuthForm from "../components/module/auth/AuthForm";
 import { POST } from "../services/api.service";
 import useApp from "../store/app.context";
+import { Iuser } from "../interfaces/user.interface";
 
 function Login() {
-    const { setUser } = useApp();
+    const { setUser, setAlert } = useApp();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -17,17 +18,38 @@ function Login() {
             const res = await POST("/auth/signin", { email, password });
 
             if (res && res.status && res.status === 200) {
-                localStorage.setItem("token", res.data.data.token);
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(res.data.data.user)
-                );
-                setUser(res.data.data.user);
+                if (res.data.data && res.data.msg === "Success") {
+                    localStorage.setItem("token", res.data.data.token);
+                    const data = res.data.data?.user;
+                    const user: Iuser = {
+                        id: data?._id,
+                        fullname: data?.name,
+                        email: data?.email,
+                        phoneNo: data?.mobile,
+                        business: {
+                            businessId: data.businessId?._id,
+                            businessName: data.businessId?.name,
+                            address: data.businessId?.address,
+                            businessUrl: data.businessId?.webUrl,
+                            domain: data.businessId?.domain,
+                            country: data.businessId?.originCountry,
+                        },
+                        pmLevel: data?.permissionLevel,
+                    };
+                    setUser(user);
+                    localStorage.setItem("user", JSON.stringify(user));
 
-                if (localStorage.getItem("introDone")) {
-                    navigate("/");
+                    if (localStorage.getItem("introDone")) {
+                        navigate("/");
+                    } else {
+                        navigate("/onboarding");
+                    }
                 } else {
-                    navigate("/intro");
+                    setAlert({
+                        title: "Alert",
+                        show: true,
+                        message: res.data.msg,
+                    });
                 }
             }
         } catch (err) {
@@ -49,9 +71,9 @@ function Login() {
             <Box
                 sx={{
                     background: "#eee",
-                    margin: "2rem",
-                    borderRadius: "1rem",
-                    maxWidth: "30%",
+                    margin: { xs: 0, md: "2rem" },
+                    borderRadius: { xs: 0, md: "1rem" },
+                    maxWidth: { xs: "100%", md: "30%" },
                     p: 5,
                     display: "flex",
                     justifyContent: "space-between",

@@ -1,23 +1,98 @@
-import ReviewItem from "../components/review/ReviewItem";
+import { useCallback } from "react";
+import ReviewItem from "../components/module/review/ReviewItem";
 import { GET } from "../services/api.service";
 import { Grid, Typography, Box } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import useApp from "../store/app.context";
-import ReviewForm from "../components/review/ReviewForm";
+import ReviewForm from "../components/module/review/ReviewForm";
 import { IReviewItem } from "../interfaces/review.interface";
 import dayjs from "dayjs";
-import ReplyModal from "../components/Modals/ReplyModal";
+import ReplyModal from "../components/modals/ReplyModal";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import RecommendModal from "../components/modals/RecommendModal";
+import DateRangeRounded from "@mui/icons-material/DateRangeRounded";
+import Pagination from "@mui/material/Pagination";
 
 function Reviews() {
-    const { setLoader, loader } = useApp();
+    const {
+        setLoader,
+        loader,
+        allReviews,
+        setALLReviews,
+        user,
+        selectedLocation,
+    } = useApp();
     const [reviews, setReviews] = useState<IReviewItem[] | null>(null);
     const [isFiltered, setIsFiltered] = useState<boolean>(false);
+    const [limit, setLimit] = useState(10);
+    const [count, setCount] = useState(0);
+
+    const [paginationCount, setPaginationCount] = useState(1);
     const [filterReviews, setFilterReviews] = useState<IReviewItem[] | null>(
         null
     );
-    const [selectedReview, setSlectedReview] = useState<IReviewItem | null>(
+    const [selectedReview, setSelectedReview] = useState<IReviewItem | null>(
         null
     );
+    const [showRecModal, setShowRecModal] = useState(false);
+    const recommendedTxt = useRef("");
+    // const isSmallDevice = useMediaQuery("(max-width: 0px)");
+
+    useEffect(() => {
+        setReviews(allReviews.slice(count, limit));
+        setPaginationCount(
+            allReviews.length > 10 ? Math.round(allReviews.length / 10) : 1
+        );
+    }, [allReviews]);
+
+    useEffect(() => {
+        console.log({ selectedLocation });
+        if (
+            user &&
+            user?.business &&
+            user.business?.businessId &&
+            selectedLocation
+        ) {
+            getAllReviews(user?.business?.businessId, selectedLocation.id);
+        }
+    }, [user, selectedLocation]);
+
+    const getAllReviews = useCallback(
+        async (businessId: string, locationId: string) => {
+            setLoader(true);
+            try {
+                const res = await GET(
+                    `/review/getall?businessId=${businessId}&locationId=${locationId}`
+                );
+                if (res && res.status === 200) {
+                    const allReviews: IReviewItem[] = res.data.data.map(
+                        (e: any) => ({
+                            ...e,
+                            id: e._id,
+                        })
+                    );
+                    setALLReviews(allReviews);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+            setLoader(false);
+        },
+        []
+    );
+
+    const onPaginate = (pageNumber: number) => {
+        const newLimit = pageNumber * 10;
+        const newCount = newLimit - 10;
+        setLimit(newLimit);
+        setCount(newCount);
+        setReviews(allReviews.slice(newCount, newLimit));
+    };
+
+    const onRecommend = (data: any) => {
+        recommendedTxt.current = data.desc;
+        setShowRecModal(true);
+    };
 
     const onFilterApply = (filterData: any) => {
         console.log({ filterData });
@@ -64,41 +139,19 @@ function Reviews() {
         }
     };
 
-    useEffect(() => {
-        getReviews();
-    }, []);
-
-    const getReviews = useCallback(async () => {
-        setLoader(true);
-        try {
-            const res = await GET(
-                "/review/getall?resortId=649da34e953f4d5cdeaff1bb"
-            );
-            if (res && res.status === 200) {
-                const allReviews: IReviewItem[] = res.data.data.map(
-                    (e: any) => ({
-                        ...e,
-                        id: e._id,
-                    })
-                );
-                setReviews(allReviews);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        setLoader(false);
-    }, []);
-
     return (
         <>
             <Typography variant="h5" fontWeight={500}>
                 Reviews
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
-                <Grid item md={9}>
+                <Grid item xs={12} md={9}>
                     <Box
-                        sx={{ background: "#fff", borderRadius: "10px", p: 3 }}
+                        sx={{
+                            bgcolor: "secondary.light",
+                            borderRadius: "10px",
+                            p: 3,
+                        }}
                     >
                         <Typography
                             variant="body1"
@@ -114,7 +167,9 @@ function Reviews() {
                                 <ReviewItem
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
-                                    onReply={(data) => setSlectedReview(data)}
+                                    onReply={(data) => setSelectedReview(data)}
+                                    onRecommend={(data) => onRecommend(data)}
+                                    listView={false}
                                     {...r}
                                 />
                             ))}
@@ -125,7 +180,9 @@ function Reviews() {
                                 <ReviewItem
                                     key={r.id}
                                     date={dayjs(r.date).format("DD/MM/YYYY")}
-                                    onReply={(data) => setSlectedReview(data)}
+                                    onReply={(data) => setSelectedReview(data)}
+                                    onRecommend={(data) => onRecommend(data)}
+                                    listView={false}
                                     {...r}
                                 />
                             ))}
@@ -135,20 +192,42 @@ function Reviews() {
                                 No records found
                             </Typography>
                         )}
+
+                        {reviews && !!reviews.length && (
+                            <Box
+                                sx={{
+                                    my: 2,
+                                    px: 2,
+                                    ml: "auto",
+                                    width: "100%",
+                                    "& .MuiPagination-ul": {
+                                        justifyContent: "flex-end",
+                                    },
+                                }}
+                            >
+                                <Pagination
+                                    count={paginationCount}
+                                    variant="outlined"
+                                    shape="rounded"
+                                    onChange={(e, p) => onPaginate(p)}
+                                />
+                            </Box>
+                        )}
                     </Box>
                 </Grid>
                 <Grid
                     item
+                    xs={12}
                     md={3}
                     sx={{
-                        display: "flex",
+                        display: { xs: "none", md: "flex" },
                         justifyContent: "center",
                         alignItems: "flex-start",
                     }}
                 >
                     <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             p: 3,
                             width: "100%",
@@ -174,10 +253,16 @@ function Reviews() {
                     title={selectedReview.title}
                     description={selectedReview.desc}
                     show={!!selectedReview}
-                    closeHandler={() => setSlectedReview(null)}
+                    closeHandler={() => setSelectedReview(null)}
                     rating={selectedReview.rating}
                 />
             )}
+
+            <RecommendModal
+                reviewText={recommendedTxt.current}
+                show={showRecModal}
+                closeHandler={() => setShowRecModal(false)}
+            />
         </>
     );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, TextField, Button, Alert, CircularProgress } from "@mui/material";
-import { validateEmail } from "../services/shared.service";
+import { validateEmail } from "../../../services/shared.service";
 
 interface IAuthForm {
     isLogin?: boolean;
@@ -9,8 +9,8 @@ interface IAuthForm {
 }
 
 function AuthForm(props: IAuthForm) {
-    const [email, setEmail] = useState("user1@email.com");
-    const [password, setPassword] = useState("Test@123");
+    const [email, setEmail] = useState("admin@mcdonalds.com");
+    const [password, setPassword] = useState("Admin@123");
     const [errMsg, setErrMsg] = useState("");
 
     const onSubmitHandler = () => {
@@ -21,8 +21,6 @@ function AuthForm(props: IAuthForm) {
             setErrMsg("Please enter valid email address.");
             return;
         }
-
-        console.log(validateEmail(email));
 
         setErrMsg("");
         props.onSubmit(email, password);

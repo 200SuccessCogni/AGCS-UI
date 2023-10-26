@@ -5,6 +5,7 @@ import {
     Switch,
     Avatar,
     TextField,
+    Link,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -53,17 +54,29 @@ function FeatureCard(props: IFeatureCard) {
                 />
             </Box>
 
-            {!!enabled && (
-                <Box mt={2}>
-                    <TextField
-                        label="Partner Key"
-                        size="small"
-                        InputProps={{
-                            placeholder: "Enter partner key",
-                        }}
-                        fullWidth
-                    />
-                </Box>
+            {!!enabled && props.title != "Demo" && (
+                <>
+                    <Box mt={2}>
+                        <TextField
+                            label="Partner Key"
+                            size="small"
+                            InputProps={{
+                                placeholder: "Enter partner API key",
+                            }}
+                            fullWidth
+                        />
+                    </Box>
+                    <Link
+                        target="_blank"
+                        rel="noopener"
+                        underline="hover"
+                        href="/blogs/how-to-get-tripadvisor-partner-api"
+                    >
+                        <Typography variant="caption">
+                            See how to get it
+                        </Typography>
+                    </Link>
+                </>
             )}
         </Box>
     );
@@ -76,7 +89,7 @@ function Integrations() {
                 Integrations
             </Typography>
             <Grid container spacing={5}>
-                <Grid item md={7}>
+                <Grid item xs={12} md={7}>
                     <Box my={4}>
                         <FeatureCard
                             src=""
@@ -100,7 +113,7 @@ function Integrations() {
                         />
                     </Box>
                 </Grid>
-                <Grid item md={5}></Grid>
+                <Grid item xs={12} md={5}></Grid>
             </Grid>
         </>
     );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import LinearProgressWithLabel from "../components/LinearProgressWithLabel/LinearProgressWithLabel";
-import ReviewForm from "../components/review/ReviewForm";
+import LinearProgressWithLabel from "../components/core/linearProgressWithLabel";
+import ReviewForm from "../components/module/review/ReviewForm";
 import { Box, Grid, Typography } from "@mui/material";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
@@ -35,7 +35,7 @@ function Insights() {
                 Insights
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
-                <Grid item md={9}>
+                <Grid item xs={12} md={9}>
                     {insights &&
                         insights.map((e: any) => (
                             <Box
@@ -43,9 +43,10 @@ function Insights() {
                                     background: "#fff",
                                     p: 3,
                                     display: "flex",
+                                    justifyContent: "space-between",
                                 }}
                             >
-                                <Grid item md={2}>
+                                <Grid item xs={5} md={2}>
                                     <Typography>
                                         {e._id.toUpperCase()}
                                     </Typography>
@@ -56,9 +57,10 @@ function Insights() {
                 </Grid>
                 <Grid
                     item
+                    xs={12}
                     md={3}
                     sx={{
-                        display: "flex",
+                        display: { xs: "none", md: "flex" },
                         justifyContent: "center",
                         alignItems: "flex-start",
                     }}

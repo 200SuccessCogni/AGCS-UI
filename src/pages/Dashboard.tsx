@@ -7,8 +7,8 @@ import {
     Chip,
     Tooltip,
 } from "@mui/material";
-import PieChart from "../components/Charts/PieChart";
-import ReviewItem from "../components/review/ReviewItem";
+import PieChart from "../components/charts/PieChart";
+import ReviewItem from "../components/module/review/ReviewItem";
 import { ICountCard } from "@/interfaces/dashboard.interface";
 import { useNavigate } from "react-router-dom";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
@@ -17,47 +17,11 @@ import useApp from "../store/app.context";
 import { useCallback, useEffect, useState } from "react";
 import { GET } from "../services/api.service";
 import dayjs from "dayjs";
+import AIChip from "../components/core/chip/AIChip";
+import { IReviewItem } from "@/interfaces/review.interface";
+import { camelCaseToTitleCase } from "../services/shared.service";
 
-const insights = [
-    {
-        name: "Service",
-        mentionedCount: "15",
-        unfavourable: "19",
-        favourable: "77",
-    },
-    {
-        name: "Fitness",
-        mentionedCount: "5",
-        unfavourable: "9",
-        favourable: "85",
-    },
-    {
-        name: "Family",
-        mentionedCount: "7",
-        unfavourable: "10",
-        favourable: "84",
-    },
-    {
-        name: "Parking",
-        mentionedCount: "12",
-        unfavourable: "55",
-        favourable: "33",
-    },
-    {
-        name: "Cleanliness",
-        mentionedCount: "5",
-        unfavourable: "11",
-        favourable: "87",
-    },
-    {
-        name: "Wellness",
-        mentionedCount: "13",
-        unfavourable: "9",
-        favourable: "13",
-    },
-];
-
-function CountCard(props: ICountCard) {
+function StatCard(props: ICountCard) {
     return (
         <Paper
             elevation={0}
@@ -65,18 +29,21 @@ function CountCard(props: ICountCard) {
                 display: "flex",
                 justifyContent: "space-between",
                 flexDirection: "column",
-                alignItems: "center",
-                padding: "0.5rem",
-                minHeight: "110px",
+                alignItems: "flex-start",
+                padding: "0.5rem 1rem",
+                minHeight: "130px",
                 backgroundColor: props.backgroundColor,
                 color: props.color,
+                textALign: "left",
             }}
+            // className="box-shadow"
         >
-            <Typography variant="h3">{props.count}</Typography>
+            <Typography variant="h2" align="left" color="primary">
+                {props.count}
+            </Typography>
             <Typography
                 variant="body2"
-                align="center"
-                sx={{ lineHeight: 1, color: "text.secondary" }}
+                sx={{ lineHeight: 1, color: "text.secondary", pr: "30%" }}
             >
                 {props.label}
             </Typography>
@@ -84,33 +51,107 @@ function CountCard(props: ICountCard) {
     );
 }
 
+type InsightsType = {
+    name: string;
+    count: number;
+    score: number;
+};
+
 function Dashboard() {
-    const { setLoader, selectedLocation, loader } = useApp();
+    const {
+        setLoader,
+        selectedLocation,
+        loader,
+        setALLReviews,
+        allReviews,
+        user,
+    } = useApp();
     const navigate = useNavigate();
-    const [reviews, setReviews] = useState([]);
+    const [insights, setInsights] = useState<InsightsType[]>([]);
     const [posReview, setPosReview] = useState(0);
     const [negReview, setNegReview] = useState(0);
+    const [neuReview, setNeuReview] = useState(0);
+    const [mixReview, setMixReview] = useState(0);
 
     useEffect(() => {
         console.log({ selectedLocation });
-        if (selectedLocation) getReviews(selectedLocation.id);
-        else getReviews();
-    }, [selectedLocation]);
+        if (
+            user &&
+            user?.business &&
+            user?.business?.businessId &&
+            selectedLocation
+        ) {
+            getInsightsAndAnalytics(
+                user?.business?.businessId,
+                selectedLocation.id
+            );
+            getAllReviews(user?.business?.businessId, selectedLocation.id);
+        }
+    }, [user, selectedLocation]);
 
-    const getReviews = async (resortId = "649da34e953f4d5cdeaff1bb") => {
+    const getAllReviews = useCallback(
+        async (businessId: string, locationId: string) => {
+            setLoader(true);
+            try {
+                const res = await GET(
+                    `/review/getall?businessId=${businessId}&locationId=${locationId}`
+                );
+                if (res && res.status === 200) {
+                    const allReviews: IReviewItem[] = res.data.data.map(
+                        (e: any) => ({
+                            ...e,
+                            id: e._id,
+                        })
+                    );
+                    setALLReviews(allReviews);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+            setLoader(false);
+        },
+        []
+    );
+
+    const getInsightsAndAnalytics = async (
+        businessId = "65227a4fd7a294d9ee6f18a6",
+        locationId = "65227ab4d7a294d9ee6f18db"
+    ) => {
         setLoader(true);
         try {
-            const res = await GET(`/review/getall?resortId=${resortId}`);
+            const res = await GET(
+                `/review/getinsightAnalytics?businessId=${businessId}&locationId=${locationId}`
+            );
             if (res && res.status === 200) {
-                setPosReview(
-                    res.data.data.filter((e: any) => e.category === "positive")
-                        .length
-                );
-                setNegReview(
-                    res.data.data.filter((e: any) => e.category === "negative")
-                        .length
-                );
-                setReviews(res.data.data);
+                if (res.data.insights && res.data.insights.length) {
+                    setInsights(
+                        res.data.insights.map((e: any) => ({
+                            name: e?._id,
+                            score: e?.avgScore * 10,
+                            count: e?.count,
+                        }))
+                    );
+                }
+
+                if (res.data.categories && res.data.categories.length) {
+                    res.data.categories.map((e: any) => {
+                        switch (e._id) {
+                            case "negative":
+                                setNegReview(e.count);
+                                break;
+                            case "positive":
+                                setPosReview(e.count);
+                                break;
+                            case "neutral":
+                                setNeuReview(e.count);
+                                break;
+                            default:
+                                setMixReview(e.count);
+                                break;
+                        }
+                    });
+                }
             }
         } catch (err) {
             console.log(err);
@@ -168,42 +209,40 @@ function Dashboard() {
             <Typography variant="h5" fontWeight={500}>
                 Dashboard
             </Typography>
-            <Grid container spacing={5} sx={{ mt: 0 }}>
-                <Grid item md={7.5}>
+            <Grid container spacing={3} sx={{ mt: 0 }}>
+                <Grid item xs={12} md={7.5}>
                     <Grid container spacing={3}>
-                        <Grid item md={3}>
-                            <CountCard
-                                count={0}
-                                label="New Reviews"
+                        <Grid item xs={6} md={3}>
+                            <StatCard
+                                count={neuReview}
+                                label="Neutral Reviews"
                                 backgroundColor="rgb(178 226 254 / 50%)"
                             />
                         </Grid>
-                        <Grid item md={3}>
-                            <CountCard
+                        <Grid item xs={6} md={3}>
+                            <StatCard
                                 count={posReview}
                                 label="Positive Reviews"
                                 backgroundColor="rgb(178 254 206 / 50%)"
                             />
                         </Grid>
-                        <Grid item md={3}>
-                            <CountCard
+                        <Grid item xs={6} md={3}>
+                            <StatCard
                                 count={negReview}
                                 label="Negative Reviews"
                                 backgroundColor="rgb(254 178 178 / 46%)"
                             />
                         </Grid>
-                        <Grid item md={3}>
-                            <CountCard
-                                count={reviews.length}
-                                label="Total Reviews"
-                            />
+                        <Grid item xs={6} md={3}>
+                            <StatCard count={mixReview} label="Mixed Reviews" />
                         </Grid>
                     </Grid>
                     <Box
+                        // className="box-shadow"
                         sx={{
                             p: 2,
                             my: 3,
-                            bgcolor: "#fff",
+                            bgcolor: "secondary.light",
                             borderRadius: "1rem",
                         }}
                     >
@@ -217,16 +256,18 @@ function Dashboard() {
                                 See All
                             </Button>
                         </Box>
-                        {!!reviews.length &&
-                            reviews.map((r: any) => (
-                                <ReviewItem
-                                    key={r.id}
-                                    {...r}
-                                    date={dayjs(r.date).format("DD/MM/YYYY")}
-                                    listView="false"
-                                />
-                            ))}
-                        {reviews && !reviews.length && !loader && (
+                        {!!allReviews.length &&
+                            allReviews
+                                .slice(0, 5)
+                                .map((r: any) => (
+                                    <ReviewItem
+                                        key={r.id}
+                                        {...r}
+                                        date={r.date.split("T")[0]}
+                                        listView="false"
+                                    />
+                                ))}
+                        {allReviews && !allReviews.length && !loader && (
                             <Typography variant="body2">
                                 No records found
                             </Typography>
@@ -235,6 +276,7 @@ function Dashboard() {
                 </Grid>
                 <Grid
                     item
+                    xs={12}
                     md={4.5}
                     sx={{
                         display: "flex",
@@ -244,8 +286,9 @@ function Dashboard() {
                     }}
                 >
                     <Box
+                        // className="box-shadow"
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
@@ -261,54 +304,61 @@ function Dashboard() {
                     </Box>
                     <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
                             mb: 2,
                         }}
+                        // className="box-shadow"
                     >
-                        <Typography variant="h6" gutterBottom fontWeight={500}>
+                        <Typography
+                            variant="h6"
+                            color="black"
+                            gutterBottom
+                            fontWeight={500}
+                        >
                             Insights
                         </Typography>
                         <Box>
                             {insights.map((e: any) => (
-                                <Tooltip
-                                    title={`${e.favourable}% favourable, ${e.unfavourable}% unfavourable`}
-                                    key={e.namme}
-                                >
+                                <Tooltip title={e.name} key={e.name}>
                                     <Chip
                                         size="small"
                                         icon={
-                                            e.unfavourable > 50 ? (
+                                            e.score < 0 ? (
                                                 <ThumbDownOffAltOutlinedIcon />
                                             ) : (
                                                 <ThumbUpOutlinedIcon />
                                             )
                                         }
-                                        label={<small>{e.name}</small>}
+                                        label={
+                                            <small>
+                                                {camelCaseToTitleCase(e.name)}
+                                            </small>
+                                        }
                                         variant="outlined"
                                         color={
-                                            e.unfavourable > 50
-                                                ? "error"
-                                                : "success"
+                                            e.score > 0 ? "success" : "error"
                                         }
                                         sx={{
                                             m: 0.5,
                                             px: 0.5,
+                                            // color: "primary.dark",
                                         }}
                                     />
                                 </Tooltip>
                             ))}
                         </Box>
                     </Box>
-                    <Box
+                    {/* <Box
                         sx={{
-                            background: "#fff",
+                            bgcolor: "secondary.light",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
                         }}
+                        // className="box-shadow"
                     >
                         <Typography variant="h6" gutterBottom fontWeight={500}>
                             Recommended actions
@@ -319,7 +369,7 @@ function Dashboard() {
                         <Typography variant="body2">
                             10 no replied reviews
                         </Typography>
-                    </Box>
+                    </Box> */}
                 </Grid>
             </Grid>
         </>

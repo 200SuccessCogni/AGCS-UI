@@ -1,8 +1,8 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import useApp from "../store/app.context";
-import { GET } from "../services/api.service";
-import { IResort } from "../interfaces/resort.interface";
+import useApp from "../../store/app.context";
+import { GET } from "../../services/api.service";
+import { IResort } from "../../interfaces/resort.interface";
 
 function GlobalSearch() {
     const [selectedResort, setSelectedResort] = useState("");

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -6,11 +6,33 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IReplyModal } from "@/interfaces/modal.interface";
 import { Typography, TextField, Box, Rating } from "@mui/material";
+import { POST } from "../../services/api.service";
+import useApp from "../../store/app.context";
+import LinearProgress from "@mui/material/LinearProgress";
+import ReadMore from "../core/readmore";
 
 export default function ReplyModal(props: IReplyModal) {
-    const [message, setMessage] = useState(
-        "We are thrilled to hear you love your vacation at Club Wyndham Bonnet Creek. We look forward to welcoming you back soon. Thank you!"
-    );
+    const { setLoader, loader } = useApp();
+    const [message, setMessage] = useState("");
+
+    const getReplyMsg = useCallback(async () => {
+        setMessage("");
+        const url = "/gen/reply";
+        setLoader(true);
+        try {
+            const res = await POST(url, { content: props.description });
+            if (res && res.status === 200) {
+                setMessage(res?.data.data);
+            }
+            setLoader(false);
+        } catch (err) {
+            setLoader(false);
+        }
+    }, [props.description]);
+
+    useEffect(() => {
+        if (props.description) getReplyMsg();
+    }, [props.description]);
 
     return (
         <div>
@@ -21,7 +43,18 @@ export default function ReplyModal(props: IReplyModal) {
                 aria-describedby="alert-dialog-description"
                 maxWidth={"sm"}
             >
-                <DialogTitle id="alert-dialog-title">Reply Message</DialogTitle>
+                {!!loader && <LinearProgress color="primary" />}
+
+                <DialogTitle id="alert-dialog-title">
+                    Reply Message
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        className="txt-gradient"
+                    >
+                        AI Generated
+                    </Typography>
+                </DialogTitle>
                 <DialogContent>
                     <Box
                         sx={{
@@ -39,26 +72,33 @@ export default function ReplyModal(props: IReplyModal) {
                             readOnly
                         />
                     </Box>
-                    <Typography variant="body2">{props.description}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <ReadMore>{`${props.description}`}</ReadMore>
+                    </Typography>
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Reply message"
                         fullWidth
                         multiline
-                        maxRows={4}
+                        maxRows={10}
                         inputProps={{
                             value: message,
                             name: message,
                         }}
                         onChange={(e) => setMessage(e.target.value)}
-                        sx={{ my: 3 }}
+                        sx={{ my: 3, fontSize: "0.9rem", color: "text." }}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => props.closeHandler(false)}>
                         Cancel
                     </Button>
-                    <Button onClick={() => props.closeHandler(false)} autoFocus>
+                    <Button
+                        onClick={() => props.closeHandler(false)}
+                        color="black"
+                        variant="contained"
+                        autoFocus
+                    >
                         Post
                     </Button>
                 </DialogActions>

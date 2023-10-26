@@ -1,4 +1,4 @@
-import useApp from "../store/app.context";
+import useApp from "../../../store/app.context";
 import { useEffect, ReactElement, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +19,7 @@ export function AuthGuard({
         }
 
         if (!isIntroCompleted && token) {
-            navigate("/intro");
+            navigate("/onboarding");
         }
         if (!token) {
             navigate("/signin");

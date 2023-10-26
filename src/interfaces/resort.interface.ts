@@ -1,10 +1,11 @@
 export interface IResort {
-    address: string;
+    businessId: string;
+    hashtags: string[];
+    locationAddress: string;
     city: string;
     country: string;
     organization: string;
-    resortName: string;
+    locationName: string;
     state: string;
-    userId: string;
     id: string;
 }
