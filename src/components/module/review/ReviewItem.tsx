@@ -59,6 +59,7 @@ export default function ReviewItem(props: IReviewItemProps) {
                 color = "error";
                 break;
             default:
+                color = "primary";
                 break;
         }
 
