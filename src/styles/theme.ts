@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 import {
     SimplePaletteColorOptions,
@@ -36,22 +36,32 @@ declare module "@mui/material/Button" {
     }
 }
 
+const primaryBase = "#00301F";
+const secondaryBase = "#FFD681";
+const blackBase = "#000";
+const primaryMain = alpha(primaryBase, 0.7);
+const secondaryMain = alpha(secondaryBase, 0.7);
+
 const palette: ExtendedPaletteOptions = {
     primary: {
-        main: "#095F59",
-        dark: "#00301F",
-        light: "#0C766F",
+        main: primaryMain,
+        light: alpha(primaryBase, 0.3),
+        dark: alpha(primaryBase, 0.9),
+        contrastText:
+            getContrastRatio(primaryMain, "#fff") > 4.5 ? "#fff" : "#111",
     },
     secondary: {
-        main: "#f4f1e3",
-        light: "#FFFCF1",
-        dark: "#FFD681",
-        darker: "#FFD681",
+        main: secondaryMain,
+        light: alpha(secondaryBase, 0.5),
+        dark: alpha(secondaryBase, 0.9),
+        contrastText:
+            getContrastRatio(secondaryMain, "#fff") > 4.5 ? "#fff" : "#111",
+        darker: secondaryBase,
     },
     black: {
-        main: "#121212",
-        light: "#232323",
-        dark: "#000",
+        main: alpha(blackBase, 0.7),
+        light: alpha(secondaryBase, 0.5),
+        dark: alpha(secondaryBase, 0.9),
         contrastText: "#d0e9f3",
     },
     gray: {
@@ -66,6 +76,9 @@ const palette: ExtendedPaletteOptions = {
         light: "#454545",
         contrastText: "#fff",
         contrastTextLight: "#d0e9f3",
+    },
+    background: {
+        default: "#ecf3eb",
     },
 };
 

@@ -198,8 +198,9 @@ function GlobalSearch(props: GlobalSearchPropsType) {
         <>
             <Button
                 variant="outlined"
+                color="primary"
                 onClick={() => setOpen(true)}
-                sx={{ backgroundColor: "secondary.main", borderColor: "#eee" }}
+                // sx={{ backgroundColor: "secondary.main", borderColor: "#eee" }}
             >
                 <SearchIcon />
                 <Typography variant="body2" sx={{ px: { xs: 1, md: 2 } }}>

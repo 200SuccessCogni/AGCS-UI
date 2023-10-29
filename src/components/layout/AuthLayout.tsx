@@ -88,7 +88,7 @@ export default function SideNav(props: Props) {
                             width: drawerWidth,
                             boxSizing: "border-box",
                             border: "none",
-                            backgroundColor: "secondary.light",
+                            // backgroundColor: "secondary.light",
                             borderRight: "1px solid #eee",
                         },
                         position: "relative",
@@ -196,7 +196,7 @@ export default function SideNav(props: Props) {
                         marginTop: loader ? "65px" : "65px",
                         overflowY: "auto",
                         overflowX: "hidden",
-                        backgroundColor: "secondary.main",
+                        // backgroundColor: "secondary.main",
                         position: "relative",
                     }}
                 >
@@ -253,10 +253,11 @@ const MenuList = ({
                 <ListItemIcon
                     sx={{
                         justifyContent: "center",
-                        color: `${currentPath === url
-                            ? "primary.main"
-                            : "text.primary"
-                            }`,
+                        color: `${
+                            currentPath === url
+                                ? "primary.main"
+                                : "text.primary"
+                        }`,
                     }}
                 >
                     {icon}
@@ -282,10 +283,14 @@ const MenuList = ({
     };
 
     return (
-        <Box p={2} sx={{
-            display: "flex",
-            flexDirection: "column", height: "100%"
-        }}>
+        <Box
+            p={2}
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+            }}
+        >
             <List>
                 {menuList.slice(0, 3).map((e) => {
                     return (

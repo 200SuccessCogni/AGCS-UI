@@ -70,7 +70,7 @@ function GlobalDateSelect() {
             <Button
                 variant="outlined"
                 onClick={() => setOpen(true)}
-                sx={{ backgroundColor: "secondary.light", borderColor: "#eee" }}
+                // sx={{ backgroundColor: "secondary.light", borderColor: "#eee" }}
             >
                 <DateRangeRoundedIcon sx={{ color: "#aaa" }} />
                 <Typography

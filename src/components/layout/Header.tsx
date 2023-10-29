@@ -111,7 +111,7 @@ function Header(props: any) {
                 ml: { xs: 0, md: `${drawerWidth}px` },
                 boxShadow: "none",
                 border: "none",
-                backgroundColor: "secondary.light",
+                backgroundColor: "#fff",
                 borderBottom: "1px solid",
                 borderBottomColor: "#eee",
             }}
@@ -195,12 +195,12 @@ function Header(props: any) {
                             sx={{ lineHeight: 1 }}
                             color="text.primary"
                         >
-                            Personal
+                            {user && user.business?.businessName}
                         </Typography>
                     </Box>
                     <Box mx={1}>
                         <Avatar
-                            alt={user?.fullname || ""}
+                            alt={(user && user.business?.businessName) || ""}
                             src="/static/images/avatar/1.jpg"
                         />
                     </Box>

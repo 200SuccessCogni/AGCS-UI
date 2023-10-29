@@ -7,6 +7,7 @@ import {
     Chip,
     Tooltip,
 } from "@mui/material";
+import { alpha, useTheme } from "@mui/material/styles";
 import PieChart from "../components/charts/PieChart";
 import ReviewItem from "../components/module/review/ReviewItem";
 import { ICountCard } from "@/interfaces/dashboard.interface";
@@ -51,7 +52,7 @@ function StatCard(props: ICountCard) {
     );
 }
 
-type InsightsType = {
+type InsightType = {
     name: string;
     count: number;
     score: number;
@@ -67,11 +68,13 @@ function Dashboard() {
         user,
     } = useApp();
     const navigate = useNavigate();
-    const [insights, setInsights] = useState<InsightsType[]>([]);
     const [posReview, setPosReview] = useState(0);
     const [negReview, setNegReview] = useState(0);
     const [neuReview, setNeuReview] = useState(0);
     const [mixReview, setMixReview] = useState(0);
+    const [positiveInsights, setPositiveInsights] = useState<InsightType[]>([]);
+    const [negativeInsights, setNegativeInsights] = useState<InsightType[]>([]);
+    const theme = useTheme();
 
     useEffect(() => {
         console.log({ selectedLocation });
@@ -113,7 +116,6 @@ function Dashboard() {
         },
         []
     );
-
     const getInsightsAndAnalytics = async (
         businessId = "65227a4fd7a294d9ee6f18a6",
         locationId = "65227ab4d7a294d9ee6f18db"
@@ -125,12 +127,16 @@ function Dashboard() {
             );
             if (res && res.status === 200) {
                 if (res.data.insights && res.data.insights.length) {
-                    setInsights(
-                        res.data.insights.map((e: any) => ({
-                            name: e?._id,
-                            score: e?.avgScore * 10,
-                            count: e?.count,
-                        }))
+                    const insightsData = res.data.insights.map((e: any) => ({
+                        name: e?._id,
+                        score: e?.avgScore * 10,
+                        count: e?.count,
+                    }));
+                    setPositiveInsights(
+                        insightsData.filter((e: InsightType) => e.score > 0)
+                    );
+                    setNegativeInsights(
+                        insightsData.filter((e: InsightType) => e.score <= 0)
                     );
                 }
 
@@ -242,7 +248,7 @@ function Dashboard() {
                         sx={{
                             p: 2,
                             my: 3,
-                            bgcolor: "secondary.light",
+                            bgcolor: "#fff",
                             borderRadius: "1rem",
                         }}
                     >
@@ -285,10 +291,10 @@ function Dashboard() {
                         flexDirection: "column",
                     }}
                 >
-                    <Box
+                    {/* <Box
                         // className="box-shadow"
                         sx={{
-                            bgcolor: "secondary.light",
+                            bgcolor: "#fff",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
@@ -301,10 +307,10 @@ function Dashboard() {
                         <Box px={10}>
                             <PieChart chartData={userData} options={options} />
                         </Box>
-                    </Box>
+                    </Box> */}
                     <Box
                         sx={{
-                            bgcolor: "secondary.light",
+                            bgcolor: "#fff",
                             borderRadius: "10px",
                             width: "100%",
                             p: 2,
@@ -320,31 +326,142 @@ function Dashboard() {
                         >
                             Insights
                         </Typography>
-                        <Box>
-                            {insights.map((e: any) => (
-                                <Tooltip title={e.name} key={e.name}>
+                        <Box
+                            sx={{
+                                borderRadius: "1rem",
+                                backgroundColor: alpha(
+                                    theme.palette.primary.light,
+                                    0.1
+                                ),
+                                p: 2,
+                            }}
+                        >
+                            <Typography
+                                variant="body2"
+                                color="primary.main"
+                                gutterBottom
+                                fontWeight={600}
+                            >
+                                High performing entities
+                            </Typography>
+                            {positiveInsights.map((e: InsightType) => (
+                                <Tooltip
+                                    title={`${camelCaseToTitleCase(
+                                        e.name
+                                    )} appears ${e.count} times.`}
+                                    key={e.name}
+                                >
                                     <Chip
+                                        key={e.name}
                                         size="small"
-                                        icon={
-                                            e.score < 0 ? (
-                                                <ThumbDownOffAltOutlinedIcon />
-                                            ) : (
-                                                <ThumbUpOutlinedIcon />
-                                            )
-                                        }
+                                        icon={<ThumbUpOutlinedIcon />}
                                         label={
-                                            <small>
-                                                {camelCaseToTitleCase(e.name)}
-                                            </small>
+                                            <Box
+                                                display="flex"
+                                                alignItems="center"
+                                            >
+                                                <small>
+                                                    <strong>
+                                                        {camelCaseToTitleCase(
+                                                            e.name
+                                                        )}
+                                                    </strong>
+                                                </small>
+                                                <Box
+                                                    sx={{
+                                                        borderRadius: "50%",
+                                                        width: "20px",
+                                                        height: "20px",
+                                                        display: "flex",
+                                                        justifyContent:
+                                                            "center",
+                                                        alignItems: "center",
+                                                        ml: 0.5,
+                                                        backgroundColor:
+                                                            "success.light",
+                                                        color: "#fff",
+                                                    }}
+                                                >
+                                                    {e.count}
+                                                </Box>
+                                            </Box>
                                         }
                                         variant="outlined"
-                                        color={
-                                            e.score > 0 ? "success" : "error"
-                                        }
+                                        // color="success"
                                         sx={{
                                             m: 0.5,
                                             px: 0.5,
-                                            // color: "primary.dark",
+                                        }}
+                                    />
+                                </Tooltip>
+                            ))}
+                        </Box>
+                        <Box
+                            sx={{
+                                borderRadius: "1rem",
+                                backgroundColor: alpha(
+                                    theme.palette.warning.light,
+                                    0.2
+                                ),
+                                p: 2,
+                                mt: 2,
+                            }}
+                        >
+                            <Typography
+                                variant="body2"
+                                color="warning.main"
+                                gutterBottom
+                                fontWeight={600}
+                            >
+                                Low performing entities
+                            </Typography>
+                            {negativeInsights.map((e: InsightType) => (
+                                <Tooltip
+                                    title={`${camelCaseToTitleCase(
+                                        e.name
+                                    )} appears ${e.count} times.`}
+                                    key={e.name}
+                                >
+                                    <Chip
+                                        key={e.name}
+                                        size="small"
+                                        icon={<ThumbDownOffAltOutlinedIcon />}
+                                        label={
+                                            <Box
+                                                display="flex"
+                                                alignItems="center"
+                                            >
+                                                <small>
+                                                    <strong>
+                                                        {camelCaseToTitleCase(
+                                                            e.name
+                                                        )}
+                                                    </strong>
+                                                </small>
+                                                <Box
+                                                    sx={{
+                                                        borderRadius: "50%",
+                                                        width: "20px",
+                                                        height: "20px",
+                                                        display: "flex",
+                                                        justifyContent:
+                                                            "center",
+                                                        alignItems: "center",
+                                                        ml: 0.5,
+                                                        backgroundColor:
+                                                            "warning.light",
+                                                        // color: "#fff",
+                                                    }}
+                                                >
+                                                    {e.count}
+                                                </Box>
+                                            </Box>
+                                        }
+                                        variant="outlined"
+                                        // color="error"
+                                        sx={{
+                                            m: 0.5,
+                                            px: 0.5,
                                         }}
                                     />
                                 </Tooltip>

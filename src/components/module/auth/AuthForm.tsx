@@ -63,7 +63,7 @@ function AuthForm(props: IAuthForm) {
                     <Button
                         variant="contained"
                         onClick={onSubmitHandler}
-                        color="black"
+                        color="primary"
                         sx={{ boxShadow: "none" }}
                         disabled={props?.loading || false}
                     >
