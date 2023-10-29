@@ -148,7 +148,7 @@ function Reviews() {
                 <Grid item xs={12} md={9}>
                     <Box
                         sx={{
-                            bgcolor: "secondary.light",
+                            bgcolor: "#fff",
                             borderRadius: "10px",
                             p: 3,
                         }}
@@ -227,7 +227,7 @@ function Reviews() {
                 >
                     <Box
                         sx={{
-                            bgcolor: "secondary.light",
+                            bgcolor: "#fff",
                             borderRadius: "10px",
                             p: 3,
                             width: "100%",

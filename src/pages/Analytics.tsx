@@ -114,7 +114,10 @@ function Dashboard() {
                     insights = insightsRes.map((e: any) => ({
                         ...e,
                         label: e._id,
-                        value: e.avgMagnitude>1?Math.floor(e.avgMagnitude): Math.floor(e.avgMagnitude * 10),
+                        value:
+                            e.avgMagnitude > 1
+                                ? Math.floor(e.avgMagnitude)
+                                : Math.floor(e.avgMagnitude * 10),
                     }));
                     setInsights(insights);
 
@@ -212,7 +215,7 @@ function Dashboard() {
                 <Grid item xs={12} md={9}>
                     <Container
                         sx={{
-                            backgroundColor: "secondary.light",
+                            backgroundColor: "#fff",
                             borderRadius: "1rem",
                             px: 2,
                             pb: 3,
@@ -229,9 +232,9 @@ function Dashboard() {
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
                                 <OverviewCard
-                                    bgColor="secondary.main"
+                                    bgColor="secondary.light"
                                     icon={<TrendingUpIcon />}
-                                    iconBgColor="secondary.dark"
+                                    iconBgColor="#fff"
                                     contentText={camelCaseToTitleCase(
                                         highPerfAment
                                     )}
@@ -240,9 +243,9 @@ function Dashboard() {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <OverviewCard
-                                    bgColor="secondary.dark"
+                                    bgColor="secondary.light"
                                     icon={<TrendingDownIcon />}
-                                    iconBgColor="primary.main"
+                                    iconBgColor="#fff"
                                     contentText={camelCaseToTitleCase(
                                         lowPerfAment
                                     )}
@@ -347,7 +350,7 @@ function Dashboard() {
                     </Box> */}
                     <Box
                         sx={{
-                            backgroundColor: "secondary.light",
+                            backgroundColor: "#fff",
                             borderRadius: "1rem",
                             my: 3,
                             p: 2,
@@ -387,7 +390,7 @@ function Dashboard() {
                 >
                     <Box
                         sx={{
-                            backgroundColor: "secondary.light",
+                            backgroundColor: "#fff",
                             borderRadius: "10px",
                             p: 3,
                             width: "100%",

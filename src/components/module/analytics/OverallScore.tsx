@@ -8,7 +8,7 @@ function OverallScore(props: OverallScoreType) {
     return (
         <Box
             sx={{
-                backgroundColor: props.backgroundColor || "secondary.light",
+                backgroundColor: props.backgroundColor || "#fff",
                 my: 3,
                 p: 2,
                 borderRadius: "1rem",
