@@ -4,7 +4,7 @@ import ReviewForm from "../components/module/review/ReviewForm";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
 
-import { Box, Grid, Typography, Container } from "@mui/material";
+import { Box, Grid, Typography, Container, Fab, Tooltip } from "@mui/material";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { camelCaseToTitleCase, randomColor } from "../services/shared.service";
@@ -13,6 +13,7 @@ import OverallScore from "../components/module/analytics/OverallScore";
 import AnalyticsChart from "../components/module/analytics/AnalyticsChart";
 import dayjs from "dayjs";
 import AppPrompt from "../components/app/AppPrompt";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
 const initChartDataSet = [
     {
@@ -76,6 +77,7 @@ function Dashboard() {
     const { setLoader, user, selectedLocation } = useApp();
     const [chartsData, setChartsData] = useState<any[]>();
     const [appliedDateSet, setAppliedDateSet] = useState(initChartDataSet);
+    const [showFullPrompt, setShowFullPrompt] = useState(false);
     const [lowPerfAment, setLowPerfAment] = useState<PerfAmentType | null>(
         null
     );
@@ -490,21 +492,24 @@ function Dashboard() {
                                 ))}
                         </Grid>
                     </Box>
-                    <Box
-                        sx={{
-                            position: "sticky",
-                            bottom: 0,
-                            backgroundColor: "#fff",
-                            borderRadius: "1rem",
-                            width: "100%",
-                            p: 1,
-                            pr: 4,
-                            boxShadow: "2px 3px 10px #eee",
-                            border: "1px solid #eee",
-                        }}
-                    >
-                        <AppPrompt onClick={onPromptSearch} />
-                    </Box>
+                    {showFullPrompt && (
+                        <Box
+                            sx={{
+                                position: "sticky",
+                                bottom: 0,
+                                right: 0,
+                                backgroundColor: "#fff",
+                                borderRadius: "1rem",
+                                width: "100%",
+                                p: 1,
+                                pr: 4,
+                                boxShadow: "2px 3px 10px #eee",
+                                border: "1px solid #eee",
+                            }}
+                        >
+                            <AppPrompt onClick={onPromptSearch} />
+                        </Box>
+                    )}
                 </Grid>
                 <Grid
                     item
@@ -539,6 +544,27 @@ function Dashboard() {
                     </Box>
                 </Grid>
             </Grid>
+            <Box
+                sx={{
+                    position: "sticky",
+                    bottom: 0,
+                    right: 0,
+                }}
+            >
+                {!showFullPrompt && (
+                    <Box display="flex" justifyContent="flex-end">
+                        <Tooltip title="Live prompt">
+                            <Fab
+                                variant="extended"
+                                color="primary"
+                                onClick={() => setShowFullPrompt(true)}
+                            >
+                                <AutoFixHighIcon />
+                            </Fab>
+                        </Tooltip>
+                    </Box>
+                )}
+            </Box>
         </>
     );
 }

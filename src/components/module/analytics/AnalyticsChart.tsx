@@ -7,6 +7,7 @@ import { camelCaseToTitleCase } from "../../../services/shared.service";
 function AnalyticsChart(props: AnalyticsChartType) {
     const options = {
         responsive: true,
+        // fill: true,
         scales: {
             x: {
                 grid: {
@@ -44,20 +45,37 @@ function AnalyticsChart(props: AnalyticsChartType) {
     return (
         <Box
             sx={{
-                background: "secondary.dark",
                 borderRadius: "10px",
                 width: "100%",
+                border: "1px solid #eee",
+                p: 2.5,
             }}
         >
-            <Box p={2}>
+            <Typography variant="body2" fontWeight={500} align="left">
+                {camelCaseToTitleCase(props.label)} Entity
+            </Typography>
+            <Typography
+                variant="caption"
+                fontWeight={400}
+                align="left"
+                gutterBottom
+                color="text.secondary"
+                sx={{ mb: 1 }}
+            >
+                Will show {camelCaseToTitleCase(props.label)} data over time
+            </Typography>
+            <Box
+                sx={
+                    {
+                        // background: "#ecf3eb",
+                    }
+                }
+            >
                 <LineChart
                     chartData={props.data}
                     options={{ ...props.options, ...options }}
                 />
             </Box>
-            <Typography variant="body2" align="center">
-                {camelCaseToTitleCase(props.label)}
-            </Typography>
         </Box>
     );
 }
