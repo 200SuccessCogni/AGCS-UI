@@ -352,14 +352,23 @@ function Dashboard() {
                         }}
                         // className="box-shadow"
                     >
-                        <Typography
-                            variant="h6"
-                            color="black"
-                            gutterBottom
-                            fontWeight={500}
-                        >
-                            Insights
-                        </Typography>
+                        <Box mb={2}>
+                            <Typography
+                                variant="h6"
+                                color="black"
+                                fontWeight={500}
+                            >
+                                Insights
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="black"
+                                fontWeight={400}
+                            >
+                                * Count defines how many times customer
+                                mentioned.
+                            </Typography>
+                        </Box>
                         <Box
                             sx={{
                                 borderRadius: "1rem",

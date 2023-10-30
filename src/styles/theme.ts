@@ -60,9 +60,9 @@ const palette: ExtendedPaletteOptions = {
     },
     black: {
         main: alpha(blackBase, 0.7),
-        light: alpha(secondaryBase, 0.5),
-        dark: alpha(secondaryBase, 0.9),
-        contrastText: "#d0e9f3",
+        light: alpha(blackBase, 0.5),
+        dark: alpha(blackBase, 0.9),
+        contrastText: "#fff",
     },
     gray: {
         main: "#777",

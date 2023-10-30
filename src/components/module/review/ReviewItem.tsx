@@ -251,7 +251,7 @@ export default function ReviewItem(props: IReviewItemProps) {
                                 </IconButton>
                             </Tooltip>
                             {props.category === "negative" && (
-                                <Tooltip title="AI Recommendation">
+                                <Tooltip title="Recommendation">
                                     <IconButton
                                         size="small"
                                         onClick={() => props.onRecommend(props)}

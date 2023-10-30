@@ -62,16 +62,12 @@ function RecommendModal(props: IRecModal) {
                     </Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        color="black"
-                        variant="outlined"
-                        autoFocus
-                    >
+                    <Button color="black" variant="outlined" autoFocus>
                         Share
                     </Button>
                     <Button
                         onClick={props.closeHandler}
-                        color="black"
+                        color="primary"
                         variant="contained"
                         // autoFocus
                     >
