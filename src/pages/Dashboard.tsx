@@ -20,7 +20,7 @@ import { GET } from "../services/api.service";
 import dayjs from "dayjs";
 import AIChip from "../components/core/chip/AIChip";
 import { IReviewItem } from "@/interfaces/review.interface";
-import { camelCaseToTitleCase } from "../services/shared.service";
+import { camelCaseToTitleCase, randomColor } from "../services/shared.service";
 
 function StatCard(props: ICountCard) {
     return (
@@ -58,6 +58,14 @@ type InsightType = {
     score: number;
 };
 
+type InsightSourceType = {
+    labels: string[];
+    datasets: {
+        backgroundColor: string[];
+        data: number[];
+    }[];
+};
+
 function Dashboard() {
     const {
         setLoader,
@@ -75,6 +83,8 @@ function Dashboard() {
     const [positiveInsights, setPositiveInsights] = useState<InsightType[]>([]);
     const [negativeInsights, setNegativeInsights] = useState<InsightType[]>([]);
     const theme = useTheme();
+    const [insightSources, setInsightSources] =
+        useState<InsightSourceType | null>(null);
 
     useEffect(() => {
         console.log({ selectedLocation });
@@ -158,6 +168,25 @@ function Dashboard() {
                         }
                     });
                 }
+
+                if (res.data.sources) {
+                    const chartData: InsightSourceType = {
+                        labels: [],
+                        datasets: [],
+                    };
+
+                    for (const prop in res.data.sources) {
+                        chartData.labels.push(
+                            camelCaseToTitleCase(res.data.sources[prop]._id)
+                        );
+                        chartData.datasets.push({
+                            backgroundColor: [randomColor()],
+                            data: [res.data.sources[prop]?.count],
+                        });
+                    }
+
+                    setInsightSources(chartData);
+                }
             }
         } catch (err) {
             console.log(err);
@@ -166,7 +195,7 @@ function Dashboard() {
         setLoader(false);
     };
 
-    const userData = {
+    /*const userData = {
         labels: [
             "Google",
             "Booking.com",
@@ -186,7 +215,7 @@ function Dashboard() {
                 data: [1, 3, 1, 1, 1],
             },
         ],
-    };
+    };*/
     const options = {
         responsive: true,
         plugins: {
@@ -291,7 +320,7 @@ function Dashboard() {
                         flexDirection: "column",
                     }}
                 >
-                    {/* <Box
+                    <Box
                         // className="box-shadow"
                         sx={{
                             bgcolor: "#fff",
@@ -305,9 +334,14 @@ function Dashboard() {
                             Review Source
                         </Typography>
                         <Box px={10}>
-                            <PieChart chartData={userData} options={options} />
+                            {insightSources && (
+                                <PieChart
+                                    chartData={insightSources}
+                                    options={options}
+                                />
+                            )}
                         </Box>
-                    </Box> */}
+                    </Box>
                     <Box
                         sx={{
                             bgcolor: "#fff",
