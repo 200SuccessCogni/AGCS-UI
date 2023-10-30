@@ -430,6 +430,17 @@ function Dashboard() {
                                     Entities are auto generated. Please choose
                                     entities relevant to your business.
                                 </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: "#777",
+                                        mb: 2,
+                                        display: "block",
+                                    }}
+                                    gutterBottom
+                                    lineHeight={1.1}
+                                    fontWeight={400}
+                                ></Typography>
                             </Box>
                             {/* <Box display="flex" alignItems="center">
                                 <PlaceIcon />{" "}
@@ -473,62 +484,60 @@ function Dashboard() {
                                     </Typography>
                                     {positiveInsights.map((e: InsightType) => (
                                         <>
-                                        <Tooltip
-                                            title={`${camelCaseToTitleCase(
-                                                e.label
-                                            )} appears ${
-                                                e.count
-                                            } times.`}
-                                            key={e.label}
-                                        >
-                                            <Chip
+                                            <Tooltip
+                                                title={`${camelCaseToTitleCase(
+                                                    e.label
+                                                )} appears ${e.count} times.`}
                                                 key={e.label}
-                                                size="small"
-                                                icon={
-                                                    <ThumbUpOutlinedIcon />
-                                                }
-                                                label={
-                                                    <Box
-                                                        display="flex"
-                                                        alignItems="center"
-                                                    >
-                                                        <small>
-                                                            <strong>
-                                                                {camelCaseToTitleCase(
-                                                                    e.label
-                                                                )}
-                                                            </strong>
-                                                        </small>
+                                            >
+                                                <Chip
+                                                    key={e.label}
+                                                    size="small"
+                                                    icon={
+                                                        <ThumbUpOutlinedIcon />
+                                                    }
+                                                    label={
                                                         <Box
-                                                            sx={{
-                                                                borderRadius:
-                                                                    "50%",
-                                                                width: "20px",
-                                                                height: "20px",
-                                                                display:
-                                                                    "flex",
-                                                                justifyContent:
-                                                                    "center",
-                                                                alignItems:
-                                                                    "center",
-                                                                ml: 0.5,
-                                                                backgroundColor:
-                                                                    "success.light",
-                                                                color: "#fff",
-                                                            }}
+                                                            display="flex"
+                                                            alignItems="center"
                                                         >
-                                                            {e.count}
+                                                            <small>
+                                                                <strong>
+                                                                    {camelCaseToTitleCase(
+                                                                        e.label
+                                                                    )}
+                                                                </strong>
+                                                            </small>
+                                                            <Box
+                                                                sx={{
+                                                                    borderRadius:
+                                                                        "50%",
+                                                                    width: "20px",
+                                                                    height: "20px",
+                                                                    display:
+                                                                        "flex",
+                                                                    justifyContent:
+                                                                        "center",
+                                                                    alignItems:
+                                                                        "center",
+                                                                    ml: 0.5,
+                                                                    backgroundColor:
+                                                                        "success.light",
+                                                                    color: "#fff",
+                                                                }}
+                                                            >
+                                                                {e.count}
+                                                            </Box>
                                                         </Box>
-                                                    </Box>
-                                                }
-                                                variant="outlined"
-                                                // color="success"
-                                                sx={{
-                                                    m: 0.5,
-                                                    px: 0.5,
-                                                }}
-                                            />
-                                        </Tooltip>
+                                                    }
+                                                    variant="outlined"
+                                                    // color="success"
+                                                    sx={{
+                                                        m: 0.5,
+                                                        px: 0.5,
+                                                    }}
+                                                />
+                                            </Tooltip>
                                         </>
                                     ))}
                                 </Box>
@@ -554,68 +563,73 @@ function Dashboard() {
                                     </Typography>
                                     {negativeInsights.map((e: InsightType) => (
                                         <>
-                                            
                                             <Tooltip
-                                                    title={`${camelCaseToTitleCase(
-                                                        e.label
-                                                    )} appears ${
-                                                        e.count
-                                                    } times.`}
+                                                title={`${camelCaseToTitleCase(
+                                                    e.label
+                                                )} appears ${e.count} times.`}
+                                                key={e.label}
+                                            >
+                                                <Chip
                                                     key={e.label}
-                                                >
-                                                    <Chip
-                                                        key={e.label}
-                                                        size="small"
-                                                        icon={
-                                                            <ThumbDownOffAltOutlinedIcon />
-                                                        }
-                                                        label={
+                                                    size="small"
+                                                    icon={
+                                                        <ThumbDownOffAltOutlinedIcon />
+                                                    }
+                                                    label={
+                                                        <Box
+                                                            display="flex"
+                                                            alignItems="center"
+                                                        >
+                                                            <small>
+                                                                <strong>
+                                                                    {camelCaseToTitleCase(
+                                                                        e.label
+                                                                    )}
+                                                                </strong>
+                                                            </small>
                                                             <Box
-                                                                display="flex"
-                                                                alignItems="center"
+                                                                sx={{
+                                                                    borderRadius:
+                                                                        "50%",
+                                                                    width: "20px",
+                                                                    height: "20px",
+                                                                    display:
+                                                                        "flex",
+                                                                    justifyContent:
+                                                                        "center",
+                                                                    alignItems:
+                                                                        "center",
+                                                                    ml: 0.5,
+                                                                    backgroundColor:
+                                                                        "warning.light",
+                                                                    // color: "#fff",
+                                                                }}
                                                             >
-                                                                <small>
-                                                                    <strong>
-                                                                        {camelCaseToTitleCase(
-                                                                            e.label
-                                                                        )}
-                                                                    </strong>
-                                                                </small>
-                                                                <Box
-                                                                    sx={{
-                                                                        borderRadius:
-                                                                            "50%",
-                                                                        width: "20px",
-                                                                        height: "20px",
-                                                                        display:
-                                                                            "flex",
-                                                                        justifyContent:
-                                                                            "center",
-                                                                        alignItems:
-                                                                            "center",
-                                                                        ml: 0.5,
-                                                                        backgroundColor:
-                                                                            "warning.light",
-                                                                        // color: "#fff",
-                                                                    }}
-                                                                >
-                                                                    {e.count}
-                                                                </Box>
+                                                                {e.count}
                                                             </Box>
-                                                        }
-                                                        variant="outlined"
-                                                        // color="error"
-                                                        sx={{
-                                                            m: 0.5,
-                                                            px: 0.5,
-                                                        }}
-                                                    />
-                                                </Tooltip>
+                                                        </Box>
+                                                    }
+                                                    variant="outlined"
+                                                    // color="error"
+                                                    sx={{
+                                                        m: 0.5,
+                                                        px: 0.5,
+                                                    }}
+                                                />
+                                            </Tooltip>
                                         </>
                                     ))}
                                 </Box>
                             </Grid>
                         </Grid>
+                        <Typography
+                            variant="caption"
+                            color="black"
+                            fontWeight={400}
+                            align="right"
+                        >
+                            * Count defines how many times customer mentioned.
+                        </Typography>
                     </Box>
 
                     {isFilterApplied && (
@@ -627,25 +641,82 @@ function Dashboard() {
                                 borderRadius: "1rem",
                             }}
                         >
-                            <Box>
-                                <Typography
-                                    variant="body1"
-                                    gutterBottom
-                                    fontWeight={500}
-                                    lineHeight={1}
-                                >
-                                    Overall Score
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    gutterBottom
-                                    fontWeight={400}
-                                    sx={{ mb: 2 }}
-                                >
-                                    {selectedLocation &&
-                                        selectedLocation?.locationName}
-                                </Typography>
+                            <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="flex-start"
+                            >
+                                <Box>
+                                    <Typography
+                                        variant="body1"
+                                        gutterBottom
+                                        fontWeight={500}
+                                        lineHeight={1}
+                                    >
+                                        Overall Score
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                        gutterBottom
+                                        fontWeight={400}
+                                        sx={{ mb: 2 }}
+                                    >
+                                        {selectedLocation &&
+                                            selectedLocation?.locationName}
+                                    </Typography>
+                                </Box>
+                                <Box textAlign="right">
+                                    <Typography
+                                        variant="caption"
+                                        color="text.primary"
+                                        gutterBottom
+                                        align="right"
+                                    >
+                                        * Score defines how one amenity or
+                                        entity is performing.
+                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            justifyContent: "flex-end",
+                                            width: "100%",
+                                            "& > * ": {
+                                                ml: 1,
+                                            },
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="caption"
+                                            gutterBottom
+                                            // color="error"
+                                        >
+                                            ** -10-0 Low performer.{" "}
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            gutterBottom
+                                            // color="warning"
+                                        >
+                                            ** 0-4 Satisfactory.{" "}
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            // sx={{ color: "blue" }}
+                                            gutterBottom
+                                        >
+                                            ** 5-7 Good.{" "}
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            // color="success"
+                                            gutterBottom
+                                        >
+                                            {" "}
+                                            ** 8 above - Very good.
+                                        </Typography>
+                                    </Box>
+                                </Box>
                             </Box>
                             <OverallScore
                                 scores={insights.filter((e) => e.checked)}

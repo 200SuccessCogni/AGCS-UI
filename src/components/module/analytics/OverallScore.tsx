@@ -70,6 +70,7 @@ function OverallScore(props: OverallScoreType) {
                             onChange={() => handleChange(i)}
                         >
                             <AccordionSummary
+                                color="w9"
                                 aria-controls="panel1d-content"
                                 id="panel1d-header"
                             >
