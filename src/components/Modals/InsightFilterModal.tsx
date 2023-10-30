@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { Dialog, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import {
+    Dialog,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
+    Box,
+} from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -33,6 +39,12 @@ function InsightFilterModal(props: IRecModal) {
         setList(newList);
     };
 
+    const onToggle = () => {
+        const newList = [...list];
+        newList.map((e) => (e.checked = !e.checked));
+        setList(newList);
+    };
+
     return (
         <div>
             <Dialog
@@ -47,6 +59,17 @@ function InsightFilterModal(props: IRecModal) {
                     Choose your entities
                 </DialogTitle>
                 <DialogContent>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            width: "100%",
+                        }}
+                    >
+                        <Button onClick={onToggle} color="black">
+                            Toggle all selections
+                        </Button>
+                    </Box>
                     <FormGroup>
                         {list.map((e: any, i: number) => (
                             <FormControlLabel
