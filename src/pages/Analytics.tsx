@@ -126,23 +126,28 @@ function Dashboard() {
                     insights = insightsRes.map((e: any) => ({
                         ...e,
                         label: e._id,
+                        score: e.avgScore,
                         value:
-                            e.avgMagnitude > 1
-                                ? Math.floor(e.avgMagnitude)
-                                : Math.floor(e.avgMagnitude * 10),
+                            e.avgScore > 1
+                                ? Math.floor(e.avgScore)
+                                : Math.floor(e.avgScore * 10),
                     }));
                     setInsights(insights);
 
                     setLowPerfAment(
-                        insights.reduce((a: any, b: any) => {
-                            return a.value < b.value ? a : b;
-                        })
+                        insights
+                            .filter((e: any) => e.score < 0)
+                            .reduce((a: any, b: any) => {
+                                return a.value < b.value ? a : b;
+                            })
                     );
 
                     setHighPerfAment(
-                        insights.reduce((a: any, b: any) => {
-                            return a.value > b.value ? a : b;
-                        })
+                        insights
+                            .filter((e: any) => e.score > 0)
+                            .reduce((a: any, b: any) => {
+                                return a.value > b.value ? a : b;
+                            })
                     );
                 }
 
@@ -320,7 +325,14 @@ function Dashboard() {
                                     color="text.primary"
                                     gutterBottom
                                 >
-                                    ** 0-4 Not performing well.{" "}
+                                    ** -10-0 Low performer.{" "}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    color="text.primary"
+                                    gutterBottom
+                                >
+                                    ** 0-4 Satisfactory.{" "}
                                 </Typography>
                                 <Typography
                                     variant="caption"
@@ -341,7 +353,7 @@ function Dashboard() {
                         </Grid>
                     </Container>
 
-                    <Box
+                    {/* <Box
                         sx={{
                             backgroundColor: "#fff",
                             my: 3,
@@ -370,7 +382,7 @@ function Dashboard() {
                             </Typography>
                         </Box>
                         <OverallScore scores={insights} />
-                    </Box>
+                    </Box> */}
                     {/* <Box
                         sx={{
                             borderRadius: "1rem",
