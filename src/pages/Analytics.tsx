@@ -12,6 +12,7 @@ import {
     Fab,
     Tooltip,
     Chip,
+    Button,
 } from "@mui/material";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -24,6 +25,7 @@ import AnalyticsChart from "../components/module/analytics/AnalyticsChart";
 import dayjs from "dayjs";
 import AppPrompt from "../components/app/AppPrompt";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import PlaceIcon from "@mui/icons-material/Place";
 
 const initChartDataSet = [
     {
@@ -387,25 +389,50 @@ function Dashboard() {
                             borderRadius: "1rem",
                         }}
                     >
-                        <Box>
-                            <Typography
-                                variant="body1"
-                                gutterBottom
-                                fontWeight={500}
-                                lineHeight={1}
-                            >
-                                All entities
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                gutterBottom
-                                fontWeight={400}
-                                sx={{ mb: 2 }}
-                            >
-                                {selectedLocation &&
-                                    selectedLocation?.locationName}
-                            </Typography>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "flex-start",
+                            }}
+                        >
+                            <Box>
+                                <Typography
+                                    variant="body1"
+                                    gutterBottom
+                                    fontWeight={500}
+                                    lineHeight={1}
+                                >
+                                    All entities
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: "#777",
+                                        mb: 2,
+                                        display: "block",
+                                    }}
+                                    gutterBottom
+                                    fontWeight={400}
+                                >
+                                    Entities are auto generated. Please choose
+                                    entities relevant to your business.
+                                </Typography>
+                            </Box>
+                            <Box display="flex" alignItems="center">
+                                <PlaceIcon />{" "}
+                                <Typography
+                                    variant="body2"
+                                    gutterBottom
+                                    lineHeight={1}
+                                    sx={{ ml: 1 }}
+                                    fontWeight={400}
+                                >
+                                    {selectedLocation &&
+                                        selectedLocation?.locationName}
+                                </Typography>
+                            </Box>
+                            <Button variant="text">Filter</Button>
                         </Box>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
