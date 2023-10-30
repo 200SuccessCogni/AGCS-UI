@@ -330,9 +330,19 @@ function Dashboard() {
                             mb: 3,
                         }}
                     >
-                        <Typography variant="h6" fontWeight={500}>
-                            Review Source
-                        </Typography>
+                        <Box mb={2}>
+                            <Typography variant="h6" fontWeight={500}>
+                                Review Source
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="black"
+                                fontWeight={400}
+                            >
+                                * Each slice defines source of the review
+                                mentioned.
+                            </Typography>
+                        </Box>
                         <Box px={10}>
                             {insightSources && (
                                 <PieChart
@@ -385,7 +395,7 @@ function Dashboard() {
                                 gutterBottom
                                 fontWeight={600}
                             >
-                                High performing entities
+                                Well performing entities
                             </Typography>
                             {positiveInsights.map((e: InsightType) => (
                                 <Tooltip

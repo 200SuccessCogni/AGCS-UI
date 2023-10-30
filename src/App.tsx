@@ -18,12 +18,10 @@ import useApp from "./store/app.context";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Reviews = lazy(() => import("./pages/Reviews"));
 const Analytics = lazy(() => import("./pages/Analytics"));
-const Insights = lazy(() => import("./pages/Insights"));
 const Integration = lazy(() => import("./pages/Integration"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
-const Recommendation = lazy(() => import("./pages/Recommendation"));
 const Compare = lazy(() => import("./pages/Compare"));
 const Settings = lazy(() => import("./pages/Settings"));
 
@@ -59,10 +57,6 @@ function App() {
                         <Route
                             path="/analytics"
                             element={withAuthInterceptor(<Analytics />)}
-                        />
-                        <Route
-                            path="/recommendation"
-                            element={withAuthInterceptor(<Recommendation />)}
                         />
                         <Route
                             path="/compare"

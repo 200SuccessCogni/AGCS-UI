@@ -12,6 +12,7 @@ import OverviewCard from "../components/module/analytics/OverviewCard";
 import OverallScore from "../components/module/analytics/OverallScore";
 import AnalyticsChart from "../components/module/analytics/AnalyticsChart";
 import dayjs from "dayjs";
+import AppPrompt from "../components/app/AppPrompt";
 
 const initChartDataSet = [
     {
@@ -70,20 +71,14 @@ function Dashboard() {
     const { setLoader, user, selectedLocation } = useApp();
     const [chartsData, setChartsData] = useState<any[]>();
     const [appliedDateSet, setAppliedDateSet] = useState(initChartDataSet);
-    const [lowPerfAment, setLowPerfAment] = useState("");
-    const [highPerfAment, setHighPerfAment] = useState("");
-
-    const handleDelete = (index: number) => {
-        setAppliedDateSet(
-            appliedDateSet.filter(
-                (e) => e.label !== appliedDateSet[index].label
-            )
-        );
-    };
-
-    const onFilterApply = (data: any) => {
-        // console
-    };
+    const [lowPerfAment, setLowPerfAment] = useState<{
+        _id: string;
+        value: number;
+    } | null>(null);
+    const [highPerfAment, setHighPerfAment] = useState<{
+        _id: string;
+        value: number;
+    } | null>(null);
 
     useEffect(() => {
         if (
@@ -97,6 +92,18 @@ function Dashboard() {
                 selectedLocation.id
             );
     }, [user, selectedLocation]);
+
+    const handleDelete = (index: number) => {
+        setAppliedDateSet(
+            appliedDateSet.filter(
+                (e) => e.label !== appliedDateSet[index].label
+            )
+        );
+    };
+
+    const onFilterApply = (data: any) => {
+        // console
+    };
 
     const getInsightsAndAnalytics = async (
         businessId: string,
@@ -123,14 +130,14 @@ function Dashboard() {
 
                     setLowPerfAment(
                         insights.reduce((a: any, b: any) => {
-                            return a.count < b.count ? a : b;
-                        })._id
+                            return a.value < b.value ? a : b;
+                        })
                     );
 
                     setHighPerfAment(
                         insights.reduce((a: any, b: any) => {
-                            return a.count > b.count ? a : b;
-                        })._id
+                            return a.value > b.value ? a : b;
+                        })
                     );
                 }
 
@@ -206,6 +213,10 @@ function Dashboard() {
         ],
     };
 
+    const onPromptSearch = (query: string) => {
+        console.log({ query });
+    };
+
     return (
         <>
             <Typography variant="h5" fontWeight={500}>
@@ -233,29 +244,77 @@ function Dashboard() {
                             <Grid item xs={12} md={6}>
                                 <OverviewCard
                                     bgColor="secondary.light"
-                                    icon={<TrendingUpIcon />}
-                                    iconBgColor="#fff"
-                                    contentText={camelCaseToTitleCase(
-                                        highPerfAment
-                                    )}
-                                    headerTitle="Top Performing Amenity / Category"
+                                    // icon={<TrendingUpIcon />}
+                                    // iconBgColor="#fff"
+
+                                    count={
+                                        (highPerfAment &&
+                                            highPerfAment?.value) ||
+                                        ""
+                                    }
+                                    contentText={
+                                        (highPerfAment &&
+                                            camelCaseToTitleCase(
+                                                highPerfAment?._id
+                                            )) ||
+                                        ""
+                                    }
+                                    headerTitle="Top Performing Amenity / Entity"
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <OverviewCard
                                     bgColor="secondary.light"
-                                    icon={<TrendingDownIcon />}
-                                    iconBgColor="#fff"
-                                    contentText={camelCaseToTitleCase(
-                                        lowPerfAment
-                                    )}
-                                    iconColor="text.contrastText"
-                                    headerTitle="Low Performing Amenity / Category"
+                                    contentText={
+                                        (lowPerfAment &&
+                                            camelCaseToTitleCase(
+                                                lowPerfAment?._id
+                                            )) ||
+                                        ""
+                                    }
+                                    headerTitle="Low Performing Amenity / Entity"
+                                    count={
+                                        (lowPerfAment && lowPerfAment?.value) ||
+                                        ""
+                                    }
+                                    // icon={<TrendingDownIcon />}
+                                    // iconBgColor="#fff"
+                                    // iconColor="text.contrastText"
                                 />
                             </Grid>
                         </Grid>
                     </Container>
-                    <OverallScore scores={insights} />
+
+                    <Box
+                        sx={{
+                            backgroundColor: "#fff",
+                            my: 3,
+                            p: 2,
+                            borderRadius: "1rem",
+                        }}
+                    >
+                        <Box>
+                            <Typography
+                                variant="body1"
+                                gutterBottom
+                                fontWeight={500}
+                                lineHeight={1}
+                            >
+                                Overall Score
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                                fontWeight={400}
+                                sx={{ mb: 2 }}
+                            >
+                                {selectedLocation &&
+                                    selectedLocation?.locationName}
+                            </Typography>
+                        </Box>
+                        <OverallScore scores={insights} />
+                    </Box>
                     {/* <Box
                         sx={{
                             borderRadius: "1rem",
@@ -376,6 +435,21 @@ function Dashboard() {
                                     </Grid>
                                 ))}
                         </Grid>
+                    </Box>
+                    <Box
+                        sx={{
+                            position: "sticky",
+                            bottom: 0,
+                            backgroundColor: "#fff",
+                            borderRadius: "1rem",
+                            width: "100%",
+                            p: 1,
+                            pr: 4,
+                            boxShadow: "2px 3px 10px #eee",
+                            border: "1px solid #eee",
+                        }}
+                    >
+                        <AppPrompt onClick={onPromptSearch} />
                     </Box>
                 </Grid>
                 <Grid

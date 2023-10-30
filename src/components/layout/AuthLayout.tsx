@@ -47,11 +47,11 @@ const menuList = [
         name: "Insights & Analytics",
         url: "/analytics",
     },
-    {
-        icon: <RecommendTwoToneIcon />,
-        name: "Recommendation",
-        url: "/recommendation",
-    },
+    // {
+    //     icon: <RecommendTwoToneIcon />,
+    //     name: "Recommendation",
+    //     url: "/recommendation",
+    // },
     {
         icon: <PolylineTwoToneIcon />,
         name: "Integration",

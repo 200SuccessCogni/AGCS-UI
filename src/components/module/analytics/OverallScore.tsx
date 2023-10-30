@@ -6,22 +6,7 @@ import LinearProgressWithLabel from "../../../components/core/linearProgressWith
 
 function OverallScore(props: OverallScoreType) {
     return (
-        <Box
-            sx={{
-                backgroundColor: props.backgroundColor || "#fff",
-                my: 3,
-                p: 2,
-                borderRadius: "1rem",
-            }}
-        >
-            <Typography
-                variant="body1"
-                gutterBottom
-                fontWeight={500}
-                sx={{ mb: 2 }}
-            >
-                Overall Score
-            </Typography>
+        <>
             {props.scores &&
                 props.scores.map((e: { label: string; value: number }) => (
                     <Box
@@ -42,7 +27,7 @@ function OverallScore(props: OverallScoreType) {
                         <LinearProgressWithLabel count={e.value} />
                     </Box>
                 ))}
-        </Box>
+        </>
     );
 }
 

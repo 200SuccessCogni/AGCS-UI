@@ -2,9 +2,10 @@ export type AnalyticsOverviewCard = {
     bgColor: string;
     headerTitle: string;
     contentText: string;
-    iconBgColor: string;
-    icon: React.ReactNode;
+    iconBgColor?: string;
+    icon?: React.ReactNode;
     iconColor?: string;
+    count?: number | string;
 };
 
 export type OverallScoreType = {
