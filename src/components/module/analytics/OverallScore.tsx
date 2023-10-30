@@ -100,7 +100,7 @@ function OverallScore(props: OverallScoreType) {
                                     adipiscing elit. Suspendisse malesuada lacus
                                     ex, sit amet blandit leo lobortis eget.
                                 </Typography>
-                                <AppPrompt onClick={onSearch} />
+                                {/* <AppPrompt onClick={onSearch} />  */}
                             </AccordionDetails>
                         </Accordion>
                     )

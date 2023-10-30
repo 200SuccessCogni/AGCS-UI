@@ -109,6 +109,7 @@ function Dashboard() {
     const [positiveInsights, setPositiveInsights] = useState<InsightType[]>([]);
     const [negativeInsights, setNegativeInsights] = useState<InsightType[]>([]);
     const [showFiler, setShowFilter] = useState(false);
+    const [isFilterApplied, setIsAppliedFilter] = useState(false);
 
     useEffect(() => {
         if (
@@ -273,7 +274,7 @@ function Dashboard() {
             </Typography>
             <Grid container spacing={3} sx={{ mt: 0 }}>
                 <Grid item xs={12} md={9}>
-                    <Container
+                    {/* <Container
                         sx={{
                             backgroundColor: "#fff",
                             borderRadius: "1rem",
@@ -390,7 +391,7 @@ function Dashboard() {
                                 </Typography>
                             </Box>
                         </Grid>
-                    </Container>
+                    </Container> */}
                     <Box
                         sx={{
                             backgroundColor: "#fff",
@@ -472,64 +473,62 @@ function Dashboard() {
                                     </Typography>
                                     {positiveInsights.map((e: InsightType) => (
                                         <>
-                                            {e.checked && (
-                                                <Tooltip
-                                                    title={`${camelCaseToTitleCase(
-                                                        e.label
-                                                    )} appears ${
-                                                        e.count
-                                                    } times.`}
-                                                    key={e.label}
-                                                >
-                                                    <Chip
-                                                        key={e.label}
-                                                        size="small"
-                                                        icon={
-                                                            <ThumbUpOutlinedIcon />
-                                                        }
-                                                        label={
-                                                            <Box
-                                                                display="flex"
-                                                                alignItems="center"
-                                                            >
-                                                                <small>
-                                                                    <strong>
-                                                                        {camelCaseToTitleCase(
-                                                                            e.label
-                                                                        )}
-                                                                    </strong>
-                                                                </small>
-                                                                <Box
-                                                                    sx={{
-                                                                        borderRadius:
-                                                                            "50%",
-                                                                        width: "20px",
-                                                                        height: "20px",
-                                                                        display:
-                                                                            "flex",
-                                                                        justifyContent:
-                                                                            "center",
-                                                                        alignItems:
-                                                                            "center",
-                                                                        ml: 0.5,
-                                                                        backgroundColor:
-                                                                            "success.light",
-                                                                        color: "#fff",
-                                                                    }}
-                                                                >
-                                                                    {e.count}
-                                                                </Box>
-                                                            </Box>
-                                                        }
-                                                        variant="outlined"
-                                                        // color="success"
-                                                        sx={{
-                                                            m: 0.5,
-                                                            px: 0.5,
-                                                        }}
-                                                    />
-                                                </Tooltip>
-                                            )}
+                                        <Tooltip
+                                            title={`${camelCaseToTitleCase(
+                                                e.label
+                                            )} appears ${
+                                                e.count
+                                            } times.`}
+                                            key={e.label}
+                                        >
+                                            <Chip
+                                                key={e.label}
+                                                size="small"
+                                                icon={
+                                                    <ThumbUpOutlinedIcon />
+                                                }
+                                                label={
+                                                    <Box
+                                                        display="flex"
+                                                        alignItems="center"
+                                                    >
+                                                        <small>
+                                                            <strong>
+                                                                {camelCaseToTitleCase(
+                                                                    e.label
+                                                                )}
+                                                            </strong>
+                                                        </small>
+                                                        <Box
+                                                            sx={{
+                                                                borderRadius:
+                                                                    "50%",
+                                                                width: "20px",
+                                                                height: "20px",
+                                                                display:
+                                                                    "flex",
+                                                                justifyContent:
+                                                                    "center",
+                                                                alignItems:
+                                                                    "center",
+                                                                ml: 0.5,
+                                                                backgroundColor:
+                                                                    "success.light",
+                                                                color: "#fff",
+                                                            }}
+                                                        >
+                                                            {e.count}
+                                                        </Box>
+                                                    </Box>
+                                                }
+                                                variant="outlined"
+                                                // color="success"
+                                                sx={{
+                                                    m: 0.5,
+                                                    px: 0.5,
+                                                }}
+                                            />
+                                        </Tooltip>
                                         </>
                                     ))}
                                 </Box>
@@ -555,8 +554,8 @@ function Dashboard() {
                                     </Typography>
                                     {negativeInsights.map((e: InsightType) => (
                                         <>
-                                            {e.checked && (
-                                                <Tooltip
+                                            
+                                            <Tooltip
                                                     title={`${camelCaseToTitleCase(
                                                         e.label
                                                     )} appears ${
@@ -612,7 +611,6 @@ function Dashboard() {
                                                         }}
                                                     />
                                                 </Tooltip>
-                                            )}
                                         </>
                                     ))}
                                 </Box>
@@ -620,36 +618,40 @@ function Dashboard() {
                         </Grid>
                     </Box>
 
-                    {/* <Box
-                        sx={{
-                            backgroundColor: "#fff",
-                            my: 3,
-                            p: 2,
-                            borderRadius: "1rem",
-                        }}
-                    >
-                        <Box>
-                            <Typography
-                                variant="body1"
-                                gutterBottom
-                                fontWeight={500}
-                                lineHeight={1}
-                            >
-                                Overall Score
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                gutterBottom
-                                fontWeight={400}
-                                sx={{ mb: 2 }}
-                            >
-                                {selectedLocation &&
-                                    selectedLocation?.locationName}
-                            </Typography>
+                    {isFilterApplied && (
+                        <Box
+                            sx={{
+                                backgroundColor: "#fff",
+                                my: 3,
+                                p: 2,
+                                borderRadius: "1rem",
+                            }}
+                        >
+                            <Box>
+                                <Typography
+                                    variant="body1"
+                                    gutterBottom
+                                    fontWeight={500}
+                                    lineHeight={1}
+                                >
+                                    Overall Score
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    gutterBottom
+                                    fontWeight={400}
+                                    sx={{ mb: 2 }}
+                                >
+                                    {selectedLocation &&
+                                        selectedLocation?.locationName}
+                                </Typography>
+                            </Box>
+                            <OverallScore
+                                scores={insights.filter((e) => e.checked)}
+                            />
                         </Box>
-                        <OverallScore scores={insights} />
-                    </Box> */}
+                    )}
                     {/* <Box
                         sx={{
                             borderRadius: "1rem",
@@ -847,7 +849,10 @@ function Dashboard() {
             <InsightFilterModal
                 show={showFiler}
                 entities={insights && insights}
-                onSelect={(data) => setInsights(data)}
+                onSelect={(data) => {
+                    setInsights(data);
+                    setIsAppliedFilter(true);
+                }}
                 closeHandler={() => setShowFilter(false)}
             />
         </>
