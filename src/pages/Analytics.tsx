@@ -3,8 +3,18 @@ import LineChart from "../components/charts/LineChart";
 import ReviewForm from "../components/module/review/ReviewForm";
 import useApp from "../store/app.context";
 import { GET } from "../services/api.service";
-
-import { Box, Grid, Typography, Container, Fab, Tooltip } from "@mui/material";
+import { alpha, useTheme } from "@mui/material/styles";
+import {
+    Box,
+    Grid,
+    Typography,
+    Container,
+    Fab,
+    Tooltip,
+    Chip,
+} from "@mui/material";
+import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { camelCaseToTitleCase, randomColor } from "../services/shared.service";
@@ -72,7 +82,14 @@ type PerfAmentType = {
     value: string | number;
 };
 
+type InsightType = {
+    label: string;
+    count: number;
+    score: number;
+};
+
 function Dashboard() {
+    const theme = useTheme();
     const [insights, setInsights] = useState([]);
     const { setLoader, user, selectedLocation } = useApp();
     const [chartsData, setChartsData] = useState<any[]>();
@@ -84,6 +101,8 @@ function Dashboard() {
     const [highPerfAment, setHighPerfAment] = useState<PerfAmentType | null>(
         null
     );
+    const [positiveInsights, setPositiveInsights] = useState<InsightType[]>([]);
+    const [negativeInsights, setNegativeInsights] = useState<InsightType[]>([]);
 
     useEffect(() => {
         if (
@@ -127,12 +146,20 @@ function Dashboard() {
                         ...e,
                         label: e._id,
                         score: e.avgScore,
+                        count: e?.count,
                         value:
                             e.avgScore > 1
                                 ? Math.floor(e.avgScore)
                                 : Math.floor(e.avgScore * 10),
                     }));
                     setInsights(insights);
+
+                    setPositiveInsights(
+                        insights.filter((e: InsightType) => e.score > 0)
+                    );
+                    setNegativeInsights(
+                        insights.filter((e: InsightType) => e.score <= 0)
+                    );
 
                     setLowPerfAment(
                         insights
@@ -352,6 +379,187 @@ function Dashboard() {
                             </Box>
                         </Grid>
                     </Container>
+                    <Box
+                        sx={{
+                            backgroundColor: "#fff",
+                            my: 3,
+                            p: 2,
+                            borderRadius: "1rem",
+                        }}
+                    >
+                        <Box>
+                            <Typography
+                                variant="body1"
+                                gutterBottom
+                                fontWeight={500}
+                                lineHeight={1}
+                            >
+                                All entities
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                                fontWeight={400}
+                                sx={{ mb: 2 }}
+                            >
+                                {selectedLocation &&
+                                    selectedLocation?.locationName}
+                            </Typography>
+                        </Box>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6}>
+                                <Box
+                                    sx={{
+                                        borderRadius: "1rem",
+                                        backgroundColor: alpha(
+                                            theme.palette.primary.light,
+                                            0.1
+                                        ),
+                                        p: 2,
+                                    }}
+                                >
+                                    <Typography
+                                        variant="body2"
+                                        color="primary.main"
+                                        gutterBottom
+                                        fontWeight={600}
+                                    >
+                                        Well performing entities
+                                    </Typography>
+                                    {positiveInsights.map((e: InsightType) => (
+                                        <Tooltip
+                                            title={`${camelCaseToTitleCase(
+                                                e.label
+                                            )} appears ${e.count} times.`}
+                                            key={e.label}
+                                        >
+                                            <Chip
+                                                key={e.label}
+                                                size="small"
+                                                icon={<ThumbUpOutlinedIcon />}
+                                                label={
+                                                    <Box
+                                                        display="flex"
+                                                        alignItems="center"
+                                                    >
+                                                        <small>
+                                                            <strong>
+                                                                {camelCaseToTitleCase(
+                                                                    e.label
+                                                                )}
+                                                            </strong>
+                                                        </small>
+                                                        <Box
+                                                            sx={{
+                                                                borderRadius:
+                                                                    "50%",
+                                                                width: "20px",
+                                                                height: "20px",
+                                                                display: "flex",
+                                                                justifyContent:
+                                                                    "center",
+                                                                alignItems:
+                                                                    "center",
+                                                                ml: 0.5,
+                                                                backgroundColor:
+                                                                    "success.light",
+                                                                color: "#fff",
+                                                            }}
+                                                        >
+                                                            {e.count}
+                                                        </Box>
+                                                    </Box>
+                                                }
+                                                variant="outlined"
+                                                // color="success"
+                                                sx={{
+                                                    m: 0.5,
+                                                    px: 0.5,
+                                                }}
+                                            />
+                                        </Tooltip>
+                                    ))}
+                                </Box>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Box
+                                    sx={{
+                                        borderRadius: "1rem",
+                                        backgroundColor: alpha(
+                                            theme.palette.warning.light,
+                                            0.2
+                                        ),
+                                        p: 2,
+                                    }}
+                                >
+                                    <Typography
+                                        variant="body2"
+                                        color="warning.main"
+                                        gutterBottom
+                                        fontWeight={600}
+                                    >
+                                        Low performing entities
+                                    </Typography>
+                                    {negativeInsights.map((e: InsightType) => (
+                                        <Tooltip
+                                            title={`${camelCaseToTitleCase(
+                                                e.label
+                                            )} appears ${e.count} times.`}
+                                            key={e.label}
+                                        >
+                                            <Chip
+                                                key={e.label}
+                                                size="small"
+                                                icon={
+                                                    <ThumbDownOffAltOutlinedIcon />
+                                                }
+                                                label={
+                                                    <Box
+                                                        display="flex"
+                                                        alignItems="center"
+                                                    >
+                                                        <small>
+                                                            <strong>
+                                                                {camelCaseToTitleCase(
+                                                                    e.label
+                                                                )}
+                                                            </strong>
+                                                        </small>
+                                                        <Box
+                                                            sx={{
+                                                                borderRadius:
+                                                                    "50%",
+                                                                width: "20px",
+                                                                height: "20px",
+                                                                display: "flex",
+                                                                justifyContent:
+                                                                    "center",
+                                                                alignItems:
+                                                                    "center",
+                                                                ml: 0.5,
+                                                                backgroundColor:
+                                                                    "warning.light",
+                                                                // color: "#fff",
+                                                            }}
+                                                        >
+                                                            {e.count}
+                                                        </Box>
+                                                    </Box>
+                                                }
+                                                variant="outlined"
+                                                // color="error"
+                                                sx={{
+                                                    m: 0.5,
+                                                    px: 0.5,
+                                                }}
+                                            />
+                                        </Tooltip>
+                                    ))}
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Box>
 
                     {/* <Box
                         sx={{
