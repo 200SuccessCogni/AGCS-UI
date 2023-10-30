@@ -66,19 +66,22 @@ const initChartDataSet = [
     },
 ];
 
+type PerfAmentType = {
+    _id: string;
+    value: string | number;
+};
+
 function Dashboard() {
     const [insights, setInsights] = useState([]);
     const { setLoader, user, selectedLocation } = useApp();
     const [chartsData, setChartsData] = useState<any[]>();
     const [appliedDateSet, setAppliedDateSet] = useState(initChartDataSet);
-    const [lowPerfAment, setLowPerfAment] = useState<{
-        _id: string;
-        value: number;
-    } | null>(null);
-    const [highPerfAment, setHighPerfAment] = useState<{
-        _id: string;
-        value: number;
-    } | null>(null);
+    const [lowPerfAment, setLowPerfAment] = useState<PerfAmentType | null>(
+        null
+    );
+    const [highPerfAment, setHighPerfAment] = useState<PerfAmentType | null>(
+        null
+    );
 
     useEffect(() => {
         if (
@@ -233,13 +236,29 @@ function Dashboard() {
                             pt: 2,
                         }}
                     >
-                        <Typography
-                            variant="h6"
-                            color="text.primary"
-                            gutterBottom
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                            }}
                         >
-                            Overview
-                        </Typography>
+                            <Typography
+                                variant="h6"
+                                color="text.primary"
+                                gutterBottom
+                            >
+                                Overview
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="text.primary"
+                                gutterBottom
+                            >
+                                * Score defines how one amenity or entity is
+                                performing.
+                            </Typography>
+                        </Box>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
                                 <OverviewCard
@@ -282,6 +301,41 @@ function Dashboard() {
                                     // iconColor="text.contrastText"
                                 />
                             </Grid>
+
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    width: "100%",
+                                    mt: 1.5,
+                                    "& > * ": {
+                                        ml: 1,
+                                    },
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    color="text.primary"
+                                    gutterBottom
+                                >
+                                    ** 0-4 Not performing well.{" "}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    color="text.primary"
+                                    gutterBottom
+                                >
+                                    ** 5-7 Good.{" "}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    color="text.primary"
+                                    gutterBottom
+                                >
+                                    {" "}
+                                    ** 8 above - Very good.
+                                </Typography>
+                            </Box>
                         </Grid>
                     </Container>
 
