@@ -93,7 +93,7 @@ function OverallScore(props: OverallScoreType) {
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>
+                                <Typography variant="body2">
                                     Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit. Suspendisse malesuada lacus
                                     ex, sit amet blandit leo lobortis eget.
