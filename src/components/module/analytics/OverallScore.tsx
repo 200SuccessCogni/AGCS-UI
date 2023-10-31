@@ -12,6 +12,8 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import { OverallScoreType } from "../types/analytics";
 import { camelCaseToTitleCase } from "../../../services/shared.service";
 import LinearProgressWithLabel from "../../../components/core/linearProgressWithLabel";
+import { alpha, useTheme } from "@mui/material/styles";
+
 import AppPrompt from "../../app/AppPrompt";
 
 const Accordion = styled((props: AccordionProps) => (
@@ -31,12 +33,13 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
         expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
         {...props}
     />
-))(({ theme }) => ({
+))(({ theme, color = "#000" }) => ({
     backgroundColor:
         theme.palette.mode === "dark"
             ? "rgba(255, 255, 255, .05)"
-            : "rgba(0, 0, 0, .03)",
+            : alpha(color, 0.1),
     flexDirection: "row-reverse",
+    padding: "0px 15px",
     "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
         transform: "rotate(90deg)",
     },
@@ -53,6 +56,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 function OverallScore(props: OverallScoreType) {
     const [expanded, setExpanded] = React.useState<number>(0);
+    const theme = useTheme();
 
     const handleChange = (index: number) => setExpanded(index);
     const onSearch = (data: any) => {
@@ -63,14 +67,23 @@ function OverallScore(props: OverallScoreType) {
         <>
             {props.scores &&
                 props.scores.map(
-                    (e: { label: string; value: number; summary:string }, i: number) => (
+                    (
+                        e: { label: string; value: number; summary: string },
+                        i: number
+                    ) => (
                         <Accordion
                             key={e.label}
                             expanded={expanded === i}
                             onChange={() => handleChange(i)}
                         >
                             <AccordionSummary
-                                color="w9"
+                                color={
+                                    e.value < 0
+                                        ? theme.palette.error.light
+                                        : e.value > 5
+                                        ? theme.palette.success.light
+                                        : theme.palette.primary.light
+                                }
                                 aria-controls="panel1d-content"
                                 id="panel1d-header"
                             >
@@ -85,7 +98,10 @@ function OverallScore(props: OverallScoreType) {
                                     }}
                                 >
                                     <Box flexBasis="30%">
-                                        <Typography variant="body1">
+                                        <Typography
+                                            variant="body2"
+                                            fontWeight={600}
+                                        >
                                             {camelCaseToTitleCase(e.label)}
                                         </Typography>
                                     </Box>
@@ -93,14 +109,21 @@ function OverallScore(props: OverallScoreType) {
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography variant="body2">
+                                <Typography
+                                    variant="body2"
+                                    fontWeight={500}
+                                    gutterBottom
+                                >
+                                    Summary
+                                </Typography>
+                                <Typography
+                                    sx={{ display: "inline-block" }}
+                                    variant="caption"
+                                    color="text"
+                                    lineHeight={1.2}
+                                    fontWeight={500}
+                                >
                                     {e.summary}
-                                    {/* Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Suspendisse malesuada lacus
-                                    ex, sit amet blandit leo lobortis eget.
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Suspendisse malesuada lacus
-                                    ex, sit amet blandit leo lobortis eget. */}
                                 </Typography>
                                 {/* <AppPrompt onClick={onSearch} />  */}
                             </AccordionDetails>

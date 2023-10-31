@@ -15,9 +15,9 @@ function AnalyticsChart(props: AnalyticsChartType) {
                 },
             },
             y: {
-                ticks: {
-                    display: false,
-                },
+                // ticks: {
+                //     display: false,
+                // },
             },
         },
         plugins: {
@@ -52,7 +52,7 @@ function AnalyticsChart(props: AnalyticsChartType) {
             }}
         >
             <Typography variant="body2" fontWeight={500} align="left">
-                {camelCaseToTitleCase(props.label)} Entity
+                {camelCaseToTitleCase(props.label)}
             </Typography>
             <Typography
                 variant="caption"
@@ -64,13 +64,7 @@ function AnalyticsChart(props: AnalyticsChartType) {
             >
                 Will show {camelCaseToTitleCase(props.label)} data over time
             </Typography>
-            <Box
-                sx={
-                    {
-                        // background: "#ecf3eb",
-                    }
-                }
-            >
+            <Box>
                 <LineChart
                     chartData={props.data}
                     options={{ ...props.options, ...options }}

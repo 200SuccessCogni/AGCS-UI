@@ -142,11 +142,17 @@ function Dashboard() {
                         score: e?.avgScore * 10,
                         count: e?.count,
                     }));
+                    const posIns = insightsData.filter(
+                        (e: InsightType) => e.score > 0
+                    );
+                    const negIns = insightsData.filter(
+                        (e: InsightType) => e.score <= 0
+                    );
                     setPositiveInsights(
-                        insightsData.filter((e: InsightType) => e.score > 0)
+                        posIns.length < 10 ? posIns : posIns.slice(0, 10)
                     );
                     setNegativeInsights(
-                        insightsData.filter((e: InsightType) => e.score <= 0)
+                        negIns.length < 10 ? negIns : negIns.slice(0, 10)
                     );
                 }
 
@@ -339,8 +345,9 @@ function Dashboard() {
                                 color="black"
                                 fontWeight={400}
                             >
-                                * Each slice defines source of the review
-                                mentioned.
+                                {
+                                    "* Each slice defines source of the review(s)."
+                                }
                             </Typography>
                         </Box>
                         <Box px={10}>
@@ -405,7 +412,6 @@ function Dashboard() {
                                     key={e.name}
                                 >
                                     <Chip
-                                        key={e.name}
                                         size="small"
                                         icon={<ThumbUpOutlinedIcon />}
                                         label={
@@ -448,6 +454,14 @@ function Dashboard() {
                                     />
                                 </Tooltip>
                             ))}
+                            {positiveInsights.length === 10 && (
+                                <Chip
+                                    size="small"
+                                    label="See more"
+                                    variant="outlined"
+                                    onClick={() => navigate("/analytics")}
+                                />
+                            )}
                         </Box>
                         <Box
                             sx={{
@@ -519,6 +533,14 @@ function Dashboard() {
                                     />
                                 </Tooltip>
                             ))}
+                            {negativeInsights.length === 10 && (
+                                <Chip
+                                    size="small"
+                                    label="See more"
+                                    variant="outlined"
+                                    onClick={() => navigate("/analytics")}
+                                />
+                            )}
                         </Box>
                     </Box>
                     {/* <Box

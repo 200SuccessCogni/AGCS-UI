@@ -1,1 +1,0 @@
-function e(t){return/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i.test(t)}function a(t){const r=t.replace(/([A-Z])/g," $1");return r.charAt(0).toUpperCase()+r.slice(1)}function o(){return`#${Math.floor(Math.random()*16777215).toString(16)}`}export{a as c,o as r,e as v};

@@ -67,7 +67,7 @@ function InsightFilterModal(props: IRecModal) {
                         }}
                     >
                         <Button onClick={onToggle} color="black">
-                            Toggle all selections
+                            Toggle all
                         </Button>
                     </Box>
                     <FormGroup>

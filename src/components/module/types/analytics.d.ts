@@ -9,7 +9,7 @@ export type AnalyticsOverviewCard = {
 };
 
 export type OverallScoreType = {
-    scores: { label: string; value: number }[];
+    scores: { label: string; value: number; summary: string }[];
     backgroundColor?: string;
 };
 

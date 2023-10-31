@@ -24,7 +24,7 @@ const ratingsLables = [
     { name: "Negative", isChecked: true },
     { name: "Positive", isChecked: true },
     { name: "Neutral", isChecked: true },
-    { name: "Review", isChecked: true },
+    { name: "Evaluate", isChecked: true },
 ];
 
 interface Iprops {

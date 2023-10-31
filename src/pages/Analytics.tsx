@@ -91,6 +91,7 @@ type InsightType = {
     score: number;
     value: number;
     checked?: boolean;
+    summary: string;
 };
 
 function Dashboard() {
@@ -226,21 +227,43 @@ function Dashboard() {
                         };
                     });
 
-                    const chartData = newData.map((e: any) => ({
-                        type: e.type,
-                        data: {
-                            labels: e.data.map((n: any) =>
-                                dayjs(n.date).format("MMM, YYYY")
-                            ),
-                            datasets: [
-                                {
-                                    tension: 0.4,
-                                    borderColor: randomColor(),
-                                    data: e.data.map((l: any) => l.score),
-                                },
-                            ],
-                        },
-                    }));
+                    const chartData = newData.map((e: any) => {
+                        const dynamicColor = theme.palette.primary.main;
+                        return {
+                            type: e.type,
+                            data: {
+                                labels: e.data.map((n: any) =>
+                                    dayjs(n.date).format("MMM, YYYY")
+                                ),
+                                datasets: [
+                                    {
+                                        tension: 0.4,
+                                        borderColor: dynamicColor,
+                                        fill: "start",
+                                        backgroundColor: ({
+                                            chart,
+                                        }: {
+                                            chart: any;
+                                        }) => {
+                                            const bgGrd =
+                                                chart.ctx.createLinearGradient(
+                                                    0,
+                                                    0,
+                                                    0,
+                                                    150
+                                                );
+                                            // More config for your gradient
+                                            bgGrd.addColorStop(0, dynamicColor);
+                                            bgGrd.addColorStop(1, "white");
+                                            return bgGrd;
+                                        },
+                                        // backgroundColor: randomColor(),
+                                        data: e.data.map((l: any) => l.score),
+                                    },
+                                ],
+                            },
+                        };
+                    });
                     setChartsData(
                         chartData.filter((e) => e.data.labels.length > 1)
                     );
@@ -395,7 +418,7 @@ function Dashboard() {
                     <Box
                         sx={{
                             backgroundColor: "#fff",
-                            my: 3,
+                            mb: 3,
                             p: 2,
                             borderRadius: "1rem",
                         }}
@@ -414,7 +437,7 @@ function Dashboard() {
                                     fontWeight={500}
                                     lineHeight={1}
                                 >
-                                    All entities
+                                    All insights
                                 </Typography>
                                 <Typography
                                     variant="caption"
@@ -427,8 +450,8 @@ function Dashboard() {
                                     lineHeight={1.1}
                                     fontWeight={400}
                                 >
-                                    Entities are auto generated. Please choose
-                                    entities relevant to your business.
+                                    Insights are auto generated. Please choose
+                                    insights relevant to your business.
                                 </Typography>
                                 <Typography
                                     variant="caption"
@@ -480,7 +503,7 @@ function Dashboard() {
                                         gutterBottom
                                         fontWeight={600}
                                     >
-                                        Well performing entities
+                                        Negative insights
                                     </Typography>
                                     {positiveInsights.map((e: InsightType) => (
                                         <>
@@ -559,7 +582,7 @@ function Dashboard() {
                                         gutterBottom
                                         fontWeight={600}
                                     >
-                                        Low performing entities
+                                        Positive insights
                                     </Typography>
                                     {negativeInsights.map((e: InsightType) => (
                                         <>
@@ -823,14 +846,63 @@ function Dashboard() {
                             p: 2,
                         }}
                     >
-                        <Typography
-                            variant="body1"
-                            gutterBottom
-                            fontWeight={500}
-                            sx={{ mb: 2 }}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                width: "100%",
+                            }}
                         >
-                            In details analysis
-                        </Typography>
+                            <Typography
+                                variant="body1"
+                                gutterBottom
+                                fontWeight={500}
+                                sx={{ mb: 2 }}
+                            >
+                                In details analysis
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    width: "100%",
+                                    "& > * ": {
+                                        ml: 1,
+                                    },
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    gutterBottom
+                                    // color="error"
+                                >
+                                    ** -10-0 Low performer.{" "}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    gutterBottom
+                                    // color="warning"
+                                >
+                                    ** 0-4 Satisfactory.{" "}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    // sx={{ color: "blue" }}
+                                    gutterBottom
+                                >
+                                    ** 5-7 Good.{" "}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    // color="success"
+                                    gutterBottom
+                                >
+                                    {" "}
+                                    ** 8 above - Very good.
+                                </Typography>
+                            </Box>
+                        </Box>
                         <Grid container spacing={3} sx={{ mt: 0 }}>
                             {!!chartsData &&
                                 !!chartsData.length &&
@@ -859,7 +931,10 @@ function Dashboard() {
                                 border: "1px solid #eee",
                             }}
                         >
-                            <AppPrompt onClick={onPromptSearch} />
+                            <AppPrompt
+                                label="Type your insight prompt"
+                                onClick={onPromptSearch}
+                            />
                         </Box>
                     )}
                 </Grid>
@@ -905,7 +980,7 @@ function Dashboard() {
             >
                 {!showFullPrompt && (
                     <Box display="flex" justifyContent="flex-end">
-                        <Tooltip title="Live prompt">
+                        <Tooltip title="Get more insights">
                             <Fab
                                 variant="extended"
                                 color="primary"

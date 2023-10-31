@@ -29,11 +29,11 @@ function AppPrompt(props: AppPromptType) {
                 backgroundColor: "primary.light",
             }}
         >
-            <InputLabel htmlFor="outlined-adornment-propmt">
-                {props.label || "Send a propmt"}
+            <InputLabel htmlFor="outlined-adornment-prompt">
+                {props.label || "Send a prompt"}
             </InputLabel>
             <OutlinedInput
-                id="outlined-adornment-propmt"
+                id="outlined-adornment-prompt"
                 size="small"
                 value={query}
                 endAdornment={
@@ -48,7 +48,7 @@ function AppPrompt(props: AppPromptType) {
                         </IconButton>
                     </InputAdornment>
                 }
-                label={props.label || "Live Propmt"}
+                label={props.label || "Live prompt"}
             />
         </FormControl>
     );
