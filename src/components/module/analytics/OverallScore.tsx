@@ -63,7 +63,7 @@ function OverallScore(props: OverallScoreType) {
         <>
             {props.scores &&
                 props.scores.map(
-                    (e: { label: string; value: number }, i: number) => (
+                    (e: { label: string; value: number; summary:string }, i: number) => (
                         <Accordion
                             key={e.label}
                             expanded={expanded === i}
@@ -94,12 +94,13 @@ function OverallScore(props: OverallScoreType) {
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography variant="body2">
-                                    Lorem ipsum dolor sit amet, consectetur
+                                    {e.summary}
+                                    {/* Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit. Suspendisse malesuada lacus
                                     ex, sit amet blandit leo lobortis eget.
                                     Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit. Suspendisse malesuada lacus
-                                    ex, sit amet blandit leo lobortis eget.
+                                    ex, sit amet blandit leo lobortis eget. */}
                                 </Typography>
                                 {/* <AppPrompt onClick={onSearch} />  */}
                             </AccordionDetails>
