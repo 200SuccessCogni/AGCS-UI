@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Typography } from "@mui/material";
+import { Typography,TextField } from "@mui/material";
 import { POST } from "../../services/api.service";
 import useApp from "../../store/app.context";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -57,9 +57,22 @@ function RecommendModal(props: IRecModal) {
                     Recommendation
                 </DialogTitle>
                 <DialogContent>
-                    <Typography variant="body2">
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        label="Draft"
+                        fullWidth
+                        multiline
+                        maxRows={10}
+                        inputProps={{
+                            value: message,
+                            name: message,
+                        }}
+                        onChange={(e:any) => setMessage(e.target.value)}
+                        sx={{ my: 3, fontSize: "0.9rem", color: "text." }}
+                    />
+                    {/* <Typography variant="body2">
                         {loader ? "Please wait..." : message}
-                    </Typography>
+                    </Typography> */}
                 </DialogContent>
                 <DialogActions>
                     <Button color="black" variant="outlined" autoFocus>
