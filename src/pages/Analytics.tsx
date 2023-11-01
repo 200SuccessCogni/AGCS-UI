@@ -149,7 +149,7 @@ function Dashboard() {
         setLoader(true);
         try {
             const res = await GET(
-                `/review/getinsightAnalytics?businessId=${businessId}&locationId=${locationId}`
+                `/review/getSummarizedInsightAnalytics?businessId=${businessId}&locationId=${locationId}`
             );
             if (res && res.status === 200) {
                 const insightsRes = res.data.insights;
