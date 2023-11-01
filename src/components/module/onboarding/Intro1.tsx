@@ -18,7 +18,7 @@ function FeatureCard(props: IFeatureCard) {
             border="1px solid"
             width="70%"
             position="relative"
-            sx={{ backgroundColor: "secondary.main" }}
+            sx={{ backgroundColor: "white" }}
         >
             <Typography
                 variant="body1"
@@ -71,7 +71,7 @@ function Intro1(props: any) {
                 sx={{
                     flexBasis: "60%",
                     maxWidth: "50%",
-                    backgroundColor: "secondary.light",
+                    backgroundColor: "white",
                     overflowY: "auto",
                 }}
             >

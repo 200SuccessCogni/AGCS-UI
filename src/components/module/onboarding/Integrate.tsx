@@ -115,7 +115,7 @@ function Integrate(props: any) {
                     flexBasis: { xs: "100%", md: "60%" },
                     maxWidth: { xs: "100%", md: "50%" },
                     overflowY: "auto",
-                    backgroundColor: "secondary.light",
+                    backgroundColor: "white",
                 }}
             >
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>

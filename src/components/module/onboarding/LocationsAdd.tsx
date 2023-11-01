@@ -25,14 +25,14 @@ function LocationsAdd(props: any) {
                     width: "100%",
                     overflowY: "hidden",
                     overflowX: "hidden",
-                    backgroundColor: "secondary.light",
+                    backgroundColor: "white",
                     position: "relative",
                 }}
             >
                 <Box
                     px={4}
                     sx={{
-                        backgroundColor: "secondary.light",
+                        backgroundColor: "white",
                         position: "relative",
                         zIndex: 10,
                         pb: 4,
