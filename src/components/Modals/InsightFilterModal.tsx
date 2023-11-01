@@ -56,7 +56,7 @@ function InsightFilterModal(props: IRecModal) {
                 fullWidth
             >
                 <DialogTitle id="alert-dialog-title">
-                    Choose your entities
+                    {"Choose your insight(s)"}
                 </DialogTitle>
                 <DialogContent>
                     <Box

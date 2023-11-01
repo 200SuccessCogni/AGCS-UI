@@ -402,7 +402,7 @@ function Dashboard() {
                                 gutterBottom
                                 fontWeight={600}
                             >
-                                Well performing entities
+                                Positive insights
                             </Typography>
                             {positiveInsights.map((e: InsightType) => (
                                 <Tooltip
@@ -480,7 +480,7 @@ function Dashboard() {
                                 gutterBottom
                                 fontWeight={600}
                             >
-                                Low performing entities
+                                Negative insights
                             </Typography>
                             {negativeInsights.map((e: InsightType) => (
                                 <Tooltip

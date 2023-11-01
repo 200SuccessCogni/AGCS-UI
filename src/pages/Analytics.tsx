@@ -503,7 +503,7 @@ function Dashboard() {
                                         gutterBottom
                                         fontWeight={600}
                                     >
-                                        Negative insights
+                                        Positive insights
                                     </Typography>
                                     {positiveInsights.map((e: InsightType) => (
                                         <>
@@ -582,7 +582,7 @@ function Dashboard() {
                                         gutterBottom
                                         fontWeight={600}
                                     >
-                                        Positive insights
+                                        Negative insights
                                     </Typography>
                                     {negativeInsights.map((e: InsightType) => (
                                         <>
